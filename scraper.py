@@ -7,6 +7,8 @@ NAME = "Dublin"
 STATIONS_URI = "https://api.jcdecaux.com/vls/v1/stations"
 import traceback
 import time
+import json
+import pprint
 import datetime
 import glob
 import os
@@ -18,7 +20,7 @@ DB="dbbikes2"
 USER="admin"
 PASSWORD="DublinBikes1"
 
-engine = create_engine("mysql+mysqldb://{}:{}:@{}:{}/{}".format(USER, PASSWORD, URI, PORT, DB), echo=True)#.connect()
+engine = create_engine("mysql+mysqldb://{}:{}:@{}:{}/{}".format(USER, PASSWORD, URI, PORT, DB), echo=True).connect()
 sql = """
 CREATE DATABASE IF NOT EXISTS dbbikes2;
 """
