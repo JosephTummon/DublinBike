@@ -6,7 +6,7 @@ import os
 from pprint import pprint
 import simplejson as json
 import requests
-import datetime
+from datetime import datetime
 import time
 from IPython.display import display
 URI = "dbbikes2.cytgvbje9wgu.us-east-1.rds.amazonaws.com"
@@ -39,8 +39,8 @@ def main():
             availability_to_db(r.text)
             time.sleep(5*60)
         except:
-            if engine is None:
-                 print(traceback.format.exc())
+            print(traceback.format_exc())
+            #if engine is None:
 
     return
 
