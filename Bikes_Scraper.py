@@ -39,8 +39,9 @@ def main():
             availability_to_db(r.text)
             time.sleep(5*60)
         except:
-            #print(traceback.format.exc())
-            #if engine is None:
+            if engine is None:
+                 print(traceback.format.exc())
+
     return
 
 main()
