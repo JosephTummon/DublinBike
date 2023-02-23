@@ -6,6 +6,7 @@ import os
 from pprint import pprint
 import simplejson as json
 import requests
+import datetime
 import time
 from IPython.display import display
 URI = "dbbikes2.cytgvbje9wgu.us-east-1.rds.amazonaws.com"
@@ -25,7 +26,7 @@ def availability_to_db(text):
     stations = json.loads(text)
     for station in stations:
         #print(station)
-        vals = (station.get('number'), station.get('available_bikes'), station.get('available_bike_stands'), station.get('last_update'))
+        vals = (station.get('number'), station.get('available_bikes'), station.get('available_bike_stands'), datetime.timestamp(datetime.now()))
         engine.execute("insert into availability values(%s,%s,%s,%s)", vals)
         
     return

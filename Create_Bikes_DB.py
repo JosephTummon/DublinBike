@@ -52,7 +52,7 @@ CREATE TABLE IF NOT EXISTS availability (
 number INTEGER,
 available_bikes INTEGER,
 available_bike_stands INTEGER,
-last_update INTEGER
+datetime INTEGER
 )
 """
 try:
