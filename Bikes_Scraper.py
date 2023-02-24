@@ -27,21 +27,37 @@ def availability_to_db(text):
     for station in stations:
         #print(station)
         vals = (station.get('number'), station.get('available_bikes'), station.get('available_bike_stands'), datetime.timestamp(datetime.now()))
-        engine.execute("insert into availability values(%s,%s,%s,%s)", vals)
+        engine.connect().execute("insert into availability values(%s,%s,%s,%s)", vals)
         
     return
+
+def weather_to_db(text):
+    vals = (text["weather"][0]["main"], text["weather"][0]["description"], text["main"]["temp"], text["visibility"], text["wind"]["speed"], text["wind"]["deg"], text["clouds"]["all"], datetime.timestamp(datetime.now()))
+    engine.connect().execute("insert into weather values(%s,%s,%s,%s,%s,%s,%s,%s)", vals)
+
+    return
+    
+
+# Weather scraper
+API_KEY = "d5de0b0a9c3cc6473da7d0005b3798ac"
+base_url = "http://api.openweathermap.org/data/2.5/weather?"
+city_name = "Dublin, IE"
+complete_url = base_url + "appid=" + API_KEY + "&q=" + city_name
+response = requests.get(complete_url)
+# Save json data into a variable called x
+weather = response.json()
+
 
 def main():
     while True:
         try:
             r = requests.get(URI, params= {"api_key":JCKEY, "contract": NAME})
-            #write_to_file(r.text)
             availability_to_db(r.text)
+            weather_to_db(weather)
             time.sleep(5*60)
         except:
-            print(traceback.format_exc())
+            print(traceback.format_tb.execute())
             #if engine is None:
-
     return
 
 main()
