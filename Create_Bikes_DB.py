@@ -83,6 +83,7 @@ stations_to_db(r.text)
 # Creating weather table
 sql = """
 CREATE TABLE IF NOT EXISTS weather (
+main VARCHAR(256),
 description VARCHAR(256),
 temp REAL,
 visibility REAL,

@@ -6,7 +6,7 @@ import os
 from pprint import pprint
 import simplejson as json
 import requests
-import datetime
+from datetime import datetime
 import time
 from IPython.display import display
 URI = "dbbikes2.cytgvbje9wgu.us-east-1.rds.amazonaws.com"
@@ -27,13 +27,13 @@ def availability_to_db(text):
     for station in stations:
         #print(station)
         vals = (station.get('number'), station.get('available_bikes'), station.get('available_bike_stands'), datetime.timestamp(datetime.now()))
-        engine.execute("insert into availability values(%s,%s,%s,%s)", vals)
+        engine.connect().execute("insert into availability values(%s,%s,%s,%s)", vals)
         
     return
 
 def weather_to_db(text):
-    vals = (text["weather"][0]["description"], text["main"]["temp"], text["visibility"], text["wind"]["speed"], text["wind"]["deg"], text["clouds"]["all"], datetime.timestamp(datetime.now()))
-    engine.execute("insert into weather values(%s,%s,%s,%s,%s,%s,%s)", vals)
+    vals = (text["weather"][0]["main"], text["weather"][0]["description"], text["main"]["temp"], text["visibility"], text["wind"]["speed"], text["wind"]["deg"], text["clouds"]["all"], datetime.timestamp(datetime.now()))
+    engine.connect().execute("insert into weather values(%s,%s,%s,%s,%s,%s,%s,%s)", vals)
 
     return
     
@@ -47,11 +47,11 @@ response = requests.get(complete_url)
 # Save json data into a variable called x
 weather = response.json()
 
+
 def main():
     while True:
         try:
             r = requests.get(URI, params= {"api_key":JCKEY, "contract": NAME})
-            #write_to_file(r.text)
             availability_to_db(r.text)
             weather_to_db(weather)
             time.sleep(5*60)
@@ -61,4 +61,3 @@ def main():
     return
 
 main()
-
