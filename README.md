@@ -19,7 +19,7 @@ Weather Information: The web application will also display weather information f
 
 Interactivity: The web application will be interactive, allowing users to click on bike stations to request occupancy data and weather information.
 
-FrontEnd:
+Front-end:
 The web application's front end will run on HTML, CSS & Javascript
 
 Other:
