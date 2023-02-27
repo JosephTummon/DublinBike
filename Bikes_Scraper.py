@@ -1,4 +1,4 @@
-import sqlalchemy as sqla
+import sqlalchemy 
 from sqlalchemy import create_engine
 import traceback
 import glob
