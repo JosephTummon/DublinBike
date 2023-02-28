@@ -9,11 +9,11 @@ import requests
 from datetime import datetime
 import time
 from IPython.display import display
-URI = "dbbikes2.cytgvbje9wgu.us-east-1.rds.amazonaws.com"
+URI = "demodublinbikes3.cix4fu1foszu.eu-west-1.rds.amazonaws.com"
 PORT = "3306"
-DB = "dbbikes2"
+DB = "dbikestest"
 USER = "admin"
-PASSWORD = "DublinBikes1"
+PASSWORD = "feed123456"
 engine = create_engine("mysql+mysqldb://{}:{}@{}:{}/{}".format(USER, PASSWORD, URI, PORT, DB), echo=True)
 JCKEY = "8ad0fc88de299d032d91bc99f1e01c34a44d39a0"
 NAME = "Dublin"
