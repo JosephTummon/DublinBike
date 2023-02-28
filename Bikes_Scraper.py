@@ -11,7 +11,7 @@ import time
 from IPython.display import display
 URI = "demodublinbikes3.cix4fu1foszu.eu-west-1.rds.amazonaws.com"
 PORT = "3306"
-DB = "dbikestest"
+DB = "demodublinbikes3"
 USER = "admin"
 PASSWORD = "feed123456"
 engine = create_engine("mysql+mysqldb://{}:{}@{}:{}/{}".format(USER, PASSWORD, URI, PORT, DB), echo=True)
