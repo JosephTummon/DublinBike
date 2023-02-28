@@ -1,5 +1,6 @@
 import sqlalchemy 
 from sqlalchemy import create_engine
+from sqlalchemy import text
 import traceback
 import glob
 import os
@@ -19,7 +20,7 @@ engine = create_engine("mysql+mysqldb://{}:{}@{}:{}/{}".format(USER, PASSWORD, U
 sql = """
 CREATE DATABASE IF NOT EXISTS dublinbikes;
 """
-engine.connect().execute(sql)
+engine.connect().execute(text(sql))
 
 #for res in engine.execute("SHOW VARIABLES;"):
  #   print(res)
@@ -41,7 +42,7 @@ CREATE TABLE IF NOT EXISTS station (
 
 try:
     #res = engine.execute("DROP TABLE IF EXISTS station")
-    res = engine.connect().execute(sql)
+    res = engine.connect().execute(text(sql))
     print(res.fetchall())
 except Exception as e:
     print(e)
@@ -55,7 +56,7 @@ datetime INTEGER
 )
 """
 try:
-    res = engine.connect().execute(sql)
+    res = engine.connect().execute(text(sql))
     print(res.fetchall())
 except Exception as e:
     print(e)
@@ -95,7 +96,7 @@ datetime INTEGER
 )
 """
 try:
-    res = engine.execute(sql)
+    res = engine.execute(text(sql))
     print(res.fetchall())
 except Exception as e:
     print(e)
