@@ -9,11 +9,11 @@ import requests
 from datetime import datetime
 import time
 from IPython.display import display
-URI = "dbbikes2.cytgvbje9wgu.us-east-1.rds.amazonaws.com"
+URI = "database-2.ckmnj1f5m6qh.eu-west-1.rds.amazonaws.com"
 PORT = "3306"
-DB = "dbbikes2"
+DB = "backupdata"
 USER = "admin"
-PASSWORD = "DublinBikes1"
+PASSWORD = "DublinBikes3"
 engine = create_engine("mysql+mysqldb://{}:{}@{}:{}/{}".format(USER, PASSWORD, URI, PORT, DB), echo=True)
 JCKEY = "8ad0fc88de299d032d91bc99f1e01c34a44d39a0"
 NAME = "Dublin"
@@ -44,8 +44,8 @@ base_url = "http://api.openweathermap.org/data/2.5/weather?"
 city_name = "Dublin, IE"
 complete_url = base_url + "appid=" + API_KEY + "&q=" + city_name
 response = requests.get(complete_url)
-# Save json data into a variable called x
-weather = response.json()
+# Save json data into a variable called weather_data
+weather_data = response.json()
 
 
 def main():
@@ -53,7 +53,7 @@ def main():
         try:
             r = requests.get(URI, params= {"api_key":JCKEY, "contract": NAME})
             availability_to_db(r.text)
-            weather_to_db(weather)
+            weather_to_db(weather_data)
             time.sleep(5*60)
         except:
             print(traceback.format_tb.execute())
