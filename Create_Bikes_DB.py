@@ -17,7 +17,7 @@ PASSWORD = "feed123456"
 engine = create_engine("mysql+mysqldb://{}:{}@{}:{}/{}".format(USER, PASSWORD, URI, PORT, DB), echo=True)
 
 sql = """
-CREATE DATABASE IF NOT EXISTS dbbikes2;
+CREATE DATABASE IF NOT EXISTS dbbikes2.1;
 """
 engine.execute(sql)
 
