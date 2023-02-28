@@ -96,7 +96,7 @@ datetime INTEGER
 )
 """
 try:
-    res = engine.execute(text(sql))
+    res = engine.connect().execute(text(sql))
     print(res.fetchall())
 except Exception as e:
     print(e)
