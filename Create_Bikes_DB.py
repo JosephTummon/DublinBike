@@ -18,7 +18,7 @@ PASSWORD = "DublinBikes3"
 engine = create_engine("mysql+mysqldb://{}:{}@{}:{}/{}".format(USER, PASSWORD, URI, PORT, DB), echo=True)
 
 sql = """
-CREATE DATABASE IF NOT EXISTS dublinbikes;
+CREATE DATABASE IF NOT EXISTS backupdata;
 """
 engine.connect().execute(text(sql))
 
