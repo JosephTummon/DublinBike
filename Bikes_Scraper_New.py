@@ -6,11 +6,11 @@ from datetime import datetime
 import time
 
 ##Parameters for creating sql engine
-URI = "dbbikes2.cytgvbje9wgu.us-east-1.rds.amazonaws.com"
+URI = "demodublinbikes3.cix4fu1foszu.eu-west-1.rds.amazonaws.com"
 PORT = "3306"
-DB = "dbbikes2"
+DB = "demodublinbikes3"
 USER = "admin"
-PASSWORD = "DublinBikes1"
+PASSWORD = "feed123456"
 engine = create_engine("mysql+mysqldb://{}:{}@{}:{}/{}".format(USER, PASSWORD, URI, PORT, DB), echo=True)
 
 ##Read availability json data and insert dynamic values to db
