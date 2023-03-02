@@ -1,4 +1,6 @@
 from flask import Flask, g, jsonify
+from sqlalchemy import create_engine
+from sqlalchemy import text
 
 URI = "dbbikes2.cytgvbje9wgu.us-east-1.rds.amazonaws.com"
 PORT = "3306"
@@ -7,36 +9,33 @@ USER = "admin"
 PASSWORD = "DublinBikes1"
 
 app = Flask(__name__)
+# Connecting to databse
+engine = create_engine("mysql+mysqldb://{}:{}@{}:{}/{}".format(USER, PASSWORD, URI, PORT, DB), echo=True)
 
-@app.route('/')
-def home():
-    return '<h1>Hello</h1>'
+#Going to try to get some basic data from database
+sql = """
+SELECT description FROM weather WHERE datetime = 1677248754
+"""
+data = engine.connect().execute(text(sql))
 
-def connect_to_database():
-    engine = create_engine("mysql://{}:{}@{}:{}/{}".format(config.USER, config.PASSWORD, config.URI, 
-    config.PORT, config.DB), echo=True)
-    return engine
+with engine.connect() as connection:
+    result = connection.execute(text("select description from weather WHERE datetime = 1677248754"))
+    for row in result:
+        display = "description:" + row["description"]
+        print("description:", row["description"])
 
-def get_db():
-    db = getattr(g, '_database', None)
-    if db is None:
-        db = g._database = connect_to_database()
-    return db
+@app.route("/")
+def hello():
+    return "Hello World!"
 
-@app.teardown_appcontext
-def close_connection(exception):
-    db = getattr(g, '_database', None)
-    if db is not None:
-        db.close()
+# Test page to see if we can collect data
+@app.route("/test")
+def change():
+    return display
 
-@app.route("/available/<int:station_id>")
-def get_stations():
-    engine = get_db()
-    data = []
-    rows = engine.execute("SELECT available_bikes from stations where number = {};".format(station_id))
-    for row in rows:
-        data.append(dict(row))
-    return jsonify(available=data)
+@app.route("/station/<int:station_id>")
+def station(station_id):
+    return f'Retrieving info for Station: {station_id}'
 
 if __name__ == "__main__":
     app.run(debug=True)

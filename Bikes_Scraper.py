@@ -19,8 +19,7 @@ JCKEY = "8ad0fc88de299d032d91bc99f1e01c34a44d39a0"
 NAME = "Dublin"
 URI =  "https://api.jcdecaux.com/vls/v1/stations?contract=dublin&apiKey=8ad0fc88de299d032d91bc99f1e01c34a44d39a0"
 
-#r = requests.get(URI, params= {"api_key":JCKEY, "contract": NAME})
-#json.loads(r.text)
+
 
 def availability_to_db(text):
     stations = json.loads(text)
@@ -43,15 +42,15 @@ API_KEY = "d5de0b0a9c3cc6473da7d0005b3798ac"
 base_url = "http://api.openweathermap.org/data/2.5/weather?"
 city_name = "Dublin, IE"
 complete_url = base_url + "appid=" + API_KEY + "&q=" + city_name
-response = requests.get(complete_url)
-# Save json data into a variable called x
-weather = response.json()
+
 
 
 def main():
     while True:
         try:
             r = requests.get(URI, params= {"api_key":JCKEY, "contract": NAME})
+            response = requests.get(complete_url)
+            weather = response.json()
             availability_to_db(r.text)
             weather_to_db(weather)
             time.sleep(5*60)
