@@ -4,11 +4,11 @@ import requests
 
 
 ##Parameters for creating sql engine
-URI = "demodublinbikes3.cix4fu1foszu.eu-west-1.rds.amazonaws.com"
+URI = "dbbikes2.cytgvbje9wgu.us-east-1.rds.amazonaws.com"
 PORT = "3306"
-DB = "demodublinbikes3"
+DB = "dbbikes2"
 USER = "admin"
-PASSWORD = "feed123456"
+PASSWORD = "DublinBikes1"
 engine = create_engine("mysql+mysqldb://{}:{}@{}:{}/{}".format(USER, PASSWORD, URI, PORT, DB), echo=True)
 
 
