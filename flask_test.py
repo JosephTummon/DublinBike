@@ -1,4 +1,4 @@
-from flask import Flask, g, jsonify
+from flask import Flask, g, jsonify, render_template
 from sqlalchemy import create_engine
 from sqlalchemy import text
 
@@ -7,6 +7,9 @@ PORT = "3306"
 DB = "dbbikes2"
 USER = "admin"
 PASSWORD = "DublinBikes1"
+
+MAPS_API = "AIzaSyBoz4zBXk6t06QD4MsYq2sl56oV3Mco9ao"
+
 
 app = Flask(__name__)
 # Connecting to databse
@@ -19,10 +22,14 @@ SELECT description FROM weather WHERE datetime = 1677248754
 data = engine.connect().execute(text(sql))
 
 with engine.connect() as connection:
-    result = connection.execute(text("select description from weather WHERE datetime = 1677248754"))
+    result = connection.execute(text("select position_lat,position_lng from station"))
+    display = ""
     for row in result:
-        display = "description:" + row["description"]
-        print("description:", row["description"])
+        display += "position_lat:" + str(row["position_lat"]) + ", position_lng" + str(row["position_lng"]) + "\n"
+
+@app.route('/map', methods=['GET'])
+def index():
+    return render_template('index.html')
 
 @app.route("/")
 def hello():
