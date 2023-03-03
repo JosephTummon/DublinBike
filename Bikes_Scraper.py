@@ -27,7 +27,7 @@ def availability_to_db(text):
     for station in stations:
         #print(station)
         vals = (station.get('number'), station.get('available_bikes'), station.get('available_bike_stands'), datetime.timestamp(datetime.now()))
-        engine.execute("insert into availability values(%s,%s,%s,%s)", vals)
+        engine.connect().execute("insert into availability values(%s,%s,%s,%s)", vals)
         
     return
 
