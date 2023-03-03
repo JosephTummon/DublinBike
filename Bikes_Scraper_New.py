@@ -17,8 +17,8 @@ engine = create_engine("mysql+mysqldb://{}:{}@{}:{}/{}".format(USER, PASSWORD, U
 def availability_to_db(text):
     stations = json.loads(text)
     for station in stations:
-        vals = (station.get('number'), station.get('available_bikes'), station.get('mechanicalBikes'), station.get('electricalBikes'), station.get('available_bike_stands'), station.get('status'), datetime.timestamp(datetime.now()))
-        engine.connect().execute("insert into availability2 values(%s,%s,%s,%s,%s,%s,%s)", vals)
+        vals = (station.get('number'), station.get('available_bikes'), station.get('available_bike_stands'), station.get('status'), datetime.timestamp(datetime.now()))
+        engine.connect().execute("insert into availability2 values(%s,%s,%s,%s,%s)", vals)
     return
 
 ##Read weather json data and insert dynamic values to db
