@@ -35,8 +35,6 @@ sql = """
 CREATE TABLE IF NOT EXISTS availability3 (
 number INTEGER,
 available_bikes INTEGER,
-mechanical_bikes INTEGER,
-electric_bikes INTEGER,
 available_bike_stands INTEGER,
 status VARCHAR(256),
 datetime INTEGER
