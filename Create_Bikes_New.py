@@ -32,7 +32,7 @@ except Exception as e:
 
 ##create availability table, dynamic data to be filled by scraper script
 sql = """
-CREATE TABLE IF NOT EXISTS availability3 (
+CREATE TABLE IF NOT EXISTS availability2 (
 number INTEGER,
 available_bikes INTEGER,
 available_bike_stands INTEGER,
