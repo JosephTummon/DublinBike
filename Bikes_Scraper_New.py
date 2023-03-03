@@ -42,6 +42,6 @@ def main():
             weather_to_db(r2.json())
             time.sleep(5*60)
         except:
-            print(traceback.format_tb.execute())
+            print("Error, no longer running")
     return
 main()
