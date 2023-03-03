@@ -12,11 +12,6 @@ DB = "backupdata"
 USER = "admin"
 PASSWORD = "DublinBikes3"
 engine = create_engine("mysql+mysqldb://{}:{}@{}:{}/{}".format(USER, PASSWORD, URI, PORT, DB), echo=True)
-JCKEY = "8ad0fc88de299d032d91bc99f1e01c34a44d39a0"
-NAME = "Dublin"
-URI =  "https://api.jcdecaux.com/vls/v1/stations?contract=dublin&apiKey=8ad0fc88de299d032d91bc99f1e01c34a44d39a0"
-
-engine = create_engine("mysql+mysqldb://{}:{}@{}:{}/{}".format(USER, PASSWORD, URI, PORT, DB), echo=True)
 
 ##Read availability json data and insert dynamic values to db
 def availability_to_db(text):
