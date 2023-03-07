@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, g, render_template
 from sqlalchemy import create_engine
 
 URI = "database-2.ckmnj1f5m6qh.eu-west-1.rds.amazonaws.com"
@@ -12,7 +12,7 @@ sql = """
 SELECT 
 """
 
-app = Flask(__name__)
+app = Flask(__name__, template_folder="templates")
 
 @app.route("/")
 def hello():
