@@ -7,8 +7,8 @@ PORT = "3306"
 DB = "backupdata"
 USER = "admin"
 PASSWORD = "DublinBikes3"
-engine = create_engine("mysql+mysqldb://{}:{}@{}:{}/{}".format(USER, PASSWORD, URI, PORT, DB), echo=True)
 
+engine = create_engine("mysql+mysqldb://{}:{}@{}:{}/{}".format(USER, PASSWORD, URI, PORT, DB), echo=True)
 ##create station table, static data
 sql = """
 CREATE TABLE IF NOT EXISTS station (
@@ -21,7 +21,9 @@ CREATE TABLE IF NOT EXISTS station (
 )
 """
 try:
+    print("********")
     res = engine.execute(sql)
+    print("********")
     print(res.fetchall())
 except Exception as e:
     print(e)
