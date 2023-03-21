@@ -1,8 +1,51 @@
+/* HEADER */
+
+header {
+  max-width: 1200px;
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  margin: auto;
+  justify-content: space-between;
+  align-items: center;
+  height: 74px;
+  background-color: ghostwhite;
+}
+
+#db {
+  color: #00a4d3;
+}
+
+
+/* NAVIGATION */
+
+nav ul {
+  list-style-type: none;
+}
+
+nav li {
+  padding: 15px;
+  font-size: 20px;
+  display: inline-block;
+
+}
+
+nav li:hover {
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+nav a {
+  text-decoration: none;
+  color: black;
+}
+
+
 /* Always set the map height explicitly to define the size of
 the div
 * element that contains the map. */
 #map {
-    height: 800px;
+    height: 665px;
     width: 100%;
   }
 /* Optional: Makes the sample page fill the window. */
@@ -10,4 +53,5 @@ html, body {
   height: 100%;
   margin: 0;
   padding: 0;
+  background-color: ghostwhite;
 }

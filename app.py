@@ -9,14 +9,6 @@ USER = "admin"
 PASSWORD = "DublinBikes1"
 engine = create_engine("mysql+mysqldb://{}:{}@{}:{}/{}".format(USER, PASSWORD, URI, PORT, DB), echo=True)
 
-# Bills Login Details
-#URI = "demodublinbikes3.cix4fu1foszu.eu-west-1.rds.amazonaws.com"
-#PORT = "3306"
-#DB = "demodublinbikes3"
-#USER = "admin"
-#PASSWORD = "feed123456"
-#API = "AIzaSyDgYC8VXvS4UG9ApSUhS2v-ByddtHljFls"
-
 app = Flask("__name__", template_folder="templates")
 
 def connect_to_database():
