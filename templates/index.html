@@ -13,6 +13,7 @@
     
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}"/>
     <script type="module" src="{{ url_for('static', filename='index.js') }}"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
    
   </head>
   <body>
@@ -41,6 +42,19 @@
       and consistent behavior across browsers, consider loading using Promises
       with https://www.npmjs.com/package/@googlemaps/js-api-loader.
       -->
+
+    <div id="dropdown">
+      <i class="fa-solid fa-map-pin" style="color: #00A4D3;"></i>
+      <select id="start">
+        <option value="" selected>Origin</option>
+      </select>
+      <i class="fa-solid fa-location-dot" style="color: #00A4D3;"></i>
+      <select id="end">
+        <option value="" selected>Destination</option>
+      </select>
+    </div>
+    <div id="warnings-panel"></div>
+    
     <script
       src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDgYC8VXvS4UG9ApSUhS2v-ByddtHljFls&callback=initMap&v=weekly"
       defer
