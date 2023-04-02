@@ -12,6 +12,18 @@ header {
   background-color: ghostwhite;
 }
 
+.logo h1 {
+  list-style-type: none;
+  text-decoration: none;
+  color: black;
+}
+
+.l {
+  list-style-type: none;
+  text-decoration: none;
+  color: black;
+}
+
 #db {
   color: #00a4d3;
 }
