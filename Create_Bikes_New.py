@@ -3,21 +3,13 @@ import simplejson as json
 import requests
 
 
-# Parameters for creating sql engine
+##Parameters for creating sql engine
 URI = "dbbikes2.cytgvbje9wgu.us-east-1.rds.amazonaws.com"
 PORT = "3306"
 DB = "dbbikes2"
 USER = "admin"
 PASSWORD = "DublinBikes1"
 engine = create_engine("mysql+mysqldb://{}:{}@{}:{}/{}".format(USER, PASSWORD, URI, PORT, DB), echo=True)
-
-# Bills AWS Login
-##URI = "demodublinbikes3.cix4fu1foszu.eu-west-1.rds.amazonaws.com"
-##PORT = "3306"
-##DB = "demodublinbikes3"
-##USER = "admin"
-##PASSWORD = "feed123456"
-##engine = create_engine("mysql+mysqldb://{}:{}@{}:{}/{}".format(USER, PASSWORD, URI, PORT, DB), echo=True)
 
 
 ##create station table, static data
