@@ -71,15 +71,20 @@ function initMap() {
 
       const contentString = "<div><h1>" + marker.title + "</h1></div>";
 
-      const infowindow = new google.maps.InfoWindow({
+      var infowindow = new google.maps.InfoWindow({
         content: contentString,
         ariaLabel: "Uluru",
       });
 
       infoWindowArray.push(infowindow);
+      
+      var currentInfoWindow = null;
 
       google.maps.event.addListener(marker, 'click', function(marker) {
         return function() {
+          if (infowindow) {
+            infowindow.close();
+          }
           infowindow.setContent(contentString);
           infowindow.open(map, marker);
         }
