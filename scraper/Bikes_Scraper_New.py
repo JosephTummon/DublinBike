@@ -43,7 +43,5 @@ def main():
             time.sleep(5*60)
         except:
             print("Error, no longer running")
-            time.sleep(5*60)
-
     return
 main()
