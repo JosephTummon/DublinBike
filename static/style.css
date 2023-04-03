@@ -1,0 +1,87 @@
+/* HEADER */
+
+header {
+  max-width: 1200px;
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  margin: auto;
+  justify-content: space-between;
+  align-items: center;
+  height: 74px;
+  background-color: ghostwhite;
+}
+
+.logo h1 {
+  list-style-type: none;
+  text-decoration: none;
+  color: black;
+}
+
+.l {
+  list-style-type: none;
+  text-decoration: none;
+  color: black;
+}
+
+#db {
+  color: #00a4d3;
+}
+
+
+/* NAVIGATION */
+
+nav ul {
+  list-style-type: none;
+}
+
+nav li {
+  padding: 15px;
+  font-size: 20px;
+  display: inline-block;
+
+}
+
+nav li:hover {
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+nav a {
+  text-decoration: none;
+  color: black;
+}
+
+
+/* Always set the map height explicitly to define the size of
+the div
+* element that contains the map. */
+#map {
+    height: 665px;
+    width: 100%;
+  }
+
+#warnings-panel {
+  width: 100%;
+  height: 10%;
+  text-align: center;
+}
+/* Optional: Makes the sample page fill the window. */
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  background-color: ghostwhite;
+}
+
+#dropdown {
+  left: 25%;
+  z-index: 5;
+  background-color: #fff;
+  padding: 5px;
+  border: 1px solid #999;
+  text-align: center;
+  font-family: "Roboto", "sans-serif";
+  line-height: 30px;
+  padding-left: 10px;
+}
