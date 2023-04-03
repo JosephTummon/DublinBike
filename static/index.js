@@ -60,7 +60,6 @@ function initMap() {
         map: map,
         title: station.address,
         station_number: station.number,
-        available_bikes: a.bikes_free,
         icon: {
           url: 'http://chart.googleapis.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|00a4d3'
         }
@@ -70,8 +69,7 @@ function initMap() {
 
       // Place info window on markers
 
-      const contentString = 
-      "<div><h1>" + marker.title + "</h1><h1>" + marker.available_bikes + "</h1></div>"
+      const contentString = "<div><h1>" + marker.title + "</h1></div>";
 
       var infowindow = new google.maps.InfoWindow({
         content: contentString,
@@ -79,6 +77,8 @@ function initMap() {
       });
 
       infoWindowArray.push(infowindow);
+      
+      var currentInfoWindow = null;
 
       google.maps.event.addListener(marker, 'click', function(marker) {
         return function() {
