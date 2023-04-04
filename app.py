@@ -11,8 +11,7 @@ USER = "admin"
 PASSWORD = "DublinBikes1"
 engine = create_engine("mysql+mysqldb://{}:{}@{}:{}/{}".format(USER, PASSWORD, URI, PORT, DB), echo=True)
 
-app = Flask("__name__", template_folder="templates")
-app._static_folder = "static"
+app = Flask("__name__")
 
 def connect_to_database():
     engine = create_engine("mysql://{}:{}@{}:{}/{}".format(USER,PASSWORD,URI,PORT,DB), echo=True)
