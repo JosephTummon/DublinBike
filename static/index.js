@@ -9,7 +9,11 @@ function initMap() {
     zoom: 14,
   });
 
-  getStations();
+  getData();
+  setInterval(function() {
+  // Code to be executed every 30 seconds
+  getData();
+}, 20000); // 30,000 milliseconds = 30 seconds
 
   function displayDropDown(stations) {
     // Display drop down for start destination
@@ -32,7 +36,7 @@ function initMap() {
   }
 
   // fetch stations
-  function getStations() {
+  function getData() {
     fetch("/stations") 
       .then((response) => response.json())
       .then((data) => {
@@ -41,7 +45,7 @@ function initMap() {
         displayDropDown(data);
       });
   }
-
+  
   // ***** CODE FOR ADDING MARKERS AND INFO-WIDOW*****
 
   const markerArray = [];
@@ -52,7 +56,9 @@ function initMap() {
 
       // Place markers on station locations
 
-      var myLatlng = { lat: station.position_lat, lng: station.position_lng };
+      var myLatlng = { lat: station.position.lat, lng: station.position.lng };
+    
+     
     
 
       var marker = new google.maps.Marker({
@@ -60,16 +66,16 @@ function initMap() {
         map: map,
         title: station.address,
         station_number: station.number,
-        icon: {
-          url: 'http://chart.googleapis.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|00a4d3'
-        }
+        bikes_free: station.available_bikes,
+        free_stands: station.available_bike_stands,
       });  
+      marker.setLabel(station.available_bikes.toString());
       
       markerArray.push(marker);
 
       // Place info window on markers
 
-      const contentString = "<div><h1>" + marker.title + "</h1></div>";
+      const contentString = "<div class='info-window'><h1>" + marker.title + "</h1><h2>Available Bikes:</h2><p>" + marker.bikes_free + "</p>" + "<h2>Available Stands:</h2><p>" + marker.free_stands + "</p></div>";
 
       var infowindow = new google.maps.InfoWindow({
         content: contentString,
@@ -77,18 +83,26 @@ function initMap() {
       });
 
       infoWindowArray.push(infowindow);
+
       
       var currentInfoWindow = null;
 
-      google.maps.event.addListener(marker, 'click', function(marker) {
+      
+      google.maps.event.addListener(marker, 'mouseover', function(marker) {
         return function() {
-          if (infowindow) {
-            infowindow.close();
+          if (currentInfoWindow) {
+            currentInfoWindow.close();
           }
           infowindow.setContent(contentString);
           infowindow.open(map, marker);
+          currentInfoWindow = infowindow;
         }
       }(marker));
+
+      google.maps.event.addListener(marker, 'mouseout', function() {
+        infowindow.close();
+        currentInfoWindow = null;
+      });
     }
   }
 
@@ -193,9 +207,3 @@ function initMap() {
 }
 
 window.initMap = initMap;
-
-
-
-
-
-
