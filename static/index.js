@@ -33,8 +33,6 @@ function fetchStationData() {
     });
 }
 
-<<<<<<< HEAD
-=======
 function fetchWeather() {
   fetch("/weather")
   .then((response) => response.json())
@@ -50,7 +48,6 @@ function displayWeather(data) {
   li.innerHTML = data.weather.main;
   document.getElementById("weather").appendChild(li);
 }
->>>>>>> 39bb7ccbfa0df55814aa1d5f89df0e53c46f2a7a
 
 // Display Dropdown in HTML
 function displayDropDown(stations) {
@@ -100,10 +97,7 @@ function addMarkers(stations) {
 
 // Creates a new marker object for the given station and adds it to the map
 function createMarker(station) {
-<<<<<<< HEAD
-=======
   var myLatlng = { lat: station.position.lat, lng: station.position.lng };
->>>>>>> 39bb7ccbfa0df55814aa1d5f89df0e53c46f2a7a
   const marker = new google.maps.Marker({
     position: myLatlng,
     map: map,
