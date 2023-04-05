@@ -28,9 +28,9 @@ function fetchStationData() {
       console.log('fetch response', typeof data);
       displayDropDown(data);
       addMarkers(data);
-      updateDropDown(data);
     });
 }
+
 
 // Display Dropdown in HTML
 function displayDropDown(stations) {
@@ -80,8 +80,6 @@ function addMarkers(stations) {
 
 // Creates a new marker object for the given station and adds it to the map
 function createMarker(station) {
-  const { lat, lng } = station.position;
-  const myLatlng = { lat, lng };
   const marker = new google.maps.Marker({
     position: myLatlng,
     map: map,
