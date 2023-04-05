@@ -15,6 +15,8 @@ function initMap() {
 
   // Fetch station data and display markers and drop-down options
   fetchStationData();
+  // Fetch weather data 
+  fetchWeather();
 
   // Update station data every 30 seconds
   setInterval(fetchStationData, 30000);
@@ -31,13 +33,31 @@ function fetchStationData() {
     });
 }
 
+<<<<<<< HEAD
+=======
+function fetchWeather() {
+  fetch("/weather")
+  .then((response) => response.json())
+  .then((data) => {
+    console.log('fetch response', typeof data);
+    displayWeather(data);
+  });
+}
+
+function displayWeather(data) {
+  console.log(data.weather.main);
+  var li = document.createElement(li);
+  li.innerHTML = data.weather.main;
+  document.getElementById("weather").appendChild(li);
+}
+>>>>>>> 39bb7ccbfa0df55814aa1d5f89df0e53c46f2a7a
 
 // Display Dropdown in HTML
 function displayDropDown(stations) {
   // Display drop down for start destination
   stations.forEach(station=> {
     var option = document.createElement("option");
-    option.classList.add("option");
+    option.setAttribute("id", "start-option");
     option.value = station.address + ', Dublin';
     option.innerHTML = station.address;
     document.getElementById("start").appendChild(option);
@@ -46,7 +66,7 @@ function displayDropDown(stations) {
   // Display drop down for end destination
   stations.forEach(station=> {
     var option = document.createElement("option");
-    option.classList.add("option");
+    option.setAttribute("id", "end-option");
     option.value = station.address + ", Dublin";
     option.innerHTML = station.address;
     document.getElementById("end").appendChild(option);
@@ -80,6 +100,10 @@ function addMarkers(stations) {
 
 // Creates a new marker object for the given station and adds it to the map
 function createMarker(station) {
+<<<<<<< HEAD
+=======
+  var myLatlng = { lat: station.position.lat, lng: station.position.lng };
+>>>>>>> 39bb7ccbfa0df55814aa1d5f89df0e53c46f2a7a
   const marker = new google.maps.Marker({
     position: myLatlng,
     map: map,
@@ -128,6 +152,7 @@ function attachInfoWindowListeners(marker, infoWindow) {
 }
      
 
+
   // ***** CODE FOR DIRECTIONS *****
 
    // Instantiate a directions service.
@@ -157,8 +182,8 @@ function attachInfoWindowListeners(marker, infoWindow) {
     );
   };
 
-  document.getElementById("start").addEventListener("change", onChangeHandler);
-  document.getElementById("end").addEventListener("change", onChangeHandler);
+  document.getElementById("start-option").addEventListener("change", onChangeHandler);
+  document.getElementById("end-option").addEventListener("change", onChangeHandler);
   
 
   function calculateAndDisplayRoute(
@@ -172,13 +197,13 @@ function attachInfoWindowListeners(marker, infoWindow) {
   for (let i = 0; i < markerArray.length; i++) {
     markerArray[i].setMap(null);
   }
-
+  
   // Retrieve the start and end locations and create a DirectionsRequest using
   // WALKING directions.
   directionsService
     .route({
-      origin: document.getElementById("start").value,
-      destination: document.getElementById("end").value,
+      origin: document.getElementById("start-option").value,
+      destination: document.getElementById("end-option").value,
       travelMode: google.maps.TravelMode.BICYCLING,
     })
     .then((result) => {
