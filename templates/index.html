@@ -1,0 +1,62 @@
+<html>
+  <head>
+    <title>Simple Map</title>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+    
+    <!--
+      *UNCOMMENT THIS IS YOU ARE WORKING ON THE DESIGNING FRONTEND AND DEVELOP WITH LIVE SERVER
+      EASIER THAN DOING IT THROUGH FLASK*
+    
+    <link rel="stylesheet" type="text/css" href="/static/style.css" />
+    <link rel="stylesheet" type="text/css" href="/static/index.js" />
+    -->
+    
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}"/>
+    <script type="module" src="{{ url_for('static', filename='index.js') }}"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
+   
+  </head>
+  <body>
+    <!--Header-->
+    <header>
+        <div class="logo">
+            <h1><a class="l" href="http://127.0.0.1:5000/"><span id="db">DB</span>ikes</a></h1>
+        </div>
+        <nav>
+            <ul id="weather">
+                <li><a href="#">Maps</a></li>
+                <li><a id="weather"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <div class="search-bar">
+
+    </div>
+    <!--Map-->
+    <div id="map"></div>
+
+    <!-- 
+      The `defer` attribute causes the callback to execute after the full HTML
+      document has been parsed. For non-blocking uses, avoiding race conditions,
+      and consistent behavior across browsers, consider loading using Promises
+      with https://www.npmjs.com/package/@googlemaps/js-api-loader.
+      -->
+
+    <div id="dropdown">
+      <i class="fa-solid fa-map-pin" style="color: #00A4D3;"></i>
+      <select id="start">
+        <option value="" selected>Origin</option>
+      </select>
+      <i class="fa-solid fa-location-dot" style="color: #00A4D3;"></i>
+      <select id="end">
+        <option value="" selected>Destination</option>
+      </select>
+    </div>
+    <div id="warnings-panel"></div>
+    
+    <script
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDgYC8VXvS4UG9ApSUhS2v-ByddtHljFls&callback=initMap&v=weekly"
+      defer
+    ></script>
+  </body>
+</html>
