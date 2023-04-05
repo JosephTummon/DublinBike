@@ -37,13 +37,8 @@ def get_stations():
         vals = []
         for station in stations:
             vals.append((station.get('number'), station.get('available_bikes'), station.get('available_bike_stands'), station.get('status'), datetime.timestamp(datetime.now())))
-<<<<<<< HEAD
-            
-        # Print out the number of stations found and the extracted values
-=======
         print('#found {} Availability {}'.format(len(vals), vals))
     
->>>>>>> 39bb7ccbfa0df55814aa1d5f89df0e53c46f2a7a
         return stations
     except Exception as e:
         print(traceback.format_exc())
@@ -74,6 +69,7 @@ def update_data():
         try:
             # Call the get_stations function and update the stations variable
             stations = get_stations()
+            print("Data updated at {}".format(datetime.now()))
             # Sleep for 30 seconds before calling the function again
             time.sleep(30)
         except Exception as e:
@@ -84,30 +80,9 @@ def update_data():
         return stations
 
 
-# de-serialize model.pkl file into an object called model using pickle
-with open('MLModel/model.pkl', 'rb') as handle:
-    model = pickle.load(handle)
-
-@app.route("/predict")
-def predict():
-    # now we can call various methods over model as as:
-    # Let X_test be the feature for which we want to predict the output
-    # result = model.predict(([1,2], [1, 4],[1,5])).tolist()
-    predicted_data = {}
-    current_hour = 1
-    current_day = 2
-    for i in range(1, 116):
-        toAdd = {}
-        for j in range(1, 7):
-            toAdd[j] = model.predict([[current_day, current_hour]]).tolist()
-        predicted_data[i] = toAdd
-
-    return jsonify(predicted_data)
-
-
-
 if __name__ == "__main__":
     # Start a new thread to continuously update the data
+    import threading
     t = threading.Thread(target=update_data)
     t.start()
     app.run(debug=True)
