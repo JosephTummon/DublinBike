@@ -15,6 +15,15 @@
     <script type="module" src="{{ url_for('static', filename='index.js') }}"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
    
+    <!--adding translate func -->
+    <script type="text/javascript" src="https://www.google.com/jsapi?key=AIzaSyCPFJecruyBFejQbwwcGNtX8I2j60tAcCQ"></script>
+    <script type="text/javascript">
+      google.load("language", "1");
+    </script>
+    <!--End of translation func, also included at end-->
+
+
+
   </head>
   <body>
     <!--Header-->
@@ -23,16 +32,29 @@
             <h1><a class="l" href="http://127.0.0.1:5000/"><span id="db">DB</span>ikes</a></h1>
         </div>
         <nav>
-            <ul id="weather">
-                <li><a href="#">Maps</a></li>
-                <li><a id="weather"></a></li>
-            </ul>
+
+          <!--Code for swapping nums on station pins-->
+          <div id = "bike-stand-buttons">
+            <div id = "btn1" class = "btn">
+              <i class="fa-solid fa-bicycle"></i>
+              <a>Available<br>Bikes</a>
+            </div>
+            <div id = "btn2" class = "btn">
+              <i class="fa-solid fa-square-parking"></i>
+              <a>Available<br>Stands</a>
+            </div>
+          <!--End of swapping nums code-->
+
+          </div>
         </nav>
     </header>
     <div class="search-bar">
 
-    </div>
+      
+
+   
     <!--Map-->
+    
     <div id="map"></div>
 
     <!-- 
@@ -52,10 +74,25 @@
         <option value="" selected>Destination</option>
       </select>
     </div>
+
+    <!--Google Translate function-->
+    <div id="google_translate_element"></div>
+    <script type="text/javascript">
+      function googleTranslateElementInit() {
+        new google.translate.TranslateElement({pageLanguage: 'en', layout: google.translate.TranslateElement.InlineLayout.SIMPLE}, 'google_translate_element');
+      }
+    </script>
+     <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+    <!--End of translate function-->
+
+
+
+   
+
     <div id="warnings-panel"></div>
     
     <script
-      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDgYC8VXvS4UG9ApSUhS2v-ByddtHljFls&callback=initMap&v=weekly"
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDgYC8VXvS4UG9ApSUhS2v-ByddtHljFls&callback=initMap&v=weekly&map_ids=85ad236e6c8c62c4"
       defer
     ></script>
   </body>

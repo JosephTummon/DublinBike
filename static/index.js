@@ -11,10 +11,38 @@ function initMap() {
   map = new google.maps.Map(document.getElementById("map"), {
     center: dublin,
     zoom: 14,
+    mapId: "85ad236e6c8c62c4",
+
   });
 
+  // Requesting user location and adding their marker to map
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(position => {
+      const userLocation = {
+        lat: position.coords.latitude,
+        lng: position.coords.longitude
+      };
+      // Add a marker at the user's location
+      new google.maps.Marker({
+        position: userLocation,
+        map: map
+      });
+    }, () => {
+      // Handle errors
+      alert("Error: The Geolocation service failed.");
+    });
+  } else {
+    // Browser doesn't support Geolocation
+    alert("Error: Your browser doesn't support geolocation.");
+  }
+
+
+
+
+
+
   // Fetch station data and display markers and drop-down options
-  fetchStationData();
+  fetchStationData(true);
   // Fetch weather data 
   fetchWeather();
 
@@ -23,15 +51,17 @@ function initMap() {
 
 
 // fetch stations
-function fetchStationData() {
+function fetchStationData(bool) {
   fetch("/stations") 
     .then((response) => response.json())
     .then((data) => {
       console.log('fetch response', typeof data);
       displayDropDown(data);
-      addMarkers(data);
+      addMarkers(data, bool);
     });
 }
+
+
 
 function fetchWeather() {
   fetch("/weather")
@@ -78,12 +108,12 @@ function displayDropDown(stations) {
   const infoWindowArray = [];
 
   // Displays the station data on the map as markers and info windows
-function addMarkers(stations) {
+function addMarkers(stations, bool) {
   
   // Loop through each station and create a marker and info window for it
   for (const station of stations) {
     // Create a new marker for the station
-    var marker = createMarker(station);
+    var marker = createMarker(station, bool);
     markerArray.push(marker);
 
     // Create a new info window for the marker
@@ -96,7 +126,7 @@ function addMarkers(stations) {
 }
 
 // Creates a new marker object for the given station and adds it to the map
-function createMarker(station) {
+function createMarker(station, bool) {
   var myLatlng = { lat: station.position.lat, lng: station.position.lng };
   const marker = new google.maps.Marker({
     position: myLatlng,
@@ -106,7 +136,16 @@ function createMarker(station) {
     bikes_free: station.available_bikes,
     free_stands: station.available_bike_stands,
   });  
-  marker.setLabel(station.available_bikes.toString());
+    marker.setLabel(station.available_bikes.toString());
+
+    //Toggle code to change num on station pin
+    const toggleButton1 = document.getElementById("btn1");
+    toggleButton1.addEventListener("click", () => {    
+        marker.setLabel(station.available_bikes.toString());});
+    const toggleButton2 = document.getElementById("btn2");
+    toggleButton2.addEventListener("click", () => {    
+        marker.setLabel(station.available_bike_stands.toString());});
+    //
   return marker;
 }
 
@@ -144,7 +183,7 @@ function attachInfoWindowListeners(marker, infoWindow) {
     currentInfoWindow = null;
   });
 }
-     
+
 
 
   // ***** CODE FOR DIRECTIONS *****
@@ -245,4 +284,29 @@ function attachInfoWindowListeners(marker, infoWindow) {
 }
 }
 
+//code to change style of bike / stand selector buttons when clicked
+const b1= document.getElementById("btn1");
+const b2= document.getElementById("btn2");
+
+b1.addEventListener("click", () => {
+  b1.style.backgroundColor = "lightblue";
+  b1.style.color = "white";
+  b1.style.zIndex = "101";
+  b2.style.backgroundColor = "white";
+  b2.style.color = "black";
+  b2.style.zIndex = "100";
+})
+
+b2.addEventListener("click", () => {
+  b2.style.backgroundColor = "lightblue";
+  b2.style.color = "white";
+  b2.style.zIndex = "101";
+  b1.style.backgroundColor = "white";
+  b1.style.color = "black";
+  b1.style.zIndex = "100";
+
+
+})
+
 window.initMap = initMap;
+
