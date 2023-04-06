@@ -17,7 +17,8 @@ function initMap() {
   fetchStationData();
   // Fetch weather data 
   fetchWeather();
-
+  // Fetch Prediction Data
+  fetchPredictedData();
   // Update station data every 30 seconds
   setInterval(fetchStationData, 30000);
 
@@ -31,6 +32,14 @@ function fetchStationData() {
       displayDropDown(data);
       addMarkers(data);
     });
+}
+// fet predicted data
+function fetchPredictedData() {
+  fetch("/predict")
+  .then((response) => response.json())
+  .then((datap) => {
+    console.log(datap[1])
+  });
 }
 
 function fetchWeather() {
