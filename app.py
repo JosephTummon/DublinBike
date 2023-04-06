@@ -69,6 +69,7 @@ def update_data():
         try:
             # Call the get_stations function and update the stations variable
             stations = get_stations()
+            weather = get_weather()
             print("Data updated at {}".format(datetime.now()))
             # Sleep for 30 seconds before calling the function again
             time.sleep(30)
@@ -77,7 +78,7 @@ def update_data():
             print("Error updating data: {}".format(e))
             # Sleep for 30 seconds before calling the function again
             time.sleep(30)
-        return stations
+        return stations, weather
 
 
 if __name__ == "__main__":
