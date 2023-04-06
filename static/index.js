@@ -11,45 +11,17 @@ function initMap() {
   map = new google.maps.Map(document.getElementById("map"), {
     center: dublin,
     zoom: 14,
-    styles: [
-      {
-        featureType: "water",
-        elementType: "geometry",
-        stylers: [{ color: "#dbe4f1" }],
-      },
-      {
-        featureType: "landscape",
-        elementType: "geometry",
-        stylers: [{ color: "#EEEEEE" }],
-      },
-      {
-        featureType: "road",
-        elementType: "geometry",
-        stylers: [{ color: "#FFFFFF" }],
-      },
-      {
-        featureType: "poi",
-        elementType: "geometry",
-        stylers: [{ color: "#b1f3b1" }],
-      },
-      {
-        featureType: "transit",
-        elementType: "geometry",
-        stylers: [{ color: "blue" }],
-      },
-    ] 
+    mapId: "85ad236e6c8c62c4",
+
   });
 
+  // Requesting user location and adding their marker to map
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(position => {
       const userLocation = {
         lat: position.coords.latitude,
         lng: position.coords.longitude
       };
-      map = new google.maps.Map(document.getElementById("map"), {
-        center: userLocation,
-        zoom: 8
-      });
       // Add a marker at the user's location
       new google.maps.Marker({
         position: userLocation,
@@ -63,6 +35,10 @@ function initMap() {
     // Browser doesn't support Geolocation
     alert("Error: Your browser doesn't support geolocation.");
   }
+
+
+
+
 
 
   // Fetch station data and display markers and drop-down options
@@ -162,13 +138,14 @@ function createMarker(station, bool) {
   });  
     marker.setLabel(station.available_bikes.toString());
 
+    //Toggle code to change num on station pin
     const toggleButton1 = document.getElementById("btn1");
     toggleButton1.addEventListener("click", () => {    
         marker.setLabel(station.available_bikes.toString());});
     const toggleButton2 = document.getElementById("btn2");
     toggleButton2.addEventListener("click", () => {    
         marker.setLabel(station.available_bike_stands.toString());});
-    
+    //
   return marker;
 }
 
