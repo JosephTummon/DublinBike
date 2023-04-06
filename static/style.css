@@ -97,3 +97,46 @@ html, body {
   float: left;
   border-radius: 2px;
 }
+
+
+
+/*Added code to style buttons and position translate element*/
+#bike-stand-buttons{
+  text-align: center;
+}
+
+.btn{
+  border-radius: 50px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;  text-align: center;
+  padding: 10px;
+  align-items: center;
+  height: 50px;
+  cursor: pointer;
+}
+
+#btn1{
+  position: absolute;
+  right: 300;
+  top : 0;
+  z-index: 100;
+  background-color: white;
+}
+
+#btn2{
+  position: absolute;
+  right: 200;
+  top: 0;
+  z-index: 101;
+  background-color: white;
+}
+
+#google_translate_element {
+  position: fixed;
+  bottom: 10px;
+  right: 10px;
+}
+
+/*End of added code*/
