@@ -6,6 +6,7 @@ import requests
 import time
 import simplejson as json
 from datetime import datetime
+import pickle
 
 # Database configuration
 URI = "dbbikes2.cytgvbje9wgu.us-east-1.rds.amazonaws.com"
@@ -14,6 +15,10 @@ DB = "dbbikes2"
 USER = "admin"
 PASSWORD = "DublinBikes1"
 # engine = create_engine("mysql+mysqldb://{}:{}@{}:{}/{}".format(USER, PASSWORD, URI, PORT, DB), echo=True)
+
+# opening pickle file with pretrained model
+with open('MLModel/model.pkl', 'rb') as handle:
+    model = pickle.load(handle)
 
 # Initialize Flask app
 app = Flask("__name__")
@@ -36,8 +41,12 @@ def get_stations():
         # Loop through each station in the JSON object and extract the necessary values
         vals = []
         for station in stations:
-            vals.append((station.get('number'), station.get('available_bikes'), station.get('available_bike_stands'), station.get('status'), datetime.timestamp(datetime.now())))
-        print('#found {} Availability {}'.format(len(vals), vals))
+            predictions = model.predict([[1, 1]]).tolist()[0]
+            for i in range(8):
+                name = "prediction" + str(i)
+                station[name] = predictions
+            vals.append((station.get('number'), station.get('available_bikes'), station.get('available_bike_stands'), station.get('status'), datetime.timestamp(datetime.now()), predictions))
+        #print('#found {} Availability {}'.format(len(vals), vals))
     
         return stations
     except Exception as e:
