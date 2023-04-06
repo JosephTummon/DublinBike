@@ -114,11 +114,12 @@ html, body {
   padding: 10px;
   align-items: center;
   height: 50px;
+  cursor: pointer;
 }
 
 #btn1{
   position: absolute;
-  right: 100;
+  right: 300;
   top : 0;
   z-index: 100;
   background-color: white;
@@ -126,7 +127,7 @@ html, body {
 
 #btn2{
   position: absolute;
-  right: 0;
+  right: 200;
   top: 0;
   z-index: 101;
   background-color: white;
