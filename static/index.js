@@ -392,6 +392,34 @@ function initMap() {
     }]
   });
 
+
+  if (navigator.geolocation) {
+    document.getElementById('center-btn').addEventListener('click', function() {
+      navigator.geolocation.getCurrentPosition(function(position) {
+        var pos = {
+          lat: position.coords.latitude,
+          lng: position.coords.longitude
+        };
+
+        map.panTo(pos);
+
+        if (marker) {
+          marker.setPosition(pos);
+        } else {
+          marker = new google.maps.Marker({
+            position: pos,
+            map: map
+          });
+        }
+      });
+    });
+  } else {
+    // Browser doesn't support Geolocation
+    alert("no location found");
+}
+
+
+
   // Fetch station data and display markers and drop-down options
   fetchStationData();
   // Fetch weather data 
