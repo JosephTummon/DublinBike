@@ -55,7 +55,7 @@ function fetchStationData() {
     .then((data) => {
       console.log('fetch response', typeof data);
       displayDropDown(data);
-      addMarkers(data, bool);
+      addMarkers(data);
     });
 }
 
@@ -104,12 +104,12 @@ function displayDropDown(stations) {
   const infoWindowArray = [];
 
   // Displays the station data on the map as markers and info windows
-function addMarkers(stations, bool) {
+function addMarkers(stations) {
   
   // Loop through each station and create a marker and info window for it
   for (const station of stations) {
     // Create a new marker for the station
-    var marker = createMarker(station, bool);
+    var marker = createMarker(station);
     markerArray.push(marker);
 
     // Create a new info window for the marker
@@ -122,7 +122,7 @@ function addMarkers(stations, bool) {
 }
 
 // Creates a new marker object for the given station and adds it to the map
-function createMarker(station, bool) {
+function createMarker(station) {
   var myLatlng = { lat: station.position.lat, lng: station.position.lng };
   const marker = new google.maps.Marker({
     position: myLatlng,
