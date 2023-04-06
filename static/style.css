@@ -9,7 +9,6 @@ header {
   justify-content: space-between;
   align-items: center;
   height: 74px;
-  background-color: ghostwhite;
 }
 
 .logo h1 {
@@ -26,6 +25,12 @@ header {
 
 #db {
   color: #00a4d3;
+}
+
+#weather {
+  float: right;
+  background-color: none;
+  border-radius: 40px;
 }
 
 
@@ -59,6 +64,8 @@ the div
 #map {
     height: 665px;
     width: 100%;
+    z-index: 1;
+    position: relative;
   }
 
   .info-window p {
@@ -75,7 +82,7 @@ html, body {
   height: 100%;
   margin: 0;
   padding: 0;
-  background-color: ghostwhite;
+
 }
 
 #dropdown {
@@ -90,10 +97,45 @@ html, body {
   padding-left: 10px;
 }
 
-.predictionbar {
-  background-color:red;
-  margin: 3px;
-  width: 15px;
-  float: left;
-  border-radius: 2px;
+
+
+/*Added code to style buttons and position translate element*/
+#bike-stand-buttons{
+  text-align: center;
 }
+
+.btn{
+  border-radius: 50px;
+  width: 100px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;  text-align: center;
+  padding: 10px;
+  align-items: center;
+  height: 50px;
+}
+
+#btn1{
+  position: absolute;
+  right: 100;
+  top : 0;
+  z-index: 100;
+  background-color: white;
+}
+
+#btn2{
+  position: absolute;
+  right: 0;
+  top: 0;
+  z-index: 101;
+  background-color: white;
+}
+
+#google_translate_element {
+  position: fixed;
+  bottom: 10px;
+  right: 10px;
+}
+
+/*End of added code*/

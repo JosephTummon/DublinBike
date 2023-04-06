@@ -6,7 +6,6 @@ import requests
 import time
 import simplejson as json
 from datetime import datetime
-import pickle
 
 # Database configuration
 URI = "dbbikes2.cytgvbje9wgu.us-east-1.rds.amazonaws.com"
@@ -15,10 +14,6 @@ DB = "dbbikes2"
 USER = "admin"
 PASSWORD = "DublinBikes1"
 # engine = create_engine("mysql+mysqldb://{}:{}@{}:{}/{}".format(USER, PASSWORD, URI, PORT, DB), echo=True)
-
-# opening pickle file with pretrained model
-with open('MLModel/model.pkl', 'rb') as handle:
-    model = pickle.load(handle)
 
 # Initialize Flask app
 app = Flask("__name__")
@@ -41,12 +36,8 @@ def get_stations():
         # Loop through each station in the JSON object and extract the necessary values
         vals = []
         for station in stations:
-            predictions = model.predict([[1, 1]]).tolist()[0]
-            for i in range(8):
-                name = "prediction" + str(i)
-                station[name] = predictions
-            vals.append((station.get('number'), station.get('available_bikes'), station.get('available_bike_stands'), station.get('status'), datetime.timestamp(datetime.now()), predictions))
-        #print('#found {} Availability {}'.format(len(vals), vals))
+            vals.append((station.get('number'), station.get('available_bikes'), station.get('available_bike_stands'), station.get('status'), datetime.timestamp(datetime.now())))
+        print('#found {} Availability {}'.format(len(vals), vals))
     
         return stations
     except Exception as e:
@@ -66,7 +57,7 @@ def get_weather():
         weather = json.loads(text)
         # Extract the necessary values from the JSON object
         vals = (weather["weather"][0]["main"], weather["weather"][0]["description"], weather["main"]["temp"], weather["visibility"], weather["wind"]["speed"], weather["wind"]["deg"], weather["clouds"]["all"], datetime.timestamp(datetime.now()))
-        #print('#found {} Availability {}'.format(len(vals), vals))
+        print('#found {} Availability {}'.format(len(vals), vals))
         return weather
     except Exception as e:
         print(traceback.format_exc())
@@ -78,7 +69,8 @@ def update_data():
         try:
             # Call the get_stations function and update the stations variable
             stations = get_stations()
-            #print("Data updated at {}".format(datetime.now()))
+            weather = get_weather()
+            print("Data updated at {}".format(datetime.now()))
             # Sleep for 30 seconds before calling the function again
             time.sleep(30)
         except Exception as e:
@@ -86,21 +78,8 @@ def update_data():
             print("Error updating data: {}".format(e))
             # Sleep for 30 seconds before calling the function again
             time.sleep(30)
-        return stations
+        return stations, weather
 
-@app.route("/predict")
-def get_predictions():
-    predicted_data = {}
-    current_hour = 1
-    current_day = 2
-    for i in range(1, 116):
-        toAdd = {}
-        for j in range(1, 7):
-            toAdd[j] = model.predict([[current_day, current_hour]]).tolist()
-        predicted_data[i] = toAdd
-
-
-    return jsonify(predicted_data)
 
 if __name__ == "__main__":
     # Start a new thread to continuously update the data

@@ -11,19 +11,44 @@ function initMap() {
   map = new google.maps.Map(document.getElementById("map"), {
     center: dublin,
     zoom: 14,
+    mapId: "85ad236e6c8c62c4",
   });
 
+  // Requesting user location and adding their marker to map
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(position => {
+      const userLocation = {
+        lat: position.coords.latitude,
+        lng: position.coords.longitude
+      };
+      // Add a marker at the user's location
+      new google.maps.Marker({
+        position: userLocation,
+        map: map
+      });
+    }, () => {
+      // Handle errors
+      alert("Error: The Geolocation service failed.");
+    });
+  } else {
+    // Browser doesn't support Geolocation
+    alert("Error: Your browser doesn't support geolocation.");
+  }
+
+
+
+
+
+
   // Fetch station data and display markers and drop-down options
-  fetchStationData();
+  fetchStationData(true);
   // Fetch weather data 
   fetchWeather();
-  // Fetch Prediction Data
-  fetchPredictedData();
   // Update station data every 30 seconds
-  setInterval(fetchStationData, 30000);
+  setInterval(fetchStationData, 35000);
 
 
-// fetch stations
+// Fetch Stations
 function fetchStationData() {
   fetch("/stations") 
     .then((response) => response.json())
@@ -33,15 +58,8 @@ function fetchStationData() {
       addMarkers(data);
     });
 }
-// fet predicted data
-function fetchPredictedData() {
-  fetch("/predict")
-  .then((response) => response.json())
-  .then((datap) => {
-    console.log(datap[1])
-  });
-}
 
+// Fetch Weather
 function fetchWeather() {
   fetch("/weather")
   .then((response) => response.json())
@@ -51,11 +69,11 @@ function fetchWeather() {
   });
 }
 
+// Displays the station data on the map as markers and info windows
 function displayWeather(data) {
-  console.log(data.weather.main);
-  var li = document.createElement(li);
-  li.innerHTML = data.weather.main;
-  document.getElementById("weather").appendChild(li);
+  var weatherDescription = data.weather[0].icon;
+  var div = document.getElementById("weather");
+  div.innerHTML = "<img src=https://openweathermap.org/img/wn/" + weatherDescription + ".png alt='icon' width='65' height='65'></img>"; 
 }
 
 // Display Dropdown in HTML
@@ -79,8 +97,7 @@ function displayDropDown(stations) {
   })
 }
 
-  
-  // ***** CODE FOR ADDING MARKERS AND INFO-WIDOW*****
+// ***** CODE FOR ADDING MARKERS AND INFO-WIDOW*****
 
   // Create arrays to store the markers and info windows
   const markerArray = [];
@@ -115,22 +132,21 @@ function createMarker(station) {
     bikes_free: station.available_bikes,
     free_stands: station.available_bike_stands,
   });  
-  marker.setLabel(station.available_bikes.toString());
+    marker.setLabel(station.available_bikes.toString());
+
+    //Toggle code to change num on station pin
+    const toggleButton1 = document.getElementById("btn1");
+    toggleButton1.addEventListener("click", () => {    
+        marker.setLabel(station.available_bikes.toString());});
+    const toggleButton2 = document.getElementById("btn2");
+    toggleButton2.addEventListener("click", () => {    
+        marker.setLabel(station.available_bike_stands.toString());});
+    //
   return marker;
 }
 
 // Creates a new info window object for the given station
 function createInfoWindow(station) {
-  // Variable to change height of all bars
-  const height = 5;
-  const height1 = station.prediction0 * height;
-  const height2 = station.prediction1 * height;
-  const height3 = station.prediction2 * height;
-  const height4 = station.prediction3 * height;
-  const height5 = station.prediction4 * height;
-  const height6 = station.prediction5 * height;
-  const height7 = station.prediction6 * height;
-  const height8 = station.prediction7 * height;
   const contentString = `
     <div class="info-window">
       <h1>${station.address}</h1>
@@ -138,16 +154,6 @@ function createInfoWindow(station) {
       <p>${station.available_bikes}</p>
       <h2>Available Stands:</h2>
       <p>${station.available_bike_stands}</p>
-      <div class="predictionChart">
-        <div class='predictionbar' style='height:${height1}px;'></div>
-        <div class='predictionbar' style='height:${height2}px;'></div>
-        <div class='predictionbar' style='height:${height3}px;'></div>
-        <div class='predictionbar' style='height:${height4}px;'></div>
-        <div class='predictionbar' style='height:${height5}px;'></div>
-        <div class='predictionbar' style='height:${height6}px;'></div>
-        <div class='predictionbar' style='height:${height7}px;'></div>
-        <div class='predictionbar' style='height:${height8}px;'></div>
-      </div>
     </div>
   `;
   const infoWindow = new google.maps.InfoWindow({
@@ -174,8 +180,6 @@ function attachInfoWindowListeners(marker, infoWindow) {
   });
 }
      
-
-
   // ***** CODE FOR DIRECTIONS *****
 
    // Instantiate a directions service.
@@ -274,4 +278,29 @@ function attachInfoWindowListeners(marker, infoWindow) {
 }
 }
 
+//code to change style of bike / stand selector buttons when clicked
+const b1= document.getElementById("btn1");
+const b2= document.getElementById("btn2");
+
+b1.addEventListener("click", () => {
+  b1.style.backgroundColor = "lightblue";
+  b1.style.color = "white";
+  b1.style.zIndex = "101";
+  b2.style.backgroundColor = "white";
+  b2.style.color = "black";
+  b2.style.zIndex = "100";
+})
+
+b2.addEventListener("click", () => {
+  b2.style.backgroundColor = "lightblue";
+  b2.style.color = "white";
+  b2.style.zIndex = "101";
+  b1.style.backgroundColor = "white";
+  b1.style.color = "black";
+  b1.style.zIndex = "100";
+
+
+})
+
 window.initMap = initMap;
+
