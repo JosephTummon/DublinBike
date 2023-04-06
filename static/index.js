@@ -12,7 +12,6 @@ function initMap() {
     center: dublin,
     zoom: 14,
     mapId: "85ad236e6c8c62c4",
-
   });
 
   // Requesting user location and adding their marker to map
@@ -45,13 +44,12 @@ function initMap() {
   fetchStationData(true);
   // Fetch weather data 
   fetchWeather();
-
   // Update station data every 30 seconds
-  setInterval(fetchStationData, 30000);
+  setInterval(fetchStationData, 35000);
 
 
-// fetch stations
-function fetchStationData(bool) {
+// Fetch Stations
+function fetchStationData() {
   fetch("/stations") 
     .then((response) => response.json())
     .then((data) => {
@@ -61,8 +59,7 @@ function fetchStationData(bool) {
     });
 }
 
-
-
+// Fetch Weather
 function fetchWeather() {
   fetch("/weather")
   .then((response) => response.json())
@@ -72,11 +69,11 @@ function fetchWeather() {
   });
 }
 
+// Displays the station data on the map as markers and info windows
 function displayWeather(data) {
-  console.log(data.weather.main);
-  var li = document.createElement(li);
-  li.innerHTML = data.weather.main;
-  document.getElementById("weather").appendChild(li);
+  var weatherDescription = data.weather[0].icon;
+  var div = document.getElementById("weather");
+  div.innerHTML = "<img src=https://openweathermap.org/img/wn/" + weatherDescription + ".png alt='icon' width='65' height='65'></img>"; 
 }
 
 // Display Dropdown in HTML
@@ -100,8 +97,7 @@ function displayDropDown(stations) {
   })
 }
 
-  
-  // ***** CODE FOR ADDING MARKERS AND INFO-WIDOW*****
+// ***** CODE FOR ADDING MARKERS AND INFO-WIDOW*****
 
   // Create arrays to store the markers and info windows
   const markerArray = [];
@@ -183,9 +179,7 @@ function attachInfoWindowListeners(marker, infoWindow) {
     currentInfoWindow = null;
   });
 }
-
-
-
+     
   // ***** CODE FOR DIRECTIONS *****
 
    // Instantiate a directions service.
