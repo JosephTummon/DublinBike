@@ -41,10 +41,12 @@ def get_stations():
         # Loop through each station in the JSON object and extract the necessary values
         vals = []
         for station in stations:
-            vals.append((station.get('number'), station.get('available_bikes'), station.get('available_bike_stands'), station.get('status'), datetime.timestamp(datetime.now())))
-            predictions = model.predict([[1, 1]]).tolist()
-            vals.append(predictions)
-        print('#found {} Availability {}'.format(len(vals), vals))
+            predictions = model.predict([[1, 1]]).tolist()[0]
+            for i in range(8):
+                name = "prediction" + str(i)
+                station[name] = predictions
+            vals.append((station.get('number'), station.get('available_bikes'), station.get('available_bike_stands'), station.get('status'), datetime.timestamp(datetime.now()), predictions))
+        #print('#found {} Availability {}'.format(len(vals), vals))
     
         return stations
     except Exception as e:
@@ -64,7 +66,7 @@ def get_weather():
         weather = json.loads(text)
         # Extract the necessary values from the JSON object
         vals = (weather["weather"][0]["main"], weather["weather"][0]["description"], weather["main"]["temp"], weather["visibility"], weather["wind"]["speed"], weather["wind"]["deg"], weather["clouds"]["all"], datetime.timestamp(datetime.now()))
-        print('#found {} Availability {}'.format(len(vals), vals))
+        #print('#found {} Availability {}'.format(len(vals), vals))
         return weather
     except Exception as e:
         print(traceback.format_exc())
@@ -76,7 +78,7 @@ def update_data():
         try:
             # Call the get_stations function and update the stations variable
             stations = get_stations()
-            print("Data updated at {}".format(datetime.now()))
+            #print("Data updated at {}".format(datetime.now()))
             # Sleep for 30 seconds before calling the function again
             time.sleep(30)
         except Exception as e:

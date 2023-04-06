@@ -121,6 +121,16 @@ function createMarker(station) {
 
 // Creates a new info window object for the given station
 function createInfoWindow(station) {
+  // Variable to change height of all bars
+  const height = 5;
+  const height1 = station.prediction0 * height;
+  const height2 = station.prediction1 * height;
+  const height3 = station.prediction2 * height;
+  const height4 = station.prediction3 * height;
+  const height5 = station.prediction4 * height;
+  const height6 = station.prediction5 * height;
+  const height7 = station.prediction6 * height;
+  const height8 = station.prediction7 * height;
   const contentString = `
     <div class="info-window">
       <h1>${station.address}</h1>
@@ -128,6 +138,16 @@ function createInfoWindow(station) {
       <p>${station.available_bikes}</p>
       <h2>Available Stands:</h2>
       <p>${station.available_bike_stands}</p>
+      <div class="predictionChart">
+        <div class='predictionbar' style='height:${height1}px;'></div>
+        <div class='predictionbar' style='height:${height2}px;'></div>
+        <div class='predictionbar' style='height:${height3}px;'></div>
+        <div class='predictionbar' style='height:${height4}px;'></div>
+        <div class='predictionbar' style='height:${height5}px;'></div>
+        <div class='predictionbar' style='height:${height6}px;'></div>
+        <div class='predictionbar' style='height:${height7}px;'></div>
+        <div class='predictionbar' style='height:${height8}px;'></div>
+      </div>
     </div>
   `;
   const infoWindow = new google.maps.InfoWindow({
