@@ -41,9 +41,9 @@ def get_stations():
         # Loop through each station in the JSON object and extract the necessary values
         vals = []
         for station in stations:
-            predictions = model.predict([[1, 1]]).tolist()[0]
-            for i in range(8):
+            for i in range(1, 9):
                 name = "prediction" + str(i)
+                predictions = model.predict([[station.get('number'), 3, datetime.now().hour + i]]).tolist()[0]
                 station[name] = predictions
             vals.append((station.get('number'), station.get('available_bikes'), station.get('available_bike_stands'), station.get('status'), datetime.timestamp(datetime.now()), predictions))
         #print('#found {} Availability {}'.format(len(vals), vals))
