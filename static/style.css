@@ -102,11 +102,12 @@ html, body {
 /*Added code to style buttons and position translate element*/
 #bike-stand-buttons{
   text-align: center;
+  
 }
 
 .btn{
-  border-radius: 50px;
   width: 100px;
+  border-radius: 50px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -114,21 +115,30 @@ html, body {
   padding: 10px;
   align-items: center;
   height: 50px;
+  cursor: pointer;
+  box-shadow: 0 0 2px 2px rgba(0,0,0,0.1);
+
 }
+
 
 #btn1{
   position: absolute;
-  right: 100;
+  right: 300;
   top : 0;
-  z-index: 100;
-  background-color: white;
+  z-index: 101;
+  color: white;
+  background-color: lightblue ;
+}
+
+.button-text{
+  color:inherit;
 }
 
 #btn2{
   position: absolute;
-  right: 0;
+  right: 200;
   top: 0;
-  z-index: 101;
+  z-index: 100;
   background-color: white;
 }
 

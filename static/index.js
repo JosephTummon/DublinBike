@@ -294,6 +294,7 @@ b1.addEventListener("click", () => {
 b2.addEventListener("click", () => {
   b2.style.backgroundColor = "lightblue";
   b2.style.color = "white";
+  b2.style.textDecorationColor = "white"
   b2.style.zIndex = "101";
   b1.style.backgroundColor = "white";
   b1.style.color = "black";
