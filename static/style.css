@@ -1,5 +1,4 @@
 /* HEADER */
-
 header {
   max-width: 1200px;
   width: 100%;
@@ -8,8 +7,14 @@ header {
   margin: auto;
   justify-content: space-between;
   align-items: center;
-  height: 74px;
+  /*height: 74px;*/
+  height: 80px;
   background-color: ghostwhite;
+  border: 1px solid black;
+}
+
+.logo {
+  flex: 1;
 }
 
 .logo h1 {
@@ -28,30 +33,45 @@ header {
   color: #00a4d3;
 }
 
+.search {
+  flex: 2;
+  margin-right: 90px;
+  
+}
 
 /* NAVIGATION */
 
-nav ul {
-  list-style-type: none;
-}
-
-nav li {
-  padding: 15px;
-  font-size: 20px;
-  display: inline-block;
-
-}
-
-nav li:hover {
-  text-decoration: underline;
+/*Added code to style buttons and position translate element*/
+.btn{
+  border-radius: 50px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;  text-align: center;
+  padding: 10px;
+  height: 50px;
   cursor: pointer;
 }
 
-nav a {
-  text-decoration: none;
-  color: black;
+.buttons {
+  display: flex;
+  order: 2;
+  margin-left: auto;
 }
 
+#btn1{
+  background-color: white;
+}
+
+#btn2{
+  background-color: white;
+}
+
+#weather {
+  display: flex;
+  order: 3;
+  margin-left: 20px;
+}
 
 /* Always set the map height explicitly to define the size of
 the div
@@ -96,41 +116,6 @@ html, body {
   width: 15px;
   float: left;
   border-radius: 2px;
-}
-
-
-
-/*Added code to style buttons and position translate element*/
-#bike-stand-buttons{
-  text-align: center;
-}
-
-.btn{
-  border-radius: 50px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;  text-align: center;
-  padding: 10px;
-  align-items: center;
-  height: 50px;
-  cursor: pointer;
-}
-
-#btn1{
-  position: absolute;
-  right: 300;
-  top : 0;
-  z-index: 100;
-  background-color: white;
-}
-
-#btn2{
-  position: absolute;
-  right: 200;
-  top: 0;
-  z-index: 101;
-  background-color: white;
 }
 
 #google_translate_element {

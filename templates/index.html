@@ -22,30 +22,23 @@
         <div class="logo">
             <h1><a class="l" href="http://127.0.0.1:5000/"><span id="db">DB</span>ikes</a></h1>
         </div>
-        <nav>
-            <ul id="weather">
-                <li><a href="#">Maps</a></li>
-                <li><a id="weather"></a></li>
-            </ul>
-
-          <!--Code for swapping nums on station pins-->
-          <div id = "bike-stand-buttons">
-            <div id = "btn1" class = "btn">
-              <i class="fa-solid fa-bicycle"></i>
-              <a class="button-text" >Available<br>Bikes</a>
-            </div>
-            <div id = "btn2" class = "btn">
-              <i class="fa-solid fa-square-parking"></i>
-              <a class="button-text" >Available<br>Stands</a>
-            </div>
-          <!--End of swapping nums code-->
-
+        <div class="search">
+          <input id="pac-input"class="controls"type="text"placeholder="Search Box"/>
+        </div>
+        <!--Code for swapping nums on station pins-->
+        <div class="buttons">
+          <div id = "btn1" class = "btn">
+            <i class="fa-solid fa-bicycle"></i>
+            <a class="button-text" >Available<br>Bikes</a>
           </div>
-        </nav>
+          <div id = "btn2" class = "btn">
+            <i class="fa-solid fa-square-parking"></i>
+            <a class="button-text">Available<br>Stands</a>
+          </div>
+        </div>
+        <!--End of swapping nums code-->
+        <div id="weather"></div>
     </header>
-    <div class="search-bar">
-
-    </div>
     <!--Map-->
     <div id="map"></div>
 
@@ -67,10 +60,17 @@
       </select>
     </div>
     <div id="warnings-panel"></div>
+    <ul class="geo-data">
+      <li>Full Address: <span id="location"></span></li>
+      <li>Postal Code: <span id="postal_code"></span></li>
+      <li>Country: <span id="country"></span></li>
+      <li>Latitude: <span id="lat"></span></li>
+      <li>Longitude: <span id="lon"></span></li>
+    </ul>
     
     <script
-      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDgYC8VXvS4UG9ApSUhS2v-ByddtHljFls&callback=initMap&v=weekly"
-      defer
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDgYC8VXvS4UG9ApSUhS2v-ByddtHljFls&libraries=places&callback=initMap&v=weekly"
+          async defer
     ></script>
   </body>
 </html>
