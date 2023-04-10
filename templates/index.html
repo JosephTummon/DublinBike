@@ -1,6 +1,6 @@
 <html>
   <head>
-    <title>Simple Map</title>
+    <title>Dublin Bikes</title>
     <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
     
     <!--
@@ -22,16 +22,24 @@
         <div class="logo">
             <h1><a class="l" href="http://127.0.0.1:5000/"><span id="db">DB</span>ikes</a></h1>
         </div>
-        <nav>
-            <ul id="weather">
-                <li><a href="#">Maps</a></li>
-                <li><a id="weather"></a></li>
-            </ul>
-        </nav>
+        <div class="search">
+          <input id="pac-input"class="controls"type="text"placeholder="  Search">
+          <span class="search-icon"><i class="fa fa-search"></i></span>
+        </div>
+        <!--Code for swapping nums on station pins-->
+        <div class="buttons">
+          <div id = "btn1" class = "btn active">
+            <i class="fa-solid fa-bicycle"></i>
+            <a class="button-text" >Available<br>Bikes</a>
+          </div>
+          <div id = "btn2" class = "btn">
+            <i class="fa-solid fa-square-parking"></i>
+            <a class="button-text">Available<br>Stands</a>
+          </div>
+        </div>
+        <!--End of swapping nums code-->
+        <div id="weather"></div>
     </header>
-    <div class="search-bar">
-
-    </div>
     <!--Map-->
     <div id="map"></div>
 
@@ -52,11 +60,10 @@
         <option value="" selected>Destination</option>
       </select>
     </div>
-    <div id="warnings-panel"></div>
-    
+    <div id="warnings-panel"></div>  
     <script
-      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDgYC8VXvS4UG9ApSUhS2v-ByddtHljFls&callback=initMap&v=weekly"
-      defer
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDgYC8VXvS4UG9ApSUhS2v-ByddtHljFls&libraries=places&callback=initMap&v=weekly"
+          async defer
     ></script>
   </body>
 </html>

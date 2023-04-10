@@ -1,5 +1,8 @@
-/* HEADER */
+body {
+  background-color: #f3f4f6;
+}
 
+/* HEADER */
 header {
   max-width: 1200px;
   width: 100%;
@@ -8,8 +11,13 @@ header {
   margin: auto;
   justify-content: space-between;
   align-items: center;
-  height: 74px;
+  /*height: 74px;*/
+  height: 80px;
   background-color: ghostwhite;
+}
+
+.logo {
+  flex: 1;
 }
 
 .logo h1 {
@@ -28,30 +36,87 @@ header {
   color: #00a4d3;
 }
 
+.search {
+  position: relative;
+  width: 300px; /* adjust as per your needs */
+  margin-right: 300px;
+}
+
+.search input[type="text"] {
+  padding-right: 30px; /* adjust as per your icon size */
+  width: 100%;
+  box-sizing: border-box;
+  border: 1px solid #ccc; /* add a border for the search box */
+  border-radius: 5px; /* add border-radius for rounded corners */
+  outline: none; /* remove default outline on focus */
+  height: 35px;
+  border-radius: 20px;
+  padding-left: 7px;
+}
+
+.search .search-icon {
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
+  height: 100%;
+  display: flex;
+  align-items: center;
+  padding: 0 10px;
+  pointer-events: none;
+}
+
+.search .search-icon i {
+  color: #aaa;
+  font-size: 16px;
+}
+
 
 /* NAVIGATION */
 
-nav ul {
-  list-style-type: none;
-}
-
-nav li {
-  padding: 15px;
-  font-size: 20px;
-  display: inline-block;
-
-}
-
-nav li:hover {
-  text-decoration: underline;
+/*Added code to style buttons and position translate element*/
+.btn{
+  border-radius: 50px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;  text-align: center;
+  padding: 10px;
+  height: 40px;
+  width: 100px;
   cursor: pointer;
 }
 
-nav a {
-  text-decoration: none;
-  color: black;
+.buttons {
+  display: flex;
+  order: 2;
+  margin-left: auto;
+  background-color: white;
+  border-radius: 50px;
 }
 
+.btn:hover {
+  background-color: #cbd5e1;
+  color: #38bdf8;
+}
+
+.btn:active {
+  font-size: 18px;
+} 
+
+#btn1.active {
+  background-color: #00a4d3;
+}
+
+#btn2.active {
+  background-color: #00a4d3;
+}
+
+#weather {
+  display: flex;
+  order: 3;
+  margin-left: 20px;
+}
 
 /* Always set the map height explicitly to define the size of
 the div
@@ -97,3 +162,11 @@ html, body {
   float: left;
   border-radius: 2px;
 }
+
+#google_translate_element {
+  position: fixed;
+  bottom: 10px;
+  right: 10px;
+}
+
+/*End of added code*/
