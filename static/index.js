@@ -450,7 +450,11 @@ function initMap() {
             nearest_marker = curr_marker;
         }
     }
-    map.panTo(nearest_marker.getPosition())
+    var infowindow = new google.maps.InfoWindow({
+        content: "Nearest station as crow flies"
+    });
+    infowindow.open(map, nearest_marker);
+    map.panTo(nearest_marker.getPosition());
 
 });
 });
