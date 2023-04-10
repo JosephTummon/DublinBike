@@ -251,7 +251,6 @@ async function initMap() {
   }
       
 
-
   // ***** CODE FOR DIRECTIONS *****
   const markerArray = [];
   // Instantiate a directions service.
