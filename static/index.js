@@ -1,6 +1,5 @@
 // Declare map and marker variables
 let map;
-let marker;
 let autocomplete;
 // Initialize and add the map
 async function initMap() {
@@ -102,13 +101,20 @@ async function initMap() {
 
   // Displays the station data on the map as markers and info windows
   function displayWeather(data) {
-    var weatherDescription = data.weather[0].icon;
-    var weatherDiv = document.getElementById("weather");
-    weatherDiv.innerHTML = "<img src=https://openweathermap.org/img/wn/" + weatherDescription + ".png alt='icon' width='65' height='65'>";
-
+    // Get icon of weather
+    var weatherIcon = data.weather[0].icon;
+    // Get temperature and convert temperature to Degrees Celcius
     var kelvin = data.main.temp;
     var celsius = Math.round((kelvin - 273.15) * 10) / 10;
-    weatherDiv.innerHTML += "<h1>" + celsius + "°C</h1>"; 
+    // Get city 
+    var city = data.name;
+    // Get description of weather
+    var weatherDescription = data.weather[0].description;
+
+    var weatherDiv = document.getElementById("weather");
+
+    weatherDiv.innerHTML += "<div class='tempIcon'><img src=https://openweathermap.org/img/wn/" + weatherIcon + ".png alt='icon' width='55' height='55'><h2 id='temperature'>" + celsius + "°C</h2></div>";
+    weatherDiv.innerHTML += "<div class='description'><h2>" + weatherDescription + "</h2></div>"; 
   }
 
   // Display Dropdown in HTML

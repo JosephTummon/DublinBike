@@ -11,8 +11,7 @@ header {
   margin: auto;
   justify-content: space-between;
   align-items: center;
-  /*height: 74px;*/
-  height: 80px;
+  height: 83px;
   background-color: ghostwhite;
 }
 
@@ -24,6 +23,7 @@ header {
   list-style-type: none;
   text-decoration: none;
   color: black;
+  font-size: 35px;
 }
 
 .l {
@@ -113,9 +113,46 @@ header {
 }
 
 #weather {
-  display: flex;
   order: 3;
   margin-left: 20px;
+  text-align: center; 
+  width: 115px;
+  height: 60px; /* set the height */ /* reduce the row gap */
+  border-radius: 40px;
+}
+
+#weather:hover {
+  background-color: #cbd5e1;
+  color: #38bdf8;
+}
+
+#btn1.active {
+  background-color: #00a4d3;
+}
+
+#btn2.active {
+  background-color: #00a4d3;
+}
+
+.tempIcon{
+  display: flex;
+  justify-content: space-between;
+}
+
+#temperature {
+  font-size: 20px;
+}
+
+.description {
+  margin-top: 0px;
+  padding: 0px;
+}
+
+.description h2 {
+  font-size: 10px;
+  top: 51px;
+  right: 149px;
+  position: absolute;
 }
 
 /* Always set the map height explicitly to define the size of
