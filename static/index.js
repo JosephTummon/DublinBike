@@ -13,9 +13,11 @@ async function initMap() {
     zoom: 14,
   });
 
+<<<<<<< HEAD
   // Create the search box and link it to the UI element.
   const input = document.getElementById("pac-input");
   const searchBox = new google.maps.places.SearchBox(input);
+=======
 
   if (navigator.geolocation) {
     document.getElementById('center-btn').addEventListener('click', function() {
@@ -89,6 +91,7 @@ async function initMap() {
 
   // Fetch weather data 
   fetchWeather();
+>>>>>>> Center-on-User
 
   // Bias the SearchBox results towards current map's viewport.
   map.addListener("bounds_changed", () => {
