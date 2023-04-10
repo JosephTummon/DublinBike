@@ -33,10 +33,40 @@ header {
 }
 
 .search {
-  flex: 2;
-  margin-right: 90px;
-  
+  position: relative;
+  width: 300px; /* adjust as per your needs */
+  margin-right: 300px;
 }
+
+.search input[type="text"] {
+  padding-right: 30px; /* adjust as per your icon size */
+  width: 100%;
+  box-sizing: border-box;
+  border: 1px solid #ccc; /* add a border for the search box */
+  border-radius: 5px; /* add border-radius for rounded corners */
+  outline: none; /* remove default outline on focus */
+  height: 35px;
+  border-radius: 20px;
+  padding-left: 7px;
+}
+
+.search .search-icon {
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
+  height: 100%;
+  display: flex;
+  align-items: center;
+  padding: 0 10px;
+  pointer-events: none;
+}
+
+.search .search-icon i {
+  color: #aaa;
+  font-size: 16px;
+}
+
 
 /* NAVIGATION */
 
