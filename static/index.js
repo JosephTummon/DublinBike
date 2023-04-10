@@ -396,18 +396,18 @@ function initMap() {
   if (navigator.geolocation) {
     document.getElementById('center-btn').addEventListener('click', function() {
       navigator.geolocation.getCurrentPosition(function(position) {
-        var pos = {
+        var user_pos = {
           lat: position.coords.latitude,
           lng: position.coords.longitude
         };
 
-        map.panTo(pos);
+        map.panTo(user_pos);
 
         if (marker) {
-          marker.setPosition(pos);
+          marker.setPosition(user_pos);
         } else {
           marker = new google.maps.Marker({
-            position: pos,
+            position: user_pos,
             map: map
           });
         }
@@ -420,8 +420,45 @@ function initMap() {
 
 
 
+
+
   // Fetch station data and display markers and drop-down options
   fetchStationData();
+
+  //nearest station as crow flies
+  document.getElementById('nearest-btn').addEventListener('click', function() {
+    //get user pos      
+    navigator.geolocation.getCurrentPosition(function(position) {
+        var user_pos = {
+            lat: position.coords.latitude,
+            lng: position.coords.longitude
+        };  
+
+    var nearest_marker;
+    var shortest_dist = Infinity;
+
+    for (let i = 0; i < markerArray.length; i++) {
+        //window.alert("current marker is ");
+        var curr_marker =  markerArray[i];
+        var curr_lat = curr_marker.getPosition().lat();
+        const curr_lng = curr_marker.getPosition().lng();
+        var dist_x = curr_lat - user_pos.lat;
+        var dist_y = curr_lng - user_pos.lng;
+        var dist = (dist_x**2) + (dist_y**2)
+        if (dist < shortest_dist){
+            shortest_dist = dist;
+            nearest_marker = curr_marker;
+        }
+    }
+    map.panTo(nearest_marker.getPosition())
+
+});
+});
+//end of nearest station func
+
+
+
+
   // Fetch weather data 
   fetchWeather();
 
@@ -698,4 +735,3 @@ b2.addEventListener("click", () => {
 })
 
 window.initMap = initMap;
-
