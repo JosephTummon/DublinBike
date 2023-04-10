@@ -1,3 +1,7 @@
+body {
+  background-color: #f3f4f6;
+}
+
 /* HEADER */
 header {
   max-width: 1200px;
@@ -78,7 +82,8 @@ header {
   justify-content: center;
   align-items: center;  text-align: center;
   padding: 10px;
-  height: 50px;
+  height: 40px;
+  width: 100px;
   cursor: pointer;
 }
 
@@ -86,14 +91,25 @@ header {
   display: flex;
   order: 2;
   margin-left: auto;
+  background-color: white;
+  border-radius: 50px;
 }
 
-#btn1{
-  background-color: white;
+.btn:hover {
+  background-color: #cbd5e1;
+  color: #38bdf8;
 }
 
-#btn2{
-  background-color: white;
+.btn:active {
+  font-size: 18px;
+} 
+
+#btn1.active {
+  background-color: #00a4d3;
+}
+
+#btn2.active {
+  background-color: #00a4d3;
 }
 
 #weather {
