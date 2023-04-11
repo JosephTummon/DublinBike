@@ -207,3 +207,24 @@ html, body {
 }
 
 /*End of added code*/
+
+#compass-div{
+  position: relative;
+}
+
+#compass {
+  position: absolute;
+  top: 0%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  transform: rotate(-45deg);
+
+}
+
+#speedometer {
+  position: relative;
+  display: block;
+  margin: 0 auto;
+  text-align: center;
+  bottom: 0%;
+}

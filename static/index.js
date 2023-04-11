@@ -38,6 +38,8 @@ async function initMap() {
     // Browser doesn't support Geolocation
     alert("no location found");
 }
+
+
   
   // Create the search box and link it to the UI element.
   const input = document.getElementById("pac-input");
@@ -122,6 +124,18 @@ async function initMap() {
 
     weatherDiv.innerHTML += "<div class='tempIcon'><img src=https://openweathermap.org/img/wn/" + weatherIcon + ".png alt='icon' width='55' height='55'><h2 id='temperature'>" + celsius + "°C</h2></div>";
     weatherDiv.innerHTML += "<div class='description'><h2>" + weatherDescription + "</h2></div>"; 
+
+
+    //coding wind compass
+    console.log(data.wind);
+console.log(data.wind.speed);
+    var wind_dir = data.wind.deg -45;
+    const compass = document.getElementById("compass");
+    compass.style.transform = 'rotate(' + wind_dir + 'deg)';
+    var wind_speed = (data.wind.speed);
+    const speedometer = document.getElementById("speedometer");
+    speedometer.innerHTML = wind_speed+" km/h"
+
   }
 
   // Display Dropdown in HTML

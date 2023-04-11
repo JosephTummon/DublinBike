@@ -19,6 +19,11 @@
   <body>
     <!--Header-->
     <header>
+      <div id = "compass-div">
+        <i id = "compass" class="fa-solid fa-location-arrow"></i>
+        <a id = "speedometer">empty</a>
+
+      </div>
         <div class="logo">
             <h1><a class="l" href="http://127.0.0.1:5000/"><span id="db">DB</span>ikes</a></h1>
         </div>
@@ -26,6 +31,9 @@
           <input id="pac-input"class="controls"type="text"placeholder="  Search">
           <span class="search-icon"><i class="fa fa-search"></i></span>
         </div>
+
+
+
         <!--Code for swapping nums on station pins-->
         <div class="buttons">
           <div id = "btn1" class = "btn active">
@@ -64,6 +72,8 @@
       </select>
     </div>
     <div id="warnings-panel"></div>  
+    
+    
     <script
       src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDgYC8VXvS4UG9ApSUhS2v-ByddtHljFls&libraries=places&callback=initMap&v=weekly"
       defer
