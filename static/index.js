@@ -13,6 +13,9 @@ async function initMap() {
     zoom: 14,
   });
 
+
+
+
    // Requesting user location and adding their marker to map
    if (navigator.geolocation) {
     document.getElementById('center-btn').addEventListener('click', function() {
@@ -21,8 +24,6 @@ async function initMap() {
           lat: position.coords.latitude,
           lng: position.coords.longitude
         };
-
-        map.panTo(user_pos);
 
         if (marker) {
           marker.setPosition(user_pos);
@@ -36,7 +37,7 @@ async function initMap() {
     });
   } else {
     // Browser doesn't support Geolocation
-    alert("no location found");
+    alert("no user location found");
 }
 
 
@@ -86,9 +87,6 @@ async function initMap() {
   await fetchWeatherData();
 
    // Update station data every 60 seconds
-
-
-
  
 
   // fetch stations
@@ -127,8 +125,6 @@ async function initMap() {
 
 
     //coding wind compass
-    console.log(data.wind);
-console.log(data.wind.speed);
     var wind_dir = data.wind.deg -45;
     const compass = document.getElementById("compass");
     compass.style.transform = 'rotate(' + wind_dir + 'deg)';
@@ -166,7 +162,7 @@ console.log(data.wind.speed);
   // Displays the station data on the map as markers and info windows
   function addMarkers(stations) {
     // Create arrays to store the markers and info windows
-    const markerArray = [];
+    var markerArray = [];
     const infoWindowArray = [];
     // Loop through each station and create a marker and info window for it
     for (const station of stations) {
@@ -272,7 +268,7 @@ console.log(data.wind.speed);
       
 
   // ***** CODE FOR DIRECTIONS *****
-  const markerArray = [];
+  const markerArray2 = [];
   // Instantiate a directions service.
   const directionsService = new google.maps.DirectionsService();  
   // Create a renderer for directions and bind it to the map.
@@ -281,40 +277,34 @@ console.log(data.wind.speed);
   const stepDisplay = new google.maps.InfoWindow();
 
   // Display the route between the initial start and end selections.
-  calculateAndDisplayRoute(
-    directionsRenderer,
-    directionsService,
-    markerArray,
-    stepDisplay,
-    map
-  );
+
 
   // Listen to change events from the start and end lists.
   const onChangeHandler = function () {
     calculateAndDisplayRoute(
       directionsRenderer,
       directionsService,
-      markerArray,
+      markerArray2,
       stepDisplay,
       map
     );
   };
 
-  document.getElementById("start").addEventListener("change", onChangeHandler);
+  //document.getElementById("start").addEventListener("change", onChangeHandler);
   document.getElementById("end").addEventListener("change", onChangeHandler);
 }
 
 function calculateAndDisplayRoute(
   directionsRenderer,
   directionsService,
-  markerArray,
+  markerArray2,
   stepDisplay,
   map
 ) {
   // First, remove any existing markers from the map.
-  for (let i = 0; i < markerArray.length; i++) {
+  /*for (let i = 0; i < markerArray.length; i++) {
     markerArray[i].setMap(null);
-  }
+  }*/
 
   // Retrieve the start and end locations and create a DirectionsRequest using
   // WALKING directions.
@@ -330,22 +320,22 @@ function calculateAndDisplayRoute(
       document.getElementById("warnings-panel").innerHTML =
         "<b>" + result.routes[0].warnings + "</b>";
       directionsRenderer.setDirections(result);
-      showSteps(result, markerArray, stepDisplay, map);
+      showSteps(result, markerArray2, stepDisplay, map);
     })
     .catch((e) => {
       window.alert("Directions request failed due to " + e);
     });
 }
 
-function showSteps(directionResult, markerArray, stepDisplay, map) {
+function showSteps(directionResult, markerArray2, stepDisplay, map) {
   // For each step, place a marker, and add the text to the marker's infowindow.
   // Also attach the marker to an array so we can keep track of it and remove it
   // when calculating new routes.
   const myRoute = directionResult.routes[0].legs[0];
 
   for (let i = 0; i < myRoute.steps.length; i++) {
-    const marker = (markerArray[i] =
-      markerArray[i] || new google.maps.Marker());
+    const marker = (markerArray2[i] =
+      markerArray2[i] || new google.maps.Marker());
 
     marker.setMap(map);
     marker.setPosition(myRoute.steps[i].start_location);
@@ -387,9 +377,12 @@ function attachInstructionText(stepDisplay, marker, text, map) {
     b1.style.backgroundColor = "white";
     b1.style.color = "black";
     b1.style.zIndex = "100";
-
-
   })
+
+ 
+  
+  
+
 }
 
 window.initMap = initMap;
