@@ -13,6 +13,32 @@ async function initMap() {
     zoom: 14,
   });
 
+   // Requesting user location and adding their marker to map
+   if (navigator.geolocation) {
+    document.getElementById('center-btn').addEventListener('click', function() {
+      navigator.geolocation.getCurrentPosition(function(position) {
+        var user_pos = {
+          lat: position.coords.latitude,
+          lng: position.coords.longitude
+        };
+
+        map.panTo(user_pos);
+
+        if (marker) {
+          marker.setPosition(user_pos);
+        } else {
+          var marker = new google.maps.Marker({
+            position: user_pos,
+            map: map
+          });
+        }
+      });
+    });
+  } else {
+    // Browser doesn't support Geolocation
+    alert("no location found");
+}
+  
   // Create the search box and link it to the UI element.
   const input = document.getElementById("pac-input");
   const searchBox = new google.maps.places.SearchBox(input);
@@ -61,27 +87,7 @@ async function initMap() {
 
 
 
-  // Requesting user location and adding their marker to map
-  if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition(position => {
-      const userLocation = {
-        lat: position.coords.latitude,
-        lng: position.coords.longitude
-      };
-      // Add a marker at the user's location
-      new google.maps.Marker({
-        position: userLocation,
-        map: map
-      });
-    }, () => {
-      // Handle errors
-      alert("Error: The Geolocation service failed.");
-    });
-  } else {
-    // Browser doesn't support Geolocation
-    alert("Error: Your browser doesn't support geolocation.");
-  }
-
+ 
 
   // fetch stations
   async function fetchStationData() {
@@ -373,3 +379,4 @@ function attachInstructionText(stepDisplay, marker, text, map) {
 }
 
 window.initMap = initMap;
+
