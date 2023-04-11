@@ -211,25 +211,31 @@ html, body {
 #compass-div{
   position: absolute;
   top: 0;
-  left: 0;
-  width: 15;
+  right: 0;
+  
+
 }
 
 #compass {
   position: absolute;
   top: 10;
-  left: 20;
+  right: 20;
   transform: translate(-50%, -50%);
   transform: rotate(-45deg);
-
 }
 
 #speedometer {
   position: absolute;
   top: 30px;
-  left: 10;
+  right: 10;
   display: block;
   margin: 0 auto;
   text-align: center;
   bottom: 0%;
+  
+
+}
+
+#blue {
+  background-color: blue;
 }
