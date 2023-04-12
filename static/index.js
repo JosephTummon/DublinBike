@@ -817,6 +817,7 @@ console.log(data.wind.speed);
       document.getElementById("pin").style.color = "lightblue";
       document.getElementById("dest_marker").style.color = "lightblue";
       document.getElementById("weather").style.backgroundColor = "lightblue";
+      document.getElementById("weather").style.color= "black";
 
 
       b1.style.backgroundColor = "lightblue";
@@ -864,6 +865,8 @@ console.log(data.wind.speed);
       document.getElementById("pin").style.color = "lightgreen";
       document.getElementById("dest_marker").style.color = "lightgreen";
       document.getElementById("weather").style.backgroundColor = "lightgreen";
+      document.getElementById("weather").style.color= "white";
+
 
      
       b1.addEventListener("click", () => {
