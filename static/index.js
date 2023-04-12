@@ -5,15 +5,46 @@ var markerArray = [];
  
 // Initialize and add the map
 async function initMap() {
+
   // Set the coordinates for the center of the map
   const dublin = { lat: 53.350140, lng: -6.266155 }
-
+  
   // Create a new map instance and set its center and zoom level
   map = new google.maps.Map(document.getElementById("map"), {
     center: dublin,
     zoom: 14,
+    mapTypeControl: false, //removes satellite button
   });
 
+  
+   // Requesting user location and adding their marker to map
+   if (navigator.geolocation) {
+    document.getElementById('center-btn').addEventListener('click', function() {
+      navigator.geolocation.getCurrentPosition(function(position) {
+        var user_pos = {
+          lat: position.coords.latitude,
+          lng: position.coords.longitude
+        };
+
+        map.panTo(user_pos);
+
+        if (marker) {
+          marker.setPosition(user_pos);
+        } else {
+          var marker = new google.maps.Marker({
+            position: user_pos,
+            map: map
+          });
+        }
+      });
+    });
+  } else {
+    // Browser doesn't support Geolocation
+    alert("no location found");
+}
+
+
+  
   // Create the search box and link it to the UI element.
   const input = document.getElementById("pac-input");
   const searchBox = new google.maps.places.SearchBox(input);
@@ -62,27 +93,7 @@ async function initMap() {
 
 
 
-  // Requesting user location and adding their marker to map
-  if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition(position => {
-      const userLocation = {
-        lat: position.coords.latitude,
-        lng: position.coords.longitude
-      };
-      // Add a marker at the user's location
-      new google.maps.Marker({
-        position: userLocation,
-        map: map
-      });
-    }, () => {
-      // Handle errors
-      alert("Error: The Geolocation service failed.");
-    });
-  } else {
-    // Browser doesn't support Geolocation
-    alert("Error: Your browser doesn't support geolocation.");
-  }
-
+ 
 
   // fetch stations
   async function fetchStationData() {
@@ -117,6 +128,16 @@ async function initMap() {
 
     weatherDiv.innerHTML += "<div class='tempIcon'><img src=https://openweathermap.org/img/wn/" + weatherIcon + ".png alt='icon' width='55' height='55'><h2 id='temperature'>" + celsius + "°C</h2></div>";
     weatherDiv.innerHTML += "<div class='description'><h2>" + weatherDescription + "</h2></div>"; 
+
+
+    //coding wind compass
+    var wind_dir = data.wind.deg -45;
+    const compass = document.getElementById("compass");
+    compass.style.transform = 'rotate(' + wind_dir + 'deg)';
+    var wind_speed = (data.wind.speed);
+    const speedometer = document.getElementById("speedometer");
+    speedometer.innerHTML = wind_speed+" km/h"
+
   }
 
   // Display Dropdown in HTML
@@ -142,8 +163,7 @@ async function initMap() {
 
     
   // ***** CODE FOR ADDING MARKERS AND INFO-WIDOW*****
-    
-  
+
   // Displays the station data on the map as markers and info windows
   function addMarkers(stations) {
     // Create arrays to store the markers and info windows
@@ -166,13 +186,23 @@ async function initMap() {
   // Creates a new marker object for the given station and adds it to the map
   function createMarker(station) {
     var myLatlng = { lat: station.position.lat, lng: station.position.lng };
-    const marker = new google.maps.Marker({
+    
+
+
+    var marker = new google.maps.Marker({
       position: myLatlng,
       map: map,
+      icon: {
+        url: 'data:image/svg+xml;charset=UTF-8,' +
+          encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"><circle cx="16" cy="16" r="16" stroke="#000000" stroke-width="1" fill="#FFFFFF"/></svg>'),
+        scaledSize: new google.maps.Size(32, 32),
+        anchor: new google.maps.Point(16, 16)
+      },
       title: station.address,
       station_number: station.number,
       bikes_free: station.available_bikes,
       free_stands: station.available_bike_stands,
+      
     });  
     marker.setLabel(station.available_bikes.toString());
     //Toggle code to change num on station pin
@@ -283,6 +313,592 @@ async function initMap() {
 
   document.getElementById("start").addEventListener("change", onChangeHandler);
   document.getElementById("end").addEventListener("change", onChangeHandler);
+
+
+  ////// light/darkmode code /////////
+  var is_light = true;
+  var light_map = [
+    {
+        "featureType": "administrative",
+        "elementType": "labels.text.fill",
+        "stylers": [
+            {
+                "color": "#444444"
+            }
+        ]
+    },
+    {
+        "featureType": "landscape",
+        "elementType": "all",
+        "stylers": [
+            {
+                "color": "#f2f2f2"
+            }
+        ]
+    },
+    {
+        "featureType": "landscape.man_made",
+        "elementType": "all",
+        "stylers": [
+            {
+                "color": "#e0ffff"
+            },
+            {
+                "visibility": "on"
+            }
+        ]
+    },
+    {
+        "featureType": "landscape.natural",
+        "elementType": "all",
+        "stylers": [
+            {
+                "color": "#ff0000"
+            },
+            {
+                "visibility": "off"
+            }
+        ]
+    },
+    {
+        "featureType": "landscape.natural.landcover",
+        "elementType": "all",
+        "stylers": [
+            {
+                "color": "#5ec2c0"
+            },
+            {
+                "visibility": "on"
+            },
+            {
+                "lightness": "-8"
+            }
+        ]
+    },
+    {
+        "featureType": "poi",
+        "elementType": "all",
+        "stylers": [
+            {
+                "visibility": "on"
+            }
+        ]
+    },
+    {
+        "featureType": "poi",
+        "elementType": "geometry",
+        "stylers": [
+            {
+                "color": "#0d6372"
+            }
+        ]
+    },
+    {
+        "featureType": "poi",
+        "elementType": "labels.icon",
+        "stylers": [
+            {
+                "visibility": "on"
+            },
+            {
+                "color": "#5e99c2"
+            }
+        ]
+    },
+    {
+        "featureType": "road",
+        "elementType": "all",
+        "stylers": [
+            {
+                "saturation": -100
+            },
+            {
+                "lightness": "100"
+            },
+            {
+                "color": "#9bc3ca"
+            }
+        ]
+    },
+    {
+        "featureType": "road.highway",
+        "elementType": "all",
+        "stylers": [
+            {
+                "visibility": "simplified"
+            }
+        ]
+    },
+    {
+        "featureType": "road.arterial",
+        "elementType": "labels.icon",
+        "stylers": [
+            {
+                "visibility": "off"
+            }
+        ]
+    },
+    {
+        "featureType": "transit",
+        "elementType": "all",
+        "stylers": [
+            {
+                "visibility": "off"
+            }
+        ]
+    },
+    {
+        "featureType": "water",
+        "elementType": "all",
+        "stylers": [
+            {
+                "color": "#46bcec"
+            },
+            {
+                "visibility": "on"
+            }
+        ]
+    }
+  ];
+  map.set("styles", light_map);
+  var dark_map = [
+    {
+        "featureType": "all",
+        "elementType": "geometry",
+        "stylers": [
+            {
+                "color": "#09b275"
+            }
+        ]
+    },
+    {
+        "featureType": "all",
+        "elementType": "labels.text",
+        "stylers": [
+            {
+                "weight": "0.01"
+            },
+            {
+                "saturation": "100"
+            },
+            {
+                "lightness": "100"
+            },
+            {
+                "gamma": "5.15"
+            }
+        ]
+    },
+    {
+        "featureType": "all",
+        "elementType": "labels.icon",
+        "stylers": [
+            {
+                "color": "#286b40"
+            }
+        ]
+    },
+    {
+        "featureType": "administrative",
+        "elementType": "all",
+        "stylers": [
+            {
+                "color": "#000000"
+            },
+            {
+                "visibility": "off"
+            }
+        ]
+    },
+    {
+        "featureType": "administrative",
+        "elementType": "labels",
+        "stylers": [
+            {
+                "visibility": "on"
+            },
+            {
+                "weight": "1"
+            }
+        ]
+    },
+    {
+        "featureType": "administrative",
+        "elementType": "labels.text.fill",
+        "stylers": [
+            {
+                "color": "#ffffff"
+            },
+            {
+                "weight": "0.01"
+            }
+        ]
+    },
+    {
+        "featureType": "administrative",
+        "elementType": "labels.text.stroke",
+        "stylers": [
+            {
+                "visibility": "off"
+            },
+            {
+                "saturation": "-100"
+            }
+        ]
+    },
+    {
+        "featureType": "landscape",
+        "elementType": "all",
+        "stylers": [
+            {
+                "visibility": "off"
+            },
+            {
+                "color": "#000000"
+            }
+        ]
+    },
+    {
+        "featureType": "landscape.man_made",
+        "elementType": "all",
+        "stylers": [
+            {
+                "visibility": "off"
+            },
+            {
+                "color": "#000000"
+            }
+        ]
+    },
+    {
+        "featureType": "landscape.man_made",
+        "elementType": "geometry",
+        "stylers": [
+            {
+                "visibility": "on"
+            },
+            {
+                "lightness": "-35"
+            }
+        ]
+    },
+    {
+        "featureType": "landscape.natural.landcover",
+        "elementType": "all",
+        "stylers": [
+            {
+                "color": "#000000"
+            },
+            {
+                "visibility": "on"
+            }
+        ]
+    },
+    {
+        "featureType": "landscape.natural.landcover",
+        "elementType": "geometry",
+        "stylers": [
+            {
+                "color": "#000000"
+            },
+            {
+                "visibility": "on"
+            }
+        ]
+    },
+    {
+        "featureType": "poi",
+        "elementType": "all",
+        "stylers": [
+            {
+                "visibility": "on"
+            },
+            {
+                "saturation": "100"
+            },
+            {
+                "lightness": "17"
+            }
+        ]
+    },
+    {
+        "featureType": "poi",
+        "elementType": "geometry",
+        "stylers": [
+            {
+                "visibility": "on"
+            },
+            {
+                "color": "#0f8f61"
+            },
+            {
+                "lightness": "-48"
+            },
+            {
+                "saturation": "67"
+            }
+        ]
+    },
+    {
+        "featureType": "poi",
+        "elementType": "labels.icon",
+        "stylers": [
+            {
+                "visibility": "on"
+            }
+        ]
+    },
+    {
+        "featureType": "poi.park",
+        "elementType": "geometry",
+        "stylers": [
+            {
+                "color": "#0f8f61"
+            },
+            {
+                "visibility": "off"
+            }
+        ]
+    },
+    {
+        "featureType": "road",
+        "elementType": "all",
+        "stylers": [
+            {
+                "saturation": -100
+            },
+            {
+                "lightness": "100"
+            },
+            {
+                "color": "#0f8f61"
+            }
+        ]
+    },
+    {
+        "featureType": "road",
+        "elementType": "geometry.stroke",
+        "stylers": [
+            {
+                "visibility": "off"
+            }
+        ]
+    },
+    {
+        "featureType": "road",
+        "elementType": "labels.text.fill",
+        "stylers": [
+            {
+                "color": "#ffffff"
+            },
+            {
+                "weight": "1.49"
+            }
+        ]
+    },
+    {
+        "featureType": "road",
+        "elementType": "labels.text.stroke",
+        "stylers": [
+            {
+                "color": "#ffffff"
+            },
+            {
+                "visibility": "off"
+            }
+        ]
+    },
+    {
+        "featureType": "road.highway",
+        "elementType": "geometry.stroke",
+        "stylers": [
+            {
+                "gamma": "5.09"
+            },
+            {
+                "saturation": "30"
+            }
+        ]
+    },
+    {
+        "featureType": "road.highway",
+        "elementType": "labels",
+        "stylers": [
+            {
+                "visibility": "on"
+            }
+        ]
+    },
+    {
+        "featureType": "road.highway",
+        "elementType": "labels.text",
+        "stylers": [
+            {
+                "visibility": "simplified"
+            },
+            {
+                "invert_lightness": true
+            }
+        ]
+    },
+    {
+        "featureType": "road.highway",
+        "elementType": "labels.text.stroke",
+        "stylers": [
+            {
+                "visibility": "on"
+            },
+            {
+                "weight": "6.63"
+            },
+            {
+                "invert_lightness": true
+            }
+        ]
+    },
+    {
+        "featureType": "road.highway",
+        "elementType": "labels.icon",
+        "stylers": [
+            {
+                "visibility": "off"
+            }
+        ]
+    },
+    {
+        "featureType": "road.arterial",
+        "elementType": "labels.icon",
+        "stylers": [
+            {
+                "visibility": "off"
+            }
+        ]
+    },
+    {
+        "featureType": "transit",
+        "elementType": "all",
+        "stylers": [
+            {
+                "weight": "1.88"
+            },
+            {
+                "lightness": "-16"
+            }
+        ]
+    },
+    {
+        "featureType": "water",
+        "elementType": "all",
+        "stylers": [
+            {
+                "color": "#aaaaaa"
+            },
+            {
+                "visibility": "on"
+            },
+            {
+                "lightness": "0"
+            }
+        ]
+    }
+  ];
+  const b1= document.getElementById("btn1");
+  const b2= document.getElementById("btn2");
+  var slider = document.getElementById("slider");
+  slider.addEventListener("click", () => {
+    if(is_light == true){
+      is_light = false;
+    } else if(is_light == false){
+      is_light = true;
+    }
+    if (is_light == true){
+      //light mode styling
+      map.set("styles", light_map);
+      document.getElementById("header").style.backgroundColor = "white";
+      document.getElementById("button-div").style.backgroundColor = "white";
+      document.getElementById("body").style.backgroundColor = "white";
+      document.getElementById("dropdown").style.backgroundColor = "white";
+      document.getElementById("location-buttons").style.backgroundColor = "white";
+      document.getElementById("center-btn").style.color = "black";
+      document.getElementById("warnings-panel").style.backgroundColor = "white";
+      document.getElementById("compass").style.color = "black";
+      document.getElementById("speedometer").style.color = "black";
+      document.getElementById("pin").style.color = "lightblue";
+      document.getElementById("dest_marker").style.color = "lightblue";
+      document.getElementById("weather").style.backgroundColor = "lightblue";
+      document.getElementById("weather").style.color= "black";
+
+
+      b1.style.backgroundColor = "lightblue";
+        b1.style.color = "white";
+        b1.style.zIndex = "101";
+        b2.style.backgroundColor = "white";
+        b2.style.color = "black";
+        b2.style.zIndex = "100";
+      b1.addEventListener("click", () => {
+        b1.style.backgroundColor = "lightblue";
+        b1.style.color = "white";
+        b1.style.zIndex = "101";
+        b2.style.backgroundColor = "white";
+        b2.style.color = "black";
+        b2.style.zIndex = "100";
+      })
+      b2.addEventListener("click", () => {
+        b2.style.backgroundColor = "lightblue";
+        b2.style.color = "white";
+        b2.style.textDecorationColor = "white"
+        b2.style.zIndex = "101";
+        b1.style.backgroundColor = "white";
+        b1.style.color = "black";
+        b1.style.zIndex = "100";
+      })
+    }else{
+      //darkmode styling
+      map.set("styles", dark_map);
+      document.getElementById("header").style.backgroundColor = "black";
+      b1.style.backgroundColor = "lightgreen";
+        b1.style.color = "white";
+        b1.style.textDecorationColor = "white"
+        b1.style.zIndex = "101";
+        b2.style.backgroundColor = "darkgreen";
+        b2.style.color = "white";
+        b2.style.zIndex = "100";
+      document.getElementById("button-div").style.backgroundColor = "black";
+      document.getElementById("body").style.backgroundColor = "black";
+      document.getElementById("dropdown").style.backgroundColor = "black";
+      document.getElementById("location-buttons").style.backgroundColor = "black";
+      document.getElementById("center-btn").style.color = "white";
+      document.getElementById("warnings-panel").style.backgroundColor = "black";
+      document.getElementById("compass").style.color = "white";
+      document.getElementById("speedometer").style.color = "white";
+      document.getElementById("pin").style.color = "lightgreen";
+      document.getElementById("dest_marker").style.color = "lightgreen";
+      document.getElementById("weather").style.backgroundColor = "lightgreen";
+      document.getElementById("weather").style.color= "white";
+
+
+     
+      b1.addEventListener("click", () => {
+        b1.style.backgroundColor = "lightgreen";
+        b1.style.color = "white";
+        b1.style.textDecorationColor = "white"
+        b1.style.zIndex = "101";
+        b2.style.backgroundColor = "darkgreen";
+        b2.style.color = "white";
+        b2.style.zIndex = "100";
+      })
+      b2.addEventListener("click", () => {
+        b2.style.backgroundColor = "lightgreen";
+        b2.style.color = "white";
+        b2.style.textDecorationColor = "white"
+        b2.style.zIndex = "101";
+        b1.style.backgroundColor = "darkgreen";
+        b1.style.color = "white";
+        b1.style.zIndex = "100";
+      })
+    }
+  });
+  //////end of dark-mode code/////////////
 }
 
 function calculateAndDisplayRoute(
@@ -347,30 +963,17 @@ function attachInstructionText(stepDisplay, marker, text, map) {
     stepDisplay.open(map, marker);
   });
 
-  //code to change style of bike / stand selector buttons when clicked
-  const b1= document.getElementById("btn1");
-  const b2= document.getElementById("btn2");
+  
 
-  b1.addEventListener("click", () => {
-    b1.style.backgroundColor = "lightblue";
-    b1.style.color = "white";
-    b1.style.zIndex = "101";
-    b2.style.backgroundColor = "white";
-    b2.style.color = "black";
-    b2.style.zIndex = "100";
-  })
-
-  b2.addEventListener("click", () => {
-    b2.style.backgroundColor = "lightblue";
-    b2.style.color = "white";
-    b2.style.textDecorationColor = "white"
-    b2.style.zIndex = "101";
-    b1.style.backgroundColor = "white";
-    b1.style.color = "black";
-    b1.style.zIndex = "100";
+  
+  
 
 
-  })
+
+
+
+
 }
 
 window.initMap = initMap;
+
