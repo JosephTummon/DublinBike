@@ -130,8 +130,6 @@ async function initMap() {
 
 
     //coding wind compass
-    console.log(data.wind);
-console.log(data.wind.speed);
     var wind_dir = data.wind.deg -45;
     const compass = document.getElementById("compass");
     compass.style.transform = 'rotate(' + wind_dir + 'deg)';
@@ -188,13 +186,23 @@ console.log(data.wind.speed);
   // Creates a new marker object for the given station and adds it to the map
   function createMarker(station) {
     var myLatlng = { lat: station.position.lat, lng: station.position.lng };
-    const marker = new google.maps.Marker({
+    
+
+
+    var marker = new google.maps.Marker({
       position: myLatlng,
       map: map,
+      icon: {
+        url: 'data:image/svg+xml;charset=UTF-8,' +
+          encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"><circle cx="16" cy="16" r="16" stroke="#000000" stroke-width="1" fill="#ADD8E6"/></svg>'),
+        scaledSize: new google.maps.Size(32, 32),
+        anchor: new google.maps.Point(16, 16)
+      },
       title: station.address,
       station_number: station.number,
       bikes_free: station.available_bikes,
       free_stands: station.available_bike_stands,
+      
     });  
     marker.setLabel(station.available_bikes.toString());
     //Toggle code to change num on station pin
