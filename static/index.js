@@ -194,7 +194,7 @@ async function initMap() {
       map: map,
       icon: {
         url: 'data:image/svg+xml;charset=UTF-8,' +
-          encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"><circle cx="16" cy="16" r="16" stroke="#000000" stroke-width="1" fill="#ADD8E6"/></svg>'),
+          encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"><circle cx="16" cy="16" r="16" stroke="#000000" stroke-width="1" fill="#FFFFFF"/></svg>'),
         scaledSize: new google.maps.Size(32, 32),
         anchor: new google.maps.Point(16, 16)
       },
