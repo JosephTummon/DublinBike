@@ -40,9 +40,20 @@
         <!--End of swapping nums code-->
         <div id="weather"></div>
     </header>
-    <!--Map-->
-    <div id="map"></div>
-
+    <!-- Side Bar-->
+    <div id="mySidebar" class="sidebar">
+      <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+      <a href="#">About</a>
+      <a href="#">Services</a>
+      <a href="#">Clients</a>
+      <a href="#">Contact</a>
+    </div>
+    
+    <div id="main">
+      <!-- End of Side-->
+      <!--Map-->
+      <div id="map"></div>
+    </div>
     <!-- 
       The `defer` attribute causes the callback to execute after the full HTML
       document has been parsed. For non-blocking uses, avoiding race conditions,
@@ -65,5 +76,12 @@
       src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDgYC8VXvS4UG9ApSUhS2v-ByddtHljFls&libraries=places&callback=initMap&v=weekly"
           async defer
     ></script>
+
+    <script>
+      function closeNav() {
+        document.getElementById("mySidebar").style.width = "0";
+        document.getElementById("main").style.marginLeft= "0";
+      }
+      </script>
   </body>
 </html>

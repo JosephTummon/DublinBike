@@ -2,6 +2,7 @@
 let map;
 let marker;
 let autocomplete;
+
 // Initialize and add the map
 async function initMap() {
   // Set the coordinates for the center of the map
@@ -155,6 +156,12 @@ async function initMap() {
 
       // Attach listeners to show and hide the info window when the marker is hovered over
       attachInfoWindowListeners(marker, infoWindow);
+
+      marker.addListener("click", () => {
+        document.getElementById("mySidebar").style.width = "450px";
+        document.getElementById("main").style.marginLeft = "450px";
+      });
+
     }
   }
 
@@ -371,4 +378,3 @@ async function initMap() {
 }
 
 window.initMap = initMap;
-
