@@ -11,6 +11,7 @@ async function initMap() {
   map = new google.maps.Map(document.getElementById("map"), {
     center: dublin,
     zoom: 14,
+    mapTypeControl: false,
   });
 
    // Requesting user location and adding their marker to map
