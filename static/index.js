@@ -816,6 +816,9 @@ console.log(data.wind.speed);
       document.getElementById("speedometer").style.color = "black";
       document.getElementById("pin").style.color = "lightblue";
       document.getElementById("dest_marker").style.color = "lightblue";
+      document.getElementById("weather").style.backgroundColor = "lightblue";
+
+
       b1.style.backgroundColor = "lightblue";
         b1.style.color = "white";
         b1.style.zIndex = "101";
@@ -860,6 +863,8 @@ console.log(data.wind.speed);
       document.getElementById("speedometer").style.color = "white";
       document.getElementById("pin").style.color = "lightgreen";
       document.getElementById("dest_marker").style.color = "lightgreen";
+      document.getElementById("weather").style.backgroundColor = "lightgreen";
+
      
       b1.addEventListener("click", () => {
         b1.style.backgroundColor = "lightgreen";
