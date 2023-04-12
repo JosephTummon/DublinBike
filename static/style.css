@@ -124,6 +124,7 @@ header {
   width: 115px;
   height: 60px; /* set the height */ /* reduce the row gap */
   border-radius: 40px;
+  background-color: white;
 }
 
 #weather:hover {
