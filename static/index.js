@@ -1,7 +1,6 @@
 // Declare map and marker variables
 let map;
 let autocomplete;
-var markerArray = [];
  
 // Initialize and add the map
 async function initMap() {
@@ -167,6 +166,7 @@ async function initMap() {
   // Displays the station data on the map as markers and info windows
   function addMarkers(stations) {
     // Create arrays to store the markers and info windows
+    const markerArray = [];
     const infoWindowArray = [];
     // Loop through each station and create a marker and info window for it
     for (const station of stations) {
@@ -281,9 +281,8 @@ async function initMap() {
   }
       
 
-  //***** CODE FOR DIRECTIONS *****
-  let markerArray1 = []
-
+  // ***** CODE FOR DIRECTIONS *****
+  const markerArray = [];
   // Instantiate a directions service.
   const directionsService = new google.maps.DirectionsService();  
   // Create a renderer for directions and bind it to the map.
@@ -295,7 +294,7 @@ async function initMap() {
   calculateAndDisplayRoute(
     directionsRenderer,
     directionsService,
-    markerArray1,
+    markerArray,
     stepDisplay,
     map
   );
@@ -305,7 +304,7 @@ async function initMap() {
     calculateAndDisplayRoute(
       directionsRenderer,
       directionsService,
-      markerArray1,
+      markerArray,
       stepDisplay,
       map
     );
@@ -904,7 +903,7 @@ async function initMap() {
 function calculateAndDisplayRoute(
   directionsRenderer,
   directionsService,
-  markerArray1,
+  markerArray,
   stepDisplay,
   map
 ) {
@@ -927,22 +926,22 @@ function calculateAndDisplayRoute(
       document.getElementById("warnings-panel").innerHTML =
         "<b>" + result.routes[0].warnings + "</b>";
       directionsRenderer.setDirections(result);
-      showSteps(result, markerArray1, stepDisplay, map);
+      showSteps(result, markerArray, stepDisplay, map);
     })
     .catch((e) => {
       window.alert("Directions request failed due to " + e);
     });
 }
 
-function showSteps(directionResult, markerArray1, stepDisplay, map) {
+function showSteps(directionResult, markerArray, stepDisplay, map) {
   // For each step, place a marker, and add the text to the marker's infowindow.
   // Also attach the marker to an array so we can keep track of it and remove it
   // when calculating new routes.
   const myRoute = directionResult.routes[0].legs[0];
 
   for (let i = 0; i < myRoute.steps.length; i++) {
-    const marker = (markerArray1[i] =
-      markerArray1[i] || new google.maps.Marker());
+    const marker = (markerArray[i] =
+      markerArray[i] || new google.maps.Marker());
 
     marker.setMap(map);
     marker.setPosition(myRoute.steps[i].start_location);
@@ -976,4 +975,3 @@ function attachInstructionText(stepDisplay, marker, text, map) {
 }
 
 window.initMap = initMap;
-
