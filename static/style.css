@@ -172,6 +172,41 @@ the div
   height: 10%;
   text-align: center;
 }
+
+/* INFO WINDOW */
+
+button.gm-ui-hover-effect {
+  visibility: hidden;
+}
+
+.station-data {
+  display: flex;
+  justify-content: space-around;
+}
+
+.available-bikes {
+  display: flex;
+}
+
+.available-bikes h2 i {
+  color: #00a4d3;
+}
+
+.available-bikes p {
+  padding-left: 5px;
+}
+
+.parked {
+  display: flex;
+}
+
+.parked h2 i {
+  color: #00a4d3;
+}
+
+.parked p {
+  padding-left: 5px;
+}
 /* Optional: Makes the sample page fill the window. */
 html, body {
   height: 100%;
