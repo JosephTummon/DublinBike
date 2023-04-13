@@ -13,7 +13,7 @@ URI = "dbbikes2.cytgvbje9wgu.us-east-1.rds.amazonaws.com"
 PORT = "3306"
 DB = "dbbikes2"
 USER = "admin"
-PASSWORD = "DublinBikes1"
+PASSWORD = "DublinBikes1"   
 # engine = create_engine("mysql+mysqldb://{}:{}@{}:{}/{}".format(USER, PASSWORD, URI, PORT, DB), echo=True)
 
 # opening pickle file with pretrained model

@@ -1,6 +1,7 @@
 // Declare map and marker variables
 let map;
 let autocomplete;
+var markerArray = [];
  
 // Initialize and add the map
 async function initMap() {
@@ -16,9 +17,20 @@ async function initMap() {
   });
 
   
+  
    // Requesting user location and adding their marker to map
+   const locationButton = document.createElement("button");
+   locationButton.innerHTML = '<i class="fa-solid fa-location-crosshairs"></i>';
+
+   //locationButton.textContent = "Pan to Current Location";
+   locationButton.classList.add("custom-map-control-button");
+   map.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(locationButton);
+   locationButton.style.marginRight = "15px";
+
+
+
    if (navigator.geolocation) {
-    document.getElementById('center-btn').addEventListener('click', function() {
+    locationButton.addEventListener('click', function() {
       navigator.geolocation.getCurrentPosition(function(position) {
         var user_pos = {
           lat: position.coords.latitude,
@@ -166,7 +178,6 @@ async function initMap() {
   // Displays the station data on the map as markers and info windows
   function addMarkers(stations) {
     // Create arrays to store the markers and info windows
-    const markerArray = [];
     const infoWindowArray = [];
     // Loop through each station and create a marker and info window for it
     for (const station of stations) {
@@ -240,15 +251,19 @@ async function initMap() {
     const contentString = `
       <div class="info-window">
         <h1>${station.address}</h1>
-        <div class="station-data">
-            <div class="available-bikes">
-                <h2><i class="fa-solid fa-bicycle"></i></h2>
-                <p>${station.available_bikes}</p>
-            </div>
-            <div class="parked">
-                <h2><i class="fa-solid fa-square-parking"></i></h2>
-                <p>${station.available_bike_stands}</p>
-            </div>
+        <h2>Available Bikes:</h2>
+        <p>${station.available_bikes}</p>
+        <h2>Available Stands:</h2>
+        <p>${station.available_bike_stands}</p>
+        <div class="predictionChart">
+          <div class='predictionbar' style='height:${height1}px;'></div>
+          <div class='predictionbar' style='height:${height2}px;'></div>
+          <div class='predictionbar' style='height:${height3}px;'></div>
+          <div class='predictionbar' style='height:${height4}px;'></div>
+          <div class='predictionbar' style='height:${height5}px;'></div>
+          <div class='predictionbar' style='height:${height6}px;'></div>
+          <div class='predictionbar' style='height:${height7}px;'></div>
+          <div class='predictionbar' style='height:${height8}px;'></div>
         </div>
       </div>
     `;
@@ -277,8 +292,9 @@ async function initMap() {
   }
       
 
-  // ***** CODE FOR DIRECTIONS *****
-  const markerArray = [];
+  //***** CODE FOR DIRECTIONS *****
+  let markerArray1 = []
+
   // Instantiate a directions service.
   const directionsService = new google.maps.DirectionsService();  
   // Create a renderer for directions and bind it to the map.
@@ -290,7 +306,7 @@ async function initMap() {
   calculateAndDisplayRoute(
     directionsRenderer,
     directionsService,
-    markerArray,
+    markerArray1,
     stepDisplay,
     map
   );
@@ -300,7 +316,7 @@ async function initMap() {
     calculateAndDisplayRoute(
       directionsRenderer,
       directionsService,
-      markerArray,
+      markerArray1,
       stepDisplay,
       map
     );
@@ -899,7 +915,7 @@ async function initMap() {
 function calculateAndDisplayRoute(
   directionsRenderer,
   directionsService,
-  markerArray,
+  markerArray1,
   stepDisplay,
   map
 ) {
@@ -922,22 +938,22 @@ function calculateAndDisplayRoute(
       document.getElementById("warnings-panel").innerHTML =
         "<b>" + result.routes[0].warnings + "</b>";
       directionsRenderer.setDirections(result);
-      showSteps(result, markerArray, stepDisplay, map);
+      showSteps(result, markerArray1, stepDisplay, map);
     })
     .catch((e) => {
       window.alert("Directions request failed due to " + e);
     });
 }
 
-function showSteps(directionResult, markerArray, stepDisplay, map) {
+function showSteps(directionResult, markerArray1, stepDisplay, map) {
   // For each step, place a marker, and add the text to the marker's infowindow.
   // Also attach the marker to an array so we can keep track of it and remove it
   // when calculating new routes.
   const myRoute = directionResult.routes[0].legs[0];
 
   for (let i = 0; i < myRoute.steps.length; i++) {
-    const marker = (markerArray[i] =
-      markerArray[i] || new google.maps.Marker());
+    const marker = (markerArray1[i] =
+      markerArray1[i] || new google.maps.Marker());
 
     marker.setMap(map);
     marker.setPosition(myRoute.steps[i].start_location);
@@ -971,3 +987,4 @@ function attachInstructionText(stepDisplay, marker, text, map) {
 }
 
 window.initMap = initMap;
+

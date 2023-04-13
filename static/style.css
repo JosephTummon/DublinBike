@@ -334,3 +334,32 @@ input:checked + .slider:before {
 .slider.round:before {
   border-radius: 50%;
 }
+
+/*styling the location button */
+.custom-map-control-button {
+  background-color: #fff;
+  border: 1px solid transparent;
+  border-radius: 2px;
+  box-shadow: 0 1px 4px -1px rgba(0, 0, 0, 0.3);
+  cursor: pointer;
+  margin-bottom: 22px;
+  text-align: center;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+}
+
+.custom-map-control-button:hover {
+  background-color: #ebebeb;
+  border-color: #adadad;
+}
+
+.custom-map-control-button:focus {
+  border-color: #4d90fe;
+}
+
+.custom-map-control-button > i {
+  color: #737373;
+  font-size: 18px;
+  line-height: 32px;
+}
