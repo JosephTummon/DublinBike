@@ -278,19 +278,15 @@ async function initMap() {
     const contentString = `
       <div class="info-window">
         <h1>${station.address}</h1>
-        <h2>Available Bikes:</h2>
-        <p>${station.available_bikes}</p>
-        <h2>Available Stands:</h2>
-        <p>${station.available_bike_stands}</p>
-        <div class="predictionChart">
-          <div class='predictionbar' style='height:${height1}px;'></div>
-          <div class='predictionbar' style='height:${height2}px;'></div>
-          <div class='predictionbar' style='height:${height3}px;'></div>
-          <div class='predictionbar' style='height:${height4}px;'></div>
-          <div class='predictionbar' style='height:${height5}px;'></div>
-          <div class='predictionbar' style='height:${height6}px;'></div>
-          <div class='predictionbar' style='height:${height7}px;'></div>
-          <div class='predictionbar' style='height:${height8}px;'></div>
+        <div class="station-data">
+            <div class="available-bikes">
+                <h2><i class="fa-solid fa-bicycle"></i></h2>
+                <p>${station.available_bikes}</p>
+            </div>
+            <div class="parked">
+                <h2><i class="fa-solid fa-square-parking"></i></h2>
+                <p>${station.available_bike_stands}</p>
+            </div>
         </div>
       </div>
     `;
