@@ -67,18 +67,19 @@ def get_stations():
 WEATHERAPI = "http://api.openweathermap.org/data/2.5/weather?appid=d5de0b0a9c3cc6473da7d0005b3798ac&q=Dublin, IE"
 
 # Define a new app route to get the weather data
-@app.route("/averages")
-def get_averages():
+@app.route("/averages/<int:number>")
+def get_averages(number):
     try:
         sql = text("""SELECT s.address, AVG(a.available_bike_stands) AS Avg_bike_stands,
                 AVG(a.available_bikes) AS Avg_bikes_free, 
                 DATE_FORMAT(FROM_UNIXTIME(a.datetime), '%a') AS day_of_week FROM dbbikes2.station s
                 JOIN dbbikes2.availability2 a ON s.number = a.number AND DATE_FORMAT(FROM_UNIXTIME(a.datetime), '%a') IS NOT NULL
-                WHERE s.number = 1
+                WHERE s.number = :number
                 GROUP BY s.address, day_of_week
                 ORDER BY s.address, day_of_week;""")
         
-        df = pd.read_sql(sql, engine)        
+        df = pd.read_sql(sql, engine, params={'number': number})   
+        df = df.to_dict(orient="records")   
         return jsonify(df)
     
     except Exception as e:

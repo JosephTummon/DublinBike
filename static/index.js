@@ -158,18 +158,7 @@ async function initMap() {
 
       attachInfoWindowListeners(marker, infoWindow);
       marker.addListener("click", () => {
-        var p0 = station.prediction1;
-        var p1 = station.prediction2;
-        var p2 = station.prediction3;
-        var p3 = station.prediction4;
-        var p4 = station.prediction5;
-        var t0 = station.tomorrow1;
-        var t1 = station.tomorrow2;
-        var t2 = station.tomorrow3;
-        var t3 = station.tomorrow4;
-        var t4 = station.tomorrow5;
-        var [s0, s1, s2, s3, s4] = [station.Sunday1, station.Sunday2, station.Sunday3, station.Sunday4, station.Sunday5]
-        drawChart(p0,p1,p2,p3,p4,t0,t1,t2,t3,t4, s0, s1, s2, s3, s4);
+        drawChart(station.number);
         document.getElementById("mySidebar").style.width = "650px";
         document.getElementById("main").style.marginLeft = "650px";
       });
@@ -389,13 +378,22 @@ async function initMap() {
   google.charts.load('current', {packages: ['corechart']});
   google.charts.setOnLoadCallback(drawChart);
 
-  function drawChart(a, b, c, d, e, t0, t1, t2, t3, t4, s0, s1, s2, s3, s4) {
+  function drawChart(number) {
+    // Fetch data from correct webpage
+    fetch('http://127.0.0.1:5000/averages/3')
+  .then(response => response.json())
+  .then(data => {
+    console.log(data[0].Avg_bike_stands); // do something with the JSON data
+  })
+  .catch(error => {
+    console.error('Error fetching data:', error);
+  });
+
     // Define the chart to be drawn.
     google.charts.load('current', {packages: ['corechart']});
     var data = google.visualization.arrayToDataTable([
-      ['Hour', 'Today', 'Tomorrow', 'Sunday'],
-      ['Now',  a, t0 + 1, s0 - 1],
-      ['10am',  b, t1 + 2, s1-2],
+      ['Hour', 'Monday', 'Tuesday', 'Wednesday']
+      ['10am',  data[1].Avg_bike_stands, t1 + 2, s1-2],
       ['11am',  c, t2 + 1, s2],
       ['12pm',  d, t3, s3 - 1],
       ['1pm', e, t4 - 1, s4 ]
