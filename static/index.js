@@ -19,6 +19,7 @@ async function initMap() {
 
   
   
+  
    // Requesting user location and adding their marker to map
    const locationButton = document.createElement("button");
    locationButton.innerHTML = '<i class="fa-solid fa-location-crosshairs"></i>';
