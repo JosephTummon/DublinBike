@@ -23,14 +23,13 @@
   <body id = "body">
     <!--Header-->
     <header id="header">
-      <div id="google_translate_element"></div>  
-  
-    <!-- function which will translate the web page using google translator -->  
-  
+        <button id = "translate_button"><i class="fa-solid fa-language"></i></button>
+        <div id="google_translate_element"></div>
+    <!--  --> 
     <script type="text/javascript">  
         function googleTranslateElementInit() {  
             new google.translate.TranslateElement(  
-                {pageLanguage: 'en'},  
+                {pageLanguage: 'en',},  
                 'google_translate_element'  
             );  
         }  

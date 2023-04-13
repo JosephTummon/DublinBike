@@ -362,3 +362,14 @@ input:checked + .slider:before {
   font-size: 18px;
   line-height: 32px;
 }
+
+#translate_button{
+  top: 20px;
+  background-color: lightblue;
+}
+#google_translate_element {
+  position: fixed;
+			top: 0;
+			left: 0;
+      display: none;
+}
