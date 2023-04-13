@@ -43,8 +43,15 @@ def get_stations():
         for station in stations:
             for i in range(1, 9):
                 name = "prediction" + str(i)
-                predictions = model.predict([[station.get('number'), 3, datetime.now().hour + i]]).tolist()[0]
-                station[name] = predictions
+                predictions = model.predict([[station.get('number'), 4, datetime.now().hour + i]]).tolist()[0]
+                station[name] = int(predictions)
+                name = "tomorrow" + str(i)
+                predictions = model.predict([[station.get('number'), 5, datetime.now().hour + i]]).tolist()[0]
+                station[name] = int(predictions)
+                name =  "Sunday" + str(i)
+                predictions = model.predict([[station.get('number'), 6, datetime.now().hour + i]]).tolist()[0]
+                station[name] = int(predictions)
+
             vals.append((station.get('number'), station.get('available_bikes'), station.get('available_bike_stands'), station.get('status'), datetime.timestamp(datetime.now()), predictions))
         #print('#found {} Availability {}'.format(len(vals), vals))
     

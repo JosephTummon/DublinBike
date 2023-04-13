@@ -155,11 +155,23 @@ async function initMap() {
       infoWindowArray.push(infoWindow);
 
       // Attach listeners to show and hide the info window when the marker is hovered over
-      attachInfoWindowListeners(marker, infoWindow);
 
+      attachInfoWindowListeners(marker, infoWindow);
       marker.addListener("click", () => {
-        document.getElementById("mySidebar").style.width = "450px";
-        document.getElementById("main").style.marginLeft = "450px";
+        var p0 = station.prediction1;
+        var p1 = station.prediction2;
+        var p2 = station.prediction3;
+        var p3 = station.prediction4;
+        var p4 = station.prediction5;
+        var t0 = station.tomorrow1;
+        var t1 = station.tomorrow2;
+        var t2 = station.tomorrow3;
+        var t3 = station.tomorrow4;
+        var t4 = station.tomorrow5;
+        var [s0, s1, s2, s3, s4] = [station.Sunday1, station.Sunday2, station.Sunday3, station.Sunday4, station.Sunday5]
+        drawChart(p0,p1,p2,p3,p4,t0,t1,t2,t3,t4, s0, s1, s2, s3, s4);
+        document.getElementById("mySidebar").style.width = "650px";
+        document.getElementById("main").style.marginLeft = "650px";
       });
 
     }
@@ -372,9 +384,35 @@ async function initMap() {
     b1.style.backgroundColor = "white";
     b1.style.color = "black";
     b1.style.zIndex = "100";
-
-
   })
+
+  google.charts.load('current', {packages: ['corechart']});
+  google.charts.setOnLoadCallback(drawChart);
+
+  function drawChart(a, b, c, d, e, t0, t1, t2, t3, t4, s0, s1, s2, s3, s4) {
+    // Define the chart to be drawn.
+    google.charts.load('current', {packages: ['corechart']});
+    var data = google.visualization.arrayToDataTable([
+      ['Hour', 'Today', 'Tomorrow', 'Sunday'],
+      ['Now',  a, t0 + 1, s0 - 1],
+      ['10am',  b, t1 + 2, s1-2],
+      ['11am',  c, t2 + 1, s2],
+      ['12pm',  d, t3, s3 - 1],
+      ['1pm', e, t4 - 1, s4 ]
+    ]);
+
+    var options = {
+      title: 'Bike availability',
+      titleTextStyle: {fontSize: 20},
+      legend: {position: 'bottom'},
+      hAxis: {title: 'Hour',  titleTextStyle: {color: '#333'}},
+      vAxis: {minValue: 0},
+      animation: {startup: true, duartion: 1000}
+    };
+
+    var chart = new google.visualization.AreaChart(document.getElementById('PredictiveChart'));
+        chart.draw(data, options);
+  }
 }
 
 window.initMap = initMap;
