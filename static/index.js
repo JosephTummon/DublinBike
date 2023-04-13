@@ -27,32 +27,52 @@ async function initMap() {
    map.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(locationButton);
    locationButton.style.marginRight = "15px";
 
+   locationButton.addEventListener('click', function() {
+    var marker;
+    navigator.geolocation.getCurrentPosition(function(position) {
+      var user_pos = {
+        lat: position.coords.latitude,
+        lng: position.coords.longitude
+      };
+  
+      map.panTo(user_pos);
+  
+        marker = new google.maps.Marker({
+          position: user_pos,
+          map: map
+        });
+      
+    }, 
+    function(error) {
+      var user_pos = {
+        lat: 53.3081318,
+        lng: -6.2242786
+      };
+  
+      switch (error.code) {
+        case error.PERMISSION_DENIED:
+          alert("Location access denied by user. Using default location");
+          break;
+        case error.POSITION_UNAVAILABLE:
+          alert("Location information is unavailable.Using default location");
+          break;
+        case error.TIMEOUT:
+          alert("Location request timed out. Using default location");
+          break;
+        default:
+          alert("An unknown error occurred. Using default location");
+          break;
+      }
+  
+      map.panTo(user_pos);
 
-
-   if (navigator.geolocation) {
-    locationButton.addEventListener('click', function() {
-      navigator.geolocation.getCurrentPosition(function(position) {
-        var user_pos = {
-          lat: position.coords.latitude,
-          lng: position.coords.longitude
-        };
-
-        map.panTo(user_pos);
-
-        if (marker) {
-          marker.setPosition(user_pos);
-        } else {
-          var marker = new google.maps.Marker({
-            position: user_pos,
-            map: map
-          });
-        }
-      });
+        marker = new google.maps.Marker({
+          position: user_pos,
+          map: map
+        });
+    
     });
-  } else {
-    // Browser doesn't support Geolocation
-    alert("no location found");
-}
+  });
 
 
   
