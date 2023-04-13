@@ -375,41 +375,41 @@ async function initMap() {
     b1.style.zIndex = "100";
   })
 
-  google.charts.load('current', {packages: ['corechart']});
-  google.charts.setOnLoadCallback(drawChart);
-
   function drawChart(number) {
-    // Fetch data from correct webpage
-    fetch('http://127.0.0.1:5000/averages/3')
-  .then(response => response.json())
-  .then(data => {
-    console.log(data[0].Avg_bike_stands); // do something with the JSON data
-  })
-  .catch(error => {
-    console.error('Error fetching data:', error);
-  });
-
-    // Define the chart to be drawn.
-    google.charts.load('current', {packages: ['corechart']});
-    var data = google.visualization.arrayToDataTable([
-      ['Hour', 'Monday', 'Tuesday', 'Wednesday']
-      ['10am',  data[1].Avg_bike_stands, t1 + 2, s1-2],
-      ['11am',  c, t2 + 1, s2],
-      ['12pm',  d, t3, s3 - 1],
-      ['1pm', e, t4 - 1, s4 ]
-    ]);
-
-    var options = {
-      title: 'Bike availability',
-      titleTextStyle: {fontSize: 20},
-      legend: {position: 'bottom'},
-      hAxis: {title: 'Hour',  titleTextStyle: {color: '#333'}},
-      vAxis: {minValue: 0},
-      animation: {startup: true, duartion: 1000}
-    };
-
-    var chart = new google.visualization.AreaChart(document.getElementById('PredictiveChart'));
-        chart.draw(data, options);
+    fetch(`/averages/${number}`)
+      .then(response => response.json())
+      .then(data => {
+        const chart_data = new google.visualization.DataTable();
+        chart_data.addColumn("string", "Week_Day_No");
+        chart_data.addColumn("number", "Average Bikes Available");
+        chart_data.addColumn("number", "Average Bike Stands");
+  
+        const dayNames = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+  
+        const rows = dayNames.map(dayName => {
+          const matchingData = data.find(obj => obj.day_of_week === dayName);
+          return [dayName, matchingData ? matchingData.Avg_bikes_free : null, matchingData ? matchingData.Avg_bike_stands : null];
+        });
+  
+        chart_data.addRows(rows);
+  
+        /* const chosenStationName = data[0].address; */
+  
+        const options = {
+          title: "Average Availability Per Day",
+          width: "700",
+          height: "450",
+          vAxis: {
+            title: "Number of Bikes"
+          },
+          legend: {position: "bottom"}
+        };
+  
+        /* document.getElementById("analysis_title").innerHTML = `<h2>${chosenStationName}</h2>`; */
+  
+        const chart = new google.visualization.ColumnChart(document.getElementById("PredictiveChart"));
+        chart.draw(chart_data, options);
+      });
   }
 }
 
