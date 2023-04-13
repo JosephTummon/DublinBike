@@ -926,8 +926,8 @@ function calculateAndDisplayRoute(
   map
 ) {
   // First, remove any existing markers from the map.
-  for (let i = 0; i < markerArray.length; i++) {
-    markerArray[i].setMap(null);
+  for (let i = 0; i < markerArray1.length; i++) {
+    markerArray1[i].setMap(null);
   }
 
   // Retrieve the start and end locations and create a DirectionsRequest using
