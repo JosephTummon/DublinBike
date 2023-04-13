@@ -7,6 +7,7 @@ import time
 import simplejson as json
 from datetime import datetime
 import pickle
+import pandas as pd
 
 # Database configuration
 URI = "dbbikes2.cytgvbje9wgu.us-east-1.rds.amazonaws.com"
@@ -14,7 +15,8 @@ PORT = "3306"
 DB = "dbbikes2"
 USER = "admin"
 PASSWORD = "DublinBikes1"
-# engine = create_engine("mysql+mysqldb://{}:{}@{}:{}/{}".format(USER, PASSWORD, URI, PORT, DB), echo=True)
+
+engine = create_engine("mysql+mysqldb://{}:{}@{}:{}/{}".format(USER, PASSWORD, URI, PORT, DB), echo=True)
 
 # opening pickle file with pretrained model
 with open('MLModel/model.pkl', 'rb') as handle:
@@ -63,6 +65,25 @@ def get_stations():
 
 ##Weather API Key
 WEATHERAPI = "http://api.openweathermap.org/data/2.5/weather?appid=d5de0b0a9c3cc6473da7d0005b3798ac&q=Dublin, IE"
+
+# Define a new app route to get the weather data
+@app.route("/averages")
+def get_averages():
+    try:
+        sql = text("""SELECT s.address, AVG(a.available_bike_stands) AS Avg_bike_stands,
+                AVG(a.available_bikes) AS Avg_bikes_free, 
+                DATE_FORMAT(FROM_UNIXTIME(a.datetime), '%a') AS day_of_week FROM dbbikes2.station s
+                JOIN dbbikes2.availability2 a ON s.number = a.number AND DATE_FORMAT(FROM_UNIXTIME(a.datetime), '%a') IS NOT NULL
+                WHERE s.number = 1
+                GROUP BY s.address, day_of_week
+                ORDER BY s.address, day_of_week;""")
+        
+        df = pd.read_sql(sql, engine)        
+        return jsonify(df)
+    
+    except Exception as e:
+        print(traceback.format_exc())
+        return "Error in get_stations: " + str(e), 404
 
 # Define the function to get weather data
 @app.route("/weather")
