@@ -13,6 +13,7 @@ async function initMap() {
     center: dublin,
     zoom: 14,
     mapTypeControl: false, //removes satellite button
+    fullscreenControl: false // removes full screen toggle
   });
 
   
@@ -47,7 +48,12 @@ async function initMap() {
   // Create the search box and link it to the UI element.
   const input = document.getElementById("pac-input");
   const searchBox = new google.maps.places.SearchBox(input);
+  const buttons = document.getElementById("button-div");
+  const locateNearest = document.getElementById("nearest-btn");
 
+  map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+  map.controls[google.maps.ControlPosition.TOP_RIGHT].push(buttons);
+  map.controls[google.maps.ControlPosition.BOTTOM_RIGHT].push(locateNearest);
   // Bias the SearchBox results towards current map's viewport.
   map.addListener("bounds_changed", () => {
     searchBox.setBounds(map.getBounds());
@@ -125,8 +131,8 @@ async function initMap() {
 
     var weatherDiv = document.getElementById("weather");
 
-    weatherDiv.innerHTML += "<div class='tempIcon'><img src=https://openweathermap.org/img/wn/" + weatherIcon + ".png alt='icon' width='55' height='55'><h2 id='temperature'>" + celsius + "°C</h2></div>";
-    weatherDiv.innerHTML += "<div class='description'><h2>" + weatherDescription + "</h2></div>"; 
+    weatherDiv.innerHTML += "<img src=https://openweathermap.org/img/wn/" + weatherIcon + ".png alt='icon' width='42' height='40'><h2 id='temperature'>" + celsius + "°C</h2>";
+    // weatherDiv.innerHTML += "<div class='description'><h2>" + weatherDescription + "</h2></div>"; 
 
 
     //coding wind compass
@@ -219,8 +225,8 @@ async function initMap() {
     });
     
     toggleButton2.addEventListener("click", () => {
-      btn2.classList.add("active");
       btn1.classList.remove("active");
+      btn2.classList.add("active");
     });
     return marker;
   }

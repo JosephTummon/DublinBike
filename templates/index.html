@@ -32,25 +32,6 @@
         <div class="logo">
             <h1><a class="l" href="http://127.0.0.1:5000/"><span id="db">DB</span>ikes</a></h1>
         </div>
-        <div class="search">
-          <input id="pac-input"class="controls"type="text"placeholder="  Search">
-          <span class="search-icon"><i class="fa fa-search"></i></span>
-        </div>
-
-
-
-        <!--Code for swapping nums on station pins-->
-        <div id = "button-div" class="buttons">
-          <div id = "btn1" class = "btn active">
-            <i class="fa-solid fa-bicycle"></i>
-            <a class="button-text" >Available<br>Bikes</a>
-          </div>
-          <div id = "btn2" class = "btn">
-            <i class="fa-solid fa-square-parking"></i>
-            <a class="button-text">Available<br>Stands</a>
-          </div>
-        </div>
-        <!--End of swapping nums code-->
         <div id="weather"></div>
         <div id = "compass-div">
           <i id = "compass" class="fa-solid fa-location-arrow"></i>
@@ -59,9 +40,13 @@
     </header>
     <!--Map-->
     <div id="map"></div>
+    <div class="search">
+      <input id="pac-input"class="search"type="text"placeholder=" Search">
+      <span class="search-icon"><i class="fa fa-search" id="search-icon"></i></span>
+    </div>
     <div id = "location-buttons">
-    <i id="center-btn" class="fa-solid fa-location-crosshairs"></i>
-    <button id ="nearest-btn">Nearest station</button>
+      <i id="center-btn" class="fa-solid fa-location-crosshairs"></i>
+      <button id ="nearest-btn"><i class="fa-sharp fa-solid fa-map-location-dot fa-xl"></i></button>
     </div>
 
     <!-- 
@@ -72,6 +57,7 @@
       -->
 
     <div id="dropdown">
+      <button>Go</button>
       <i id = "pin" class="fa-solid fa-map-pin" style="color: #00A4D3;"></i>
       <select id="start">
         <option value="" selected>Origin</option>
@@ -81,6 +67,18 @@
         <option value="" selected>Destination</option>
       </select>
     </div>
+    <!--Code for swapping nums on station pins-->
+    <div id ="button-div" class="buttons">
+      <div id = "btn1" class = "btn active">
+        <i class="fa-solid fa-bicycle"></i>
+        <a class="button-text" >Available<br>Bikes</a>
+      </div>
+      <div id = "btn2" class = "btn">
+        <i class="fa-solid fa-square-parking"></i>
+        <a class="button-text">Available<br>Stands</a>
+      </div>
+    </div>
+    <!--End of swapping nums code-->
     <div id="warnings-panel"></div>  
     
     
