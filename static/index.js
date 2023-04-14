@@ -360,8 +360,14 @@ async function initMap() {
     );
   };
 
-  document.getElementById("start").addEventListener("change", onChangeHandler);
-  document.getElementById("end").addEventListener("change", onChangeHandler);
+  
+  const button = document.getElementById("go");
+
+  // Add event listener to the button element
+button.addEventListener("click", function() {
+    // Call the calculateAndDisplayRoute function when the button is clicked
+    calculateAndDisplayRoute(directionsRenderer, directionsService, markerArray1, stepDisplay, map);
+  });
 
 
 function calculateAndDisplayRoute(
@@ -382,7 +388,7 @@ function calculateAndDisplayRoute(
     .route({
       origin: document.getElementById("start").value,
       destination: document.getElementById("end").value,
-      travelMode: google.maps.TravelMode.WALKING,
+      travelMode: google.maps.TravelMode.BICYCLING,
     })
     .then((result) => {
       // Route the directions and pass the response to a function to create
