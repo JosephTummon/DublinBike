@@ -395,8 +395,12 @@ async function initMap() {
         const form = document.querySelector('form');
         form.addEventListener('submit', (event) => {
           event.preventDefault(); // prevent form submission
-          const datetime = document.getElementById('availabletime').value;
+          var datetime = document.getElementById('availabletime').value;
           console.log(datetime); // log the value of the datetime input field
+          var datetime = new Date(datetime); 
+          const dayOfWeek = datetime.getDay(); // returns 0 for Sunday, 1 for Monday, and so on
+          const hour = datetime.getHours();
+          console.log(dayOfWeek, hour);
         });
       });
   }
