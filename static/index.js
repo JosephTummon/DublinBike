@@ -388,8 +388,16 @@ async function initMap() {
           legend: { position: "bottom" }
         };
         loadingDiv.style.display = "none"; // hide the loading animation 
+
         const chart = new google.visualization.ColumnChart(document.getElementById("PredictiveChart"));
         chart.draw(chart_data, options);
+
+        const form = document.querySelector('form');
+        form.addEventListener('submit', (event) => {
+          event.preventDefault(); // prevent form submission
+          const datetime = document.getElementById('availabletime').value;
+          console.log(datetime); // log the value of the datetime input field
+        });
       });
   }
 
@@ -400,5 +408,6 @@ async function initMap() {
         console.log(data);
       });
   }
+  
 }
 window.initMap = initMap;
