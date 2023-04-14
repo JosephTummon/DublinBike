@@ -45,7 +45,14 @@
     <!-- Side Bar-->
     <div id="mySidebar" class="sidebar">
       <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-      <div id="PredictiveChart"></div>
+      <div id="chartContainer">
+        <div id="stationTitle"></div>
+        <div id="PredictiveChart"></div>
+      </div>
+      <div id="loading">
+        <img src="static/Loading.gif" alt="Loading...">
+      </div>
+      <div id="Model"><p>This is where the model will go</p></div>
     </div>
     
     <!-- Putting map in div so it can be moved by the sidebar-->

@@ -73,7 +73,7 @@ header {
 
 /* SIDEBAR */
 /* The sidebar menu */
-.sidebar {
+#mySidebar {
   height: 100%; /* 100% Full-height */
   width: 0; /* 0 width - change this with JavaScript */
   position: fixed; /* Stay in place */
@@ -81,11 +81,21 @@ header {
   top: 0;
   left: 0;
   background-color: #ffffff; /* White*/
+  overflow-y: scroll;
   overflow-x: hidden; /* Disable horizontal scroll */
-  padding-top: 60px; /* Place content 60px from the top */
+  padding-top: 20px; /* Place content 60px from the top */
   transition: 0.5s; /* 0.5 second transition effect to slide in the sidebar */
+  display: flex; 
+  flex-direction: column;
+  align-items: center;
 }
-
+#scrollspace{
+  height: 10000px;
+}
+#stationTitle {
+  text-align: center;
+  font-family: "Lucida Console", "Courier New", monospace;
+}
 /* The sidebar links */
 .sidebar a {
   padding: 8px 8px 8px 32px;
@@ -99,6 +109,14 @@ header {
 /* When you mouse over the navigation links, change their color */
 .sidebar a:hover {
   color: #f1f1f1;
+}
+
+#loading {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: none;
 }
 
 /* Position and style the close button (top right corner) */

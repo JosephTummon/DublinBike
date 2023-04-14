@@ -158,6 +158,7 @@ async function initMap() {
 
       attachInfoWindowListeners(marker, infoWindow);
       marker.addListener("click", () => {
+        google.charts.load('current', {'packages':['corechart']});
         drawChart(station.number);
         document.getElementById("mySidebar").style.width = "650px";
         document.getElementById("main").style.marginLeft = "650px";
@@ -200,16 +201,6 @@ async function initMap() {
 
   // Creates a new info window object for the given station
   function createInfoWindow(station) {
-    // Variable to change height of all bars
-    const height = 5;
-    const height1 = station.prediction0 * height;
-    const height2 = station.prediction1 * height;
-    const height3 = station.prediction2 * height;
-    const height4 = station.prediction3 * height;
-    const height5 = station.prediction4 * height;
-    const height6 = station.prediction5 * height;
-    const height7 = station.prediction6 * height;
-    const height8 = station.prediction7 * height;
     const contentString = `
       <div class="info-window">
         <h1>${station.address}</h1>
@@ -217,16 +208,6 @@ async function initMap() {
         <p>${station.available_bikes}</p>
         <h2>Available Stands:</h2>
         <p>${station.available_bike_stands}</p>
-        <div class="predictionChart">
-          <div class='predictionbar' style='height:${height1}px;'></div>
-          <div class='predictionbar' style='height:${height2}px;'></div>
-          <div class='predictionbar' style='height:${height3}px;'></div>
-          <div class='predictionbar' style='height:${height4}px;'></div>
-          <div class='predictionbar' style='height:${height5}px;'></div>
-          <div class='predictionbar' style='height:${height6}px;'></div>
-          <div class='predictionbar' style='height:${height7}px;'></div>
-          <div class='predictionbar' style='height:${height8}px;'></div>
-        </div>
       </div>
     `;
     const infoWindow = new google.maps.InfoWindow({
@@ -376,9 +357,14 @@ async function initMap() {
   })
 
   function drawChart(number) {
-    fetch(`/averages/${number}`)
+    const loadingDiv = document.getElementById("loading");
+    loadingDiv.style.display = "block"; // show the loading animation
+    const cacheBuster = Date.now(); // add a cache-busting parameter
+    fetch(`/averages/${number}?cb=${cacheBuster}`)
       .then(response => response.json())
       .then(data => {
+        const chosenStationName = data[0].address;
+        document.getElementById("stationTitle").innerHTML = `<h2>${chosenStationName}</h2>`; 
         const chart_data = new google.visualization.DataTable();
         chart_data.addColumn("string", "Week_Day_No");
         chart_data.addColumn("number", "Average Bikes Available");
@@ -390,23 +376,15 @@ async function initMap() {
           const matchingData = data.find(obj => obj.day_of_week === dayName);
           return [dayName, matchingData ? matchingData.Avg_bikes_free : null, matchingData ? matchingData.Avg_bike_stands : null];
         });
-  
         chart_data.addRows(rows);
-  
-        /* const chosenStationName = data[0].address; */
-  
         const options = {
-          title: "Average Availability Per Day",
+          titlePosition: 'none',
           width: "700",
           height: "450",
-          vAxis: {
-            title: "Number of Bikes"
-          },
+          chartArea: {'width': '75%', 'height': '80%'},
           legend: {position: "bottom"}
         };
-  
-        /* document.getElementById("analysis_title").innerHTML = `<h2>${chosenStationName}</h2>`; */
-  
+        loadingDiv.style.display = "none"; // hide the loading animation 
         const chart = new google.visualization.ColumnChart(document.getElementById("PredictiveChart"));
         chart.draw(chart_data, options);
       });
