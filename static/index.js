@@ -401,15 +401,17 @@ async function initMap() {
           const dayOfWeek = datetime.getDay(); // returns 0 for Sunday, 1 for Monday, and so on
           const hour = datetime.getHours();
           console.log(dayOfWeek, hour);
+          getPrediction(number, dayOfWeek, hour);
         });
       });
   }
 
-  function getPrediction(number) {
+  function getPrediction(number, dayOfWeek, hour) {
     fetch(`/predictions/${number}`)
       .then(response => response.json())
       .then(data => {
-        console.log(data);
+        document.getElementById("displayPrediction").innerHTML = "Number of available bikes: " + data[dayOfWeek][hour];
+        console.log(data[dayOfWeek][hour]);
       });
   }
   
