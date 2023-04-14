@@ -331,13 +331,42 @@ async function initMap() {
   //code for nearest btns
   const nearest_bike_btn = document.getElementById("nearest-bike");
   nearest_bike_btn.addEventListener("click", () => {
-    console.log(markerArray[1]);
+    var stations = stations_with_bikes(markerArray);
+    getUserLocation();
+    console.log(stations[1]);
 });
 
 const nearest_stand_btn = document.getElementById("nearest-stand");
 nearest_stand_btn.addEventListener("click", () => {
-  console.log(markerArray[1]);
+    getUserLocation();
+    var stations = stations_with_stands(markerArray); 
+    console.log(stations[1]);
 });
+
+//func that takes arg of bike/stand and array of markers, and returns array with available bikes/stands
+function stations_with_bikes(array){
+    var has_bikes = [];
+    for (let i =0; i< array.length; i++ ){
+        if (array[i].bikes_free > 0){
+            has_bikes.push(array[i]);
+        }
+    }
+    return has_bikes;
+}
+
+function stations_with_stands(array){
+    var has_stands = [];
+    for (let i =0; i< array.length; i++ ){
+        if (array[i].free_stands > 0){
+            has_stands.push(array[i]);
+        }
+    }
+    return has_stands;
+}
+
+function nearest_station(array){
+
+}
 
 
 
