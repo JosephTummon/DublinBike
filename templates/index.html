@@ -1,94 +1,102 @@
 <html>
-  <head>
-    <title>Dublin Bikes</title>
-    <!-- Google charts src-->
-    <script src="https://www.gstatic.com/charts/loader.js"></script>
-    <script type="text/javascript" src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
-    
-    <!--
+
+<head>
+  <title>Dublin Bikes</title>
+  <!-- Google charts src-->
+  <script src="https://www.gstatic.com/charts/loader.js"></script>
+  <script type="text/javascript" src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+
+  <!--
       *UNCOMMENT THIS IS YOU ARE WORKING ON THE DESIGNING FRONTEND AND DEVELOP WITH LIVE SERVER
       EASIER THAN DOING IT THROUGH FLASK*
     
     <link rel="stylesheet" type="text/css" href="/static/style.css" />
     <link rel="stylesheet" type="text/css" href="/static/index.js" />
     -->
-    
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}"/>
-    <script type="module" src="{{ url_for('static', filename='index.js') }}"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
-   
-  </head>
-  <body>
-    <!--Header-->
-    <header>
-        <div class="logo">
-            <h1><a class="l" href="http://127.0.0.1:5000/"><span id="db">DB</span>ikes</a></h1>
-        </div>
-        <div class="search">
-          <input id="pac-input"class="controls"type="text"placeholder="  Search">
-          <span class="search-icon"><i class="fa fa-search"></i></span>
-        </div>
-        <!--Code for swapping nums on station pins-->
-        <div class="buttons">
-          <div id = "btn1" class = "btn active">
-            <i class="fa-solid fa-bicycle"></i>
-            <a class="button-text" >Available<br>Bikes</a>
-          </div>
-          <div id = "btn2" class = "btn">
-            <i class="fa-solid fa-square-parking"></i>
-            <a class="button-text">Available<br>Stands</a>
-          </div>
-        </div>
-        <!--End of swapping nums code-->
-        <div id="weather"></div>
-    </header>
-    <!-- Side Bar-->
-    <div id="mySidebar" class="sidebar">
-      <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-      <div id="chartContainer">
-        <div id="stationTitle"></div>
-        <div id="PredictiveChart"></div>
-      </div>
-      <div id="loading">
-        <img src="static/Loading.gif" alt="Loading...">
-      </div>
-      <div id="Model"><p>This is where the model will go</p></div>
+
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}" />
+  <script type="module" src="{{ url_for('static', filename='index.js') }}"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
+
+</head>
+
+<body>
+  <!--Header-->
+  <header>
+    <div class="logo">
+      <h1><a class="l" href="http://127.0.0.1:5000/"><span id="db">DB</span>ikes</a></h1>
     </div>
-    
-    <!-- Putting map in div so it can be moved by the sidebar-->
-    <div id="main">
-      <div id="map"></div>
+    <div class="search">
+      <input id="pac-input" class="controls" type="text" placeholder="  Search">
+      <span class="search-icon"><i class="fa fa-search"></i></span>
     </div>
-    
-    <!-- 
+    <!--Code for swapping nums on station pins-->
+    <div class="buttons">
+      <div id="btn1" class="btn active">
+        <i class="fa-solid fa-bicycle"></i>
+        <a class="button-text">Available<br>Bikes</a>
+      </div>
+      <div id="btn2" class="btn">
+        <i class="fa-solid fa-square-parking"></i>
+        <a class="button-text">Available<br>Stands</a>
+      </div>
+    </div>
+    <!--End of swapping nums code-->
+    <div id="weather"></div>
+  </header>
+  <!-- Side Bar-->
+  <div id="mySidebar" class="sidebar">
+    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+    <div id="chartContainer">
+      <div id="stationTitle"></div>
+      <div id="PredictiveChart">
+        <label for="birthdaytime">Birthday (date and time):</label>
+        <input type="datetime-local" id="birthdaytime" name="birthdaytime">
+        <input type="submit">
+      </div>
+    </div>
+    <div id="loading">
+      <img src="static/Loading.gif" alt="Loading...">
+    </div>
+    <div id="Model">
+      <p>This is where the model will go</p>
+    </div>
+  </div>
+
+  <!-- Putting map in div so it can be moved by the sidebar-->
+  <div id="main">
+    <div id="map"></div>
+  </div>
+
+  <!-- 
       The `defer` attribute causes the callback to execute after the full HTML
       document has been parsed. For non-blocking uses, avoiding race conditions,
       and consistent behavior across browsers, consider loading using Promises
       with https://www.npmjs.com/package/@googlemaps/js-api-loader.
       -->
 
-    <div id="dropdown">
-      <i class="fa-solid fa-map-pin" style="color: #00A4D3;"></i>
-      <select id="start">
-        <option value="" selected>Origin</option>
-      </select>
-      <i class="fa-solid fa-location-dot" style="color: #00A4D3;"></i>
-      <select id="end">
-        <option value="" selected>Destination</option>
-      </select>
-    </div>
-    <div id="warnings-panel"></div>  
-    <script
-      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDgYC8VXvS4UG9ApSUhS2v-ByddtHljFls&libraries=places&callback=initMap&v=weekly"
-          async defer
-    ></script>
+  <div id="dropdown">
+    <i class="fa-solid fa-map-pin" style="color: #00A4D3;"></i>
+    <select id="start">
+      <option value="" selected>Origin</option>
+    </select>
+    <i class="fa-solid fa-location-dot" style="color: #00A4D3;"></i>
+    <select id="end">
+      <option value="" selected>Destination</option>
+    </select>
+  </div>
+  <div id="warnings-panel"></div>
+  <script
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDgYC8VXvS4UG9ApSUhS2v-ByddtHljFls&libraries=places&callback=initMap&v=weekly"
+    async defer></script>
 
-    <script>
-      google.charts.load('current', {'packages':['corechart']});
-      function closeNav() {
-        document.getElementById("mySidebar").style.width = "0";
-        document.getElementById("main").style.marginLeft= "0";
-      }
-      </script>
-  </body>
+  <script>
+    google.charts.load('current', { 'packages': ['corechart'] });
+    function closeNav() {
+      document.getElementById("mySidebar").style.width = "0";
+      document.getElementById("main").style.marginLeft = "0";
+    }
+  </script>
+</body>
+
 </html>
