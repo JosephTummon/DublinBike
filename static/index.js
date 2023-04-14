@@ -329,6 +329,22 @@ async function initMap() {
     });
   }
       
+  //code for nearest btns
+  const nearest_bike_btn = document.getElementById("nearest-bike");
+  nearest_bike_btn.addEventListener("click", () => {
+    console.log(markerArray[1]);
+});
+
+const nearest_stand_btn = document.getElementById("nearest-stand");
+nearest_stand_btn.addEventListener("click", () => {
+  console.log(markerArray[1]);
+});
+
+
+
+
+
+
 
   //***** CODE FOR DIRECTIONS *****
   let markerArray1 = []
