@@ -28,7 +28,6 @@ async function initMap() {
         document.getElementById("google_translate_element").style.display = "none";
         translate_vis = false;
     }
-
   });
 
   
@@ -42,8 +41,9 @@ async function initMap() {
    locationButton.classList.add("custom-map-control-button");
    map.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(locationButton);
    locationButton.style.marginRight = "15px";
-
-   locationButton.addEventListener('click', function() {
+   locationButton.addEventListener('click', getUserLocation)
+   
+   function getUserLocation(){
     var marker;
     navigator.geolocation.getCurrentPosition(function(position) {
       var user_pos = {
@@ -88,8 +88,7 @@ async function initMap() {
         });
     
     });
-  });
-
+   }
 
 
   
