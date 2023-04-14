@@ -165,33 +165,104 @@ async function initMap() {
     displayWeather(data);
   }
 
+  
   // Displays the station data on the map as markers and info windows
-  function displayWeather(data) {
+function displayWeather(data) {
     // Get icon of weather
     var weatherIcon = data.weather[0].icon;
     // Get temperature and convert temperature to Degrees Celcius
     var kelvin = data.main.temp;
     var celsius = Math.round((kelvin - 273.15) * 10) / 10;
-    // Get city 
-    var city = data.name;
+    var fahrenheit = Math.round((kelvin - 273.15) * 9/5 + 32)
+    var degrees 
+    // Get city
+    // var city = data.name;
     // Get description of weather
-    var weatherDescription = data.weather[0].description;
+    // var weatherDescription = data.weather[0].description;
+    // Get additional weather data
+    // var feelsLike = data.main.feels_like;
+    // var humidity = data.main.humidity;
+    // var tempMax = data.main.temp_max;
+    // var tempMin = data.main.temp_min;
+  
+    var weatherDiv = document.getElementById("weather-info");
+  
+    // Coding wind compass
+    var wind_dir = data.wind.deg - 45;
+    var wind_speed = data.wind.speed;
+    var windSpeedKmhr = Math.round(wind_speed * 0.621371192);
+  
+    weatherDiv.innerHTML = `
+      <div id="test">
+        <div id="weather">
+            <img src=https://openweathermap.org/img/wn/${weatherIcon}.png alt='icon' width='42' height='40'><h2 id='temperature'>${celsius}°C</h2>
+        </div>
+        <div id="wind">
+            <i id='compass' class='fa-solid fa-location-arrow fa-lg'></i><h2 id="speedometer">${wind_speed} km/h</h2>
+        </div>
+      <div>
+        `
+    
+    // Add event listener for mouseover on weatherDiv
+    weatherDiv.addEventListener("click", function () {
+        // Check the current temperature unit (Celsius or Fahrenheit)
+        if (weatherDiv.innerHTML.includes("°C")) {
+            weatherDiv.innerHTML = `
+        <div id="test">
+            <div id="weather">
+                <img src=https://openweathermap.org/img/wn/${weatherIcon}.png alt='icon' width='42' height='40'><h2 id='temperature'>${fahrenheit}°F</h2>
+            </div>
+            <div id="wind">
+                <i id='compass' class='fa-solid fa-location-arrow fa-lg'></i><h2 id="speedometer">${windSpeedKmhr} mphh</h2>
+            </div>
+        <div>
+            `
+        }
+        else {
+            weatherDiv.innerHTML = `
+      <div id="test">
+        <div id="weather">
+            <img src=https://openweathermap.org/img/wn/${weatherIcon}.png alt='icon' width='42' height='40'><h2 id='temperature'>${celsius}°C</h2>
+        </div>
+        <div id="wind">
+            <i id='compass' class='fa-solid fa-location-arrow fa-lg'></i><h2 id="speedometer">${wind_speed} km/h</h2>
+        </div>
+      <div>
+        `
+        }
+        });
+    //   <div id="additional-info">
+    //       <p>Feels Like: ${feelsLike} <br> Humidity: ${humidity} <br></p> 
+    //       <p>Max Temperature: ${tempMax} <br> Min Temperature: ${tempMin}</p>
+    //   </div>;
 
-    var weatherDiv = document.getElementById("weather");
+    // Set up the popup content
+    // var popup = `
+    //   <div id="additional-info">
+    //       <h2>${city}</h2>
+    //       <p>Feels Like: ${feelsLike}</p>
+    //       <p>Humidity: ${humidity}</p>
+    //       <p>Max Temperature: ${tempMax}</p>
+    //       <p>Min Temperature: ${tempMin}</p>
+    //   </div>`;
+    // document.getElementById("additional-info").style.display = "none";
 
-    weatherDiv.innerHTML += "<img src=https://openweathermap.org/img/wn/" + weatherIcon + ".png alt='icon' width='42' height='40'><h2 id='temperature'>" + celsius + "°C</h2>";
-    // weatherDiv.innerHTML += "<div class='description'><h2>" + weatherDescription + "</h2></div>"; 
+    // const compass = document.getElementById("compass");
+    // compass.style.transform = 'rotate(' + wind_dir + 'deg)';
+  
+    // // Add event listener for mouseover on weatherDiv
+    // weatherDiv.addEventListener("mouseover", function () {
+    //     document.getElementById("additional-info").style.display = "flex"; // Append the popup content to weatherDiv
+    // });
 
+    // // Find the #additional-info element
 
-    //coding wind compass
-    var wind_dir = data.wind.deg -45;
-    const compass = document.getElementById("compass");
-    compass.style.transform = 'rotate(' + wind_dir + 'deg)';
-    var wind_speed = (data.wind.speed);
-    const speedometer = document.getElementById("speedometer");
-    speedometer.innerHTML = wind_speed+" km/h"
-
+    // // Add event listener for mouseout on weatherDiv
+    // weatherDiv.addEventListener("mouseout", function () {
+    //     document.getElementById("additional-info").style.display = "none";
+    // });
   }
+  
 
   // Display Dropdown in HTML
   function displayDropDown(stations) {
