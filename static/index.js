@@ -2,6 +2,7 @@
 let map;
 let marker;
 let autocomplete;
+
 // Initialize and add the map
 async function initMap() {
   // Set the coordinates for the center of the map
@@ -50,14 +51,14 @@ async function initMap() {
         map.setZoom(100);
       }
     });
-  });   
+  });
   // Fetch station data and display markers and drop-down options
   await fetchStationData();
 
   // Fetch weather data 
   await fetchWeatherData();
 
-   // Update station data every 60 seconds
+  // Update station data every 60 seconds
 
 
 
@@ -108,13 +109,13 @@ async function initMap() {
 
     var kelvin = data.main.temp;
     var celsius = Math.round((kelvin - 273.15) * 10) / 10;
-    weatherDiv.innerHTML += "<h1>" + celsius + "°C</h1>"; 
+    weatherDiv.innerHTML += "<h1>" + celsius + "°C</h1>";
   }
 
   // Display Dropdown in HTML
   function displayDropDown(stations) {
     // Display drop down for start destination
-    stations.forEach(station=> {
+    stations.forEach(station => {
       var option = document.createElement("option");
       option.setAttribute("id", "start-option");
       option.value = station.address + ', Dublin';
@@ -123,7 +124,7 @@ async function initMap() {
     })
 
     // Display drop down for end destination
-    stations.forEach(station=> {
+    stations.forEach(station => {
       var option = document.createElement("option");
       option.setAttribute("id", "end-option");
       option.value = station.address + ", Dublin";
@@ -132,17 +133,17 @@ async function initMap() {
     })
   }
 
-    
-    // ***** CODE FOR ADDING MARKERS AND INFO-WIDOW*****
-    
 
-    // Displays the station data on the map as markers and info windows
+  // ***** CODE FOR ADDING MARKERS AND INFO-WIDOW*****
+
+
+  // Displays the station data on the map as markers and info windows
   function addMarkers(stations) {
 
     // Create arrays to store the markers and info windows
     const markerArray = [];
     const infoWindowArray = [];
-    
+
     // Loop through each station and create a marker and info window for it
     for (const station of stations) {
       // Create a new marker for the station
@@ -154,7 +155,16 @@ async function initMap() {
       infoWindowArray.push(infoWindow);
 
       // Attach listeners to show and hide the info window when the marker is hovered over
+
       attachInfoWindowListeners(marker, infoWindow);
+      marker.addListener("click", () => {
+        google.charts.load('current', { 'packages': ['corechart'] });
+        drawChart(station.number);
+        getPrediction(station.number);
+        document.getElementById("mySidebar").style.width = "650px";
+        document.getElementById("main").style.marginLeft = "650px";
+      });
+
     }
   }
 
@@ -168,21 +178,23 @@ async function initMap() {
       station_number: station.number,
       bikes_free: station.available_bikes,
       free_stands: station.available_bike_stands,
-    });  
+    });
     marker.setLabel(station.available_bikes.toString());
     //Toggle code to change num on station pin
     const toggleButton1 = document.getElementById("btn1");
-    toggleButton1.addEventListener("click", () => {    
-        marker.setLabel(station.available_bikes.toString());});
+    toggleButton1.addEventListener("click", () => {
+      marker.setLabel(station.available_bikes.toString());
+    });
     const toggleButton2 = document.getElementById("btn2");
-    toggleButton2.addEventListener("click", () => {    
-        marker.setLabel(station.available_bike_stands.toString());});
-    
+    toggleButton2.addEventListener("click", () => {
+      marker.setLabel(station.available_bike_stands.toString());
+    });
+
     toggleButton1.addEventListener("click", () => {
       btn1.classList.add("active");
       btn2.classList.remove("active");
     });
-    
+
     toggleButton2.addEventListener("click", () => {
       btn2.classList.add("active");
       btn1.classList.remove("active");
@@ -192,16 +204,6 @@ async function initMap() {
 
   // Creates a new info window object for the given station
   function createInfoWindow(station) {
-    // Variable to change height of all bars
-    const height = 5;
-    const height1 = station.prediction0 * height;
-    const height2 = station.prediction1 * height;
-    const height3 = station.prediction2 * height;
-    const height4 = station.prediction3 * height;
-    const height5 = station.prediction4 * height;
-    const height6 = station.prediction5 * height;
-    const height7 = station.prediction6 * height;
-    const height8 = station.prediction7 * height;
     const contentString = `
       <div class="info-window">
         <h1>${station.address}</h1>
@@ -209,16 +211,6 @@ async function initMap() {
         <p>${station.available_bikes}</p>
         <h2>Available Stands:</h2>
         <p>${station.available_bike_stands}</p>
-        <div class="predictionChart">
-          <div class='predictionbar' style='height:${height1}px;'></div>
-          <div class='predictionbar' style='height:${height2}px;'></div>
-          <div class='predictionbar' style='height:${height3}px;'></div>
-          <div class='predictionbar' style='height:${height4}px;'></div>
-          <div class='predictionbar' style='height:${height5}px;'></div>
-          <div class='predictionbar' style='height:${height6}px;'></div>
-          <div class='predictionbar' style='height:${height7}px;'></div>
-          <div class='predictionbar' style='height:${height8}px;'></div>
-        </div>
       </div>
     `;
     const infoWindow = new google.maps.InfoWindow({
@@ -231,7 +223,7 @@ async function initMap() {
   // Attaches listeners to show and hide the info window when the marker is hovered over
   function attachInfoWindowListeners(marker, infoWindow) {
     let currentInfoWindow = null;
-    google.maps.event.addListener(marker, "mouseover", function() {
+    google.maps.event.addListener(marker, "mouseover", function () {
       if (currentInfoWindow) {
         currentInfoWindow.close();
       }
@@ -239,24 +231,34 @@ async function initMap() {
       currentInfoWindow = infoWindow;
     });
 
-    google.maps.event.addListener(marker, 'mouseout', function() {
+    google.maps.event.addListener(marker, 'mouseout', function () {
       infoWindow.close();
       currentInfoWindow = null;
     });
   }
-      
 
 
-    // ***** CODE FOR DIRECTIONS *****
 
-    // Instantiate a directions service.
-    const directionsService = new google.maps.DirectionsService();
-    // Create a renderer for directions and bind it to the map.
-    const directionsRenderer = new google.maps.DirectionsRenderer({ map: map });
-    // Instantiate an info window to hold step text.
-    const stepDisplay = new google.maps.InfoWindow();
+  // ***** CODE FOR DIRECTIONS *****
 
-    // Display the route between the initial start and end selections.
+  // Instantiate a directions service.
+  const directionsService = new google.maps.DirectionsService();
+  // Create a renderer for directions and bind it to the map.
+  const directionsRenderer = new google.maps.DirectionsRenderer({ map: map });
+  // Instantiate an info window to hold step text.
+  const stepDisplay = new google.maps.InfoWindow();
+
+  // Display the route between the initial start and end selections.
+  calculateAndDisplayRoute(
+    directionsRenderer,
+    directionsService,
+    markerArray,
+    stepDisplay,
+    map
+  );
+
+  // Listen to change events from the start and end lists.
+  const onChangeHandler = function () {
     calculateAndDisplayRoute(
       directionsRenderer,
       directionsService,
@@ -264,34 +266,24 @@ async function initMap() {
       stepDisplay,
       map
     );
+  };
 
-    // Listen to change events from the start and end lists.
-    const onChangeHandler = function () {
-      calculateAndDisplayRoute(
-        directionsRenderer,
-        directionsService,
-        markerArray,
-        stepDisplay,
-        map
-      );
-    };
+  document.getElementById("start-option").addEventListener("change", onChangeHandler);
+  document.getElementById("end-option").addEventListener("change", onChangeHandler);
 
-    document.getElementById("start-option").addEventListener("change", onChangeHandler);
-    document.getElementById("end-option").addEventListener("change", onChangeHandler);
-    
 
-    function calculateAndDisplayRoute(
+  function calculateAndDisplayRoute(
     directionsRenderer,
     directionsService,
     markerArray,
     stepDisplay,
     map
-    ) {
+  ) {
     // First, remove any existing markers from the map.
     for (let i = 0; i < markerArray.length; i++) {
       markerArray[i].setMap(null);
     }
-    
+
     // Retrieve the start and end locations and create a DirectionsRequest using
     // WALKING directions.
     directionsService
@@ -311,9 +303,9 @@ async function initMap() {
       .catch((e) => {
         window.alert("Directions request failed due to " + e);
       });
-    }
+  }
 
-    function showSteps(directionResult, markerArray, stepDisplay, map) {
+  function showSteps(directionResult, markerArray, stepDisplay, map) {
     // For each step, place a marker, and add the text to the marker's infowindow.
     // Also attach the marker to an array so we can keep track of it and remove it
     // when calculating new routes.
@@ -332,9 +324,9 @@ async function initMap() {
         map
       );
     }
-    }
+  }
 
-    function attachInstructionText(stepDisplay, marker, text, map) {
+  function attachInstructionText(stepDisplay, marker, text, map) {
     google.maps.event.addListener(marker, "click", () => {
       // Open an info window when the marker is clicked on, containing the text
       // of the step.
@@ -345,8 +337,8 @@ async function initMap() {
   }
 
   //code to change style of bike / stand selector buttons when clicked
-  const b1= document.getElementById("btn1");
-  const b2= document.getElementById("btn2");
+  const b1 = document.getElementById("btn1");
+  const b2 = document.getElementById("btn2");
 
   b1.addEventListener("click", () => {
     b1.style.backgroundColor = "lightblue";
@@ -365,10 +357,63 @@ async function initMap() {
     b1.style.backgroundColor = "white";
     b1.style.color = "black";
     b1.style.zIndex = "100";
-
-
   })
+
+  function drawChart(number) {
+    const loadingDiv = document.getElementById("loading");
+    loadingDiv.style.display = "block"; // show the loading animation
+    const cacheBuster = Date.now(); // add a cache-busting parameter
+    fetch(`/averages/${number}?cb=${cacheBuster}`)
+      .then(response => response.json())
+      .then(data => {
+        const chosenStationName = data[0].address;
+        document.getElementById("stationTitle").innerHTML = `<h2>${chosenStationName}</h2>`;
+        const chart_data = new google.visualization.DataTable();
+        chart_data.addColumn("string", "Week_Day_No");
+        chart_data.addColumn("number", "Average Bikes Available");
+        chart_data.addColumn("number", "Average Bike Stands");
+
+        const dayNames = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+
+        const rows = dayNames.map(dayName => {
+          const matchingData = data.find(obj => obj.day_of_week === dayName);
+          return [dayName, matchingData ? matchingData.Avg_bikes_free : null, matchingData ? matchingData.Avg_bike_stands : null];
+        });
+        chart_data.addRows(rows);
+        const options = {
+          titlePosition: 'none',
+          width: "700",
+          height: "450",
+          chartArea: { 'width': '75%', 'height': '80%' },
+          legend: { position: "bottom" }
+        };
+        loadingDiv.style.display = "none"; // hide the loading animation 
+
+        const chart = new google.visualization.ColumnChart(document.getElementById("PredictiveChart"));
+        chart.draw(chart_data, options);
+
+        const form = document.querySelector('form');
+        form.addEventListener('submit', (event) => {
+          event.preventDefault(); // prevent form submission
+          var datetime = document.getElementById('availabletime').value;
+          console.log(datetime); // log the value of the datetime input field
+          var datetime = new Date(datetime); 
+          const dayOfWeek = datetime.getDay(); // returns 0 for Sunday, 1 for Monday, and so on
+          const hour = datetime.getHours();
+          console.log(dayOfWeek, hour);
+          getPrediction(number, dayOfWeek, hour);
+        });
+      });
+  }
+
+  function getPrediction(number, dayOfWeek, hour) {
+    fetch(`/predictions/${number}`)
+      .then(response => response.json())
+      .then(data => {
+        document.getElementById("displayPrediction").innerHTML = "Number of available bikes: " + data[dayOfWeek][hour];
+        console.log(data[dayOfWeek][hour]);
+      });
+  }
+  
 }
-
 window.initMap = initMap;
-

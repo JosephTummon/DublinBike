@@ -7,6 +7,7 @@ import time
 import simplejson as json
 from datetime import datetime
 import pickle
+import pandas as pd
 
 # Database configuration
 URI = "dbbikes2.cytgvbje9wgu.us-east-1.rds.amazonaws.com"
@@ -14,7 +15,8 @@ PORT = "3306"
 DB = "dbbikes2"
 USER = "admin"
 PASSWORD = "DublinBikes1"
-# engine = create_engine("mysql+mysqldb://{}:{}@{}:{}/{}".format(USER, PASSWORD, URI, PORT, DB), echo=True)
+
+engine = create_engine("mysql+mysqldb://{}:{}@{}:{}/{}".format(USER, PASSWORD, URI, PORT, DB), echo=True)
 
 # opening pickle file with pretrained model
 with open('MLModel/model.pkl', 'rb') as handle:
@@ -43,8 +45,15 @@ def get_stations():
         for station in stations:
             for i in range(1, 9):
                 name = "prediction" + str(i)
-                predictions = model.predict([[station.get('number'), 3, datetime.now().hour + i]]).tolist()[0]
-                station[name] = predictions
+                predictions = model.predict([[station.get('number'), 4, datetime.now().hour + i]]).tolist()[0]
+                station[name] = int(predictions)
+                name = "tomorrow" + str(i)
+                predictions = model.predict([[station.get('number'), 5, datetime.now().hour + i]]).tolist()[0]
+                station[name] = int(predictions)
+                name =  "Sunday" + str(i)
+                predictions = model.predict([[station.get('number'), 6, datetime.now().hour + i]]).tolist()[0]
+                station[name] = int(predictions)
+
             vals.append((station.get('number'), station.get('available_bikes'), station.get('available_bike_stands'), station.get('status'), datetime.timestamp(datetime.now()), predictions))
         #print('#found {} Availability {}'.format(len(vals), vals))
     
@@ -53,9 +62,50 @@ def get_stations():
         print(traceback.format_exc())
         return "Error in get_stations: " + str(e), 404
 
+@app.route("/predictions/<int:number>")
+def get_predictions(number):
+    try:
+        vals = {}
+        for i in range(7):
+            vals[str(i)] = {}
+            for j in range(24):
+                prediction = model.predict([[number, i, j]]).tolist()[0]
+                name = "station" + str(number) + str(i) + str(j)
+                vals[str(i)][str(j)] = prediction
+        return jsonify(vals)
+    
+
+    except Exception as e:
+        print(traceback.format_exc())
+        return "Error in get_stations: " + str(e), 404
+
+                
+                
+
+
 
 ##Weather API Key
 WEATHERAPI = "http://api.openweathermap.org/data/2.5/weather?appid=d5de0b0a9c3cc6473da7d0005b3798ac&q=Dublin, IE"
+
+# Define a new app route to get the weather data
+@app.route("/averages/<int:number>")
+def get_averages(number):
+    try:
+        sql = text("""SELECT s.address, AVG(a.available_bike_stands) AS Avg_bike_stands,
+                AVG(a.available_bikes) AS Avg_bikes_free, 
+                DATE_FORMAT(FROM_UNIXTIME(a.datetime), '%a') AS day_of_week FROM dbbikes2.station s
+                JOIN dbbikes2.availability2 a ON s.number = a.number AND DATE_FORMAT(FROM_UNIXTIME(a.datetime), '%a') IS NOT NULL
+                WHERE s.number = :number
+                GROUP BY s.address, day_of_week
+                ORDER BY s.address, day_of_week;""")
+        
+        df = pd.read_sql(sql, engine, params={'number': number})   
+        df = df.to_dict(orient="records")   
+        return jsonify(df)
+    
+    except Exception as e:
+        print(traceback.format_exc())
+        return "Error in get_stations: " + str(e), 404
 
 # Define the function to get weather data
 @app.route("/weather")
