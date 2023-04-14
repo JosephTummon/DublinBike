@@ -43,53 +43,56 @@ async function initMap() {
    locationButton.style.marginRight = "15px";
    locationButton.addEventListener('click', getUserLocation)
    
-   function getUserLocation(){
-    var marker;
-    navigator.geolocation.getCurrentPosition(function(position) {
-      var user_pos = {
-        lat: position.coords.latitude,
-        lng: position.coords.longitude
-      };
-  
-      map.panTo(user_pos);
-  
-        marker = new google.maps.Marker({
-          position: user_pos,
-          map: map
-        });
-      
-    }, 
-    function(error) {
-      var user_pos = {
-        lat: 53.3081318,
-        lng: -6.2242786
-      };
-  
-      switch (error.code) {
-        case error.PERMISSION_DENIED:
-          alert("Location access denied by user. Using default location");
-          break;
-        case error.POSITION_UNAVAILABLE:
-          alert("Location information is unavailable.Using default location");
-          break;
-        case error.TIMEOUT:
-          alert("Location request timed out. Using default location");
-          break;
-        default:
-          alert("An unknown error occurred. Using default location");
-          break;
-      }
-  
-      map.panTo(user_pos);
-
-        marker = new google.maps.Marker({
-          position: user_pos,
-          map: map
-        });
-    
+   function getUserLocation() {
+    return new Promise((resolve, reject) => {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          var user_pos = {
+            lat: position.coords.latitude,
+            lng: position.coords.longitude
+          };
+          var userLatLng = new google.maps.LatLng(user_pos.lat, user_pos.lng);
+          map.panTo(user_pos);
+          var marker = new google.maps.Marker({
+            position: user_pos,
+            map: map
+          });
+          console.log("function is returning:");
+          console.log(userLatLng);
+          resolve(userLatLng);
+        },
+        (error) => {
+          var user_pos = {
+            lat: 53.3081318,
+            lng: -6.2242786
+          };
+          var userLatLng = new google.maps.LatLng(user_pos.lat, user_pos.lng);
+          switch (error.code) {
+            case error.PERMISSION_DENIED:
+              alert("Location access denied by user. Using default location");
+              break;
+            case error.POSITION_UNAVAILABLE:
+              alert("Location information is unavailable.Using default location");
+              break;
+            case error.TIMEOUT:
+              alert("Location request timed out. Using default location");
+              break;
+            default:
+              alert("An unknown error occurred. Using default location");
+              break;
+          }
+          map.panTo(user_pos);
+          var marker = new google.maps.Marker({
+            position: user_pos,
+            map: map
+          });
+          console.log("function is returning:");
+          console.log(userLatLng);
+          resolve(userLatLng);
+        }
+      );
     });
-   }
-
+  }
 
   
   // Create the search box and link it to the UI element.
@@ -328,22 +331,26 @@ async function initMap() {
     });
   }
       
-  //code for nearest btns
+
+
+  //code for nearest btns/////////////
   const nearest_bike_btn = document.getElementById("nearest-bike");
-  nearest_bike_btn.addEventListener("click", () => {
+  nearest_bike_btn.addEventListener("click", async () => {
     var stations = stations_with_bikes(markerArray);
-    getUserLocation();
-    console.log(stations[1]);
+    var user_coords = await getUserLocation();
+    console.log(user_coords);
+    nearest_station(stations, user_coords, 'WALKING');
 });
 
 const nearest_stand_btn = document.getElementById("nearest-stand");
 nearest_stand_btn.addEventListener("click", () => {
-    getUserLocation();
+    var user_coords = getUserLocation();
+    console.log(user_coords);
     var stations = stations_with_stands(markerArray); 
-    console.log(stations[1]);
+    nearest_station(stations, user_coords, 'BICYCLING');
 });
 
-//func that takes arg of bike/stand and array of markers, and returns array with available bikes/stands
+//funcs that takes arg of bike/stand and array of markers, and returns array with available bikes/stands
 function stations_with_bikes(array){
     var has_bikes = [];
     for (let i =0; i< array.length; i++ ){
@@ -364,8 +371,47 @@ function stations_with_stands(array){
     return has_stands;
 }
 
-function nearest_station(array){
 
+function nearest_station(array, lat_lng, mode){
+    var nearest_station;
+    var min_dist = Infinity;
+    var dist;
+    for (let i = 0; i < array.length; i++){
+        //need to calculate dist to marker
+
+        var route = {
+            origin: lat_lng,
+            destination: array[i].position,
+            travelMode: mode
+        }
+
+        
+        directionsService.route(route,
+          function(response, status) { // anonymous function to capture directions
+            if (status !== 'OK') {
+              window.alert('Directions request failed due to ' + status);
+              return;
+            } else {
+              //directionsRenderer.setDirections(response); // Add route to the map
+              console.log(response)
+              var directionsData = response.routes[0].legs[0]; // Get data about the mapped route
+              if (!directionsData) {
+                window.alert('Directions request failed');
+                return;
+              }
+              else {
+                dist = directionsData.distance.text
+              }
+            }
+          });
+
+          
+        if (dist <= min_dist){
+            min_distance = dist;
+            nearest_station = array[i]
+        }
+    }
+    return nearest_station;
 }
 
 
