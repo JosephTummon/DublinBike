@@ -23,6 +23,22 @@
   <body id = "body">
     <!--Header-->
     <header id="header">
+        <button id = "translate_button"><i class="fa-solid fa-language"></i></button>
+        <div id="google_translate_element"></div>
+    <!--  --> 
+    <script type="text/javascript">  
+        function googleTranslateElementInit() {  
+            new google.translate.TranslateElement(  
+                {pageLanguage: 'en',},  
+                'google_translate_element'  
+            );  
+        }  
+    </script>  
+  
+<!-- Script code for google translator API -->  
+    <script type="text/javascript"   
+    src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit">  
+    </script>  
         <div>
           <label class="switch">
             <input id = "slider" type="checkbox">

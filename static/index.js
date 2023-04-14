@@ -17,6 +17,21 @@ async function initMap() {
     fullscreenControl: false // removes full screen toggle
   });
 
+  const translate_button = document.getElementById("translate_button");
+  var translate_vis = false;
+  translate_button.addEventListener('click', function() {
+    if (translate_vis == false){
+        document.getElementById("google_translate_element").style.display = "block";
+        translate_vis = true;
+    }
+    else {
+        document.getElementById("google_translate_element").style.display = "none";
+        translate_vis = false;
+    }
+
+  });
+
+  
   
   
    // Requesting user location and adding their marker to map
