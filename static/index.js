@@ -153,7 +153,7 @@ async function initMap() {
     const response = await fetch("/stations");
     const data = await response.json();
     console.log('fetch response', typeof data);
-    displayDropDown(data);
+    displayInputBox(data);
     addMarkers(data);
   }
 
@@ -165,7 +165,6 @@ async function initMap() {
     displayWeather(data);
   }
 
-  
   // Displays the station data on the map as markers and info windows
 function displayWeather(data) {
     // Get icon of weather
@@ -263,29 +262,80 @@ function displayWeather(data) {
     // });
   }
   
+  function displayInputBox(stations) {
+    const stationList = [];
+    const start = document.getElementById("start-input");
+    const end = document.getElementById("end-input");
 
-  // Display Dropdown in HTML
-  function displayDropDown(stations) {
-    // Display drop down for start destination
-    stations.forEach(station=> {
-      var option = document.createElement("option");
-      option.setAttribute("id", "start-option");
-      option.value = station.address + ', Dublin';
-      option.innerHTML = station.address;
-      document.getElementById("start").appendChild(option);
-    })
+    // Create and append options to dropdown
+    stations.forEach(station => {
+        stationList.push(station.name);
+    });
 
-    // Display drop down for end destination
-    stations.forEach(station=> {
-      var option = document.createElement("option");
-      option.setAttribute("id", "end-option");
-      option.value = station.address + ", Dublin";
-      option.innerHTML = station.address;
-      document.getElementById("end").appendChild(option);
-    })
-  }
+    start.onkeyup = function() {
+        let result = [];
+        let input = start.value;
+        if(input.length){
+            result = stationList.filter((keyword) => {
+                return keyword.toLowerCase().includes(input.toLowerCase());
+            });
+        }
+        display(result, resultsBox1);
+    }
 
-    
+    end.onkeyup = function() {
+        let result = [];
+        let input = end.value;
+        if(input.length){
+            result = stationList.filter((keyword) => {
+                return keyword.toLowerCase().includes(input.toLowerCase());
+            });
+        }
+        display(result, resultsBox2);
+    }
+
+    function display(result, resultsBox) {
+        const content = result.map((list) => {
+            const listItem = document.createElement("li");
+            listItem.textContent = list;
+            listItem.onclick = function() {
+                selectInput(this, resultsBox, stations);
+            };
+            return listItem;
+        });
+
+        const ulElement = document.createElement("ul");
+
+        content.forEach(item => ulElement.appendChild(item));
+        if (resultsBox) { // Add null check
+            resultsBox.innerHTML = "";
+            resultsBox.appendChild(ulElement);
+        }
+    }
+
+    const resultsBox1 = document.getElementById("result-box1");
+    const resultsBox2 = document.getElementById("result-box2");
+
+    const selectInput = function(list, resultsBox, stations) {
+        if (resultsBox === resultsBox1) {
+            const selectedStation = stations.find(station => station.name === list.textContent);
+            start.innerHTML = selectedStation.address;
+            start.value = selectedStation.address + " Dublin, Ireland";
+            if (resultsBox1) { // Add null check
+                resultsBox1.innerHTML = '';
+            }
+            console.log(start.value);
+        } else if (resultsBox === resultsBox2) {
+            const selectedStation = stations.find(station => station.name === list.textContent);
+            end.innerHTML = selectedStation.address;
+            end.value = selectedStation.address + " Dublin, Ireland";
+            if (resultsBox2) { // Add null check
+                resultsBox2.innerHTML = '';
+            }
+            console.log(end.value);
+        }
+    };
+}
   // ***** CODE FOR ADDING MARKERS AND INFO-WIDOW*****
 
   // Displays the station data on the map as markers and info windows
@@ -411,28 +461,8 @@ function displayWeather(data) {
   // Instantiate an info window to hold step text.
   const stepDisplay = new google.maps.InfoWindow();
 
-  // Display the route between the initial start and end selections.
-  calculateAndDisplayRoute(
-    directionsRenderer,
-    directionsService,
-    markerArray1,
-    stepDisplay,
-    map
-  );
-
-  // Listen to change events from the start and end lists.
-  const onChangeHandler = function () {
-    calculateAndDisplayRoute(
-      directionsRenderer,
-      directionsService,
-      markerArray1,
-      stepDisplay,
-      map
-    );
-  };
-
   
-  const button = document.getElementById("go");
+const button = document.getElementById("go");
 
   // Add event listener to the button element
 button.addEventListener("click", function() {
@@ -457,20 +487,20 @@ function calculateAndDisplayRoute(
   // WALKING directions.
   directionsService
     .route({
-      origin: document.getElementById("start").value,
-      destination: document.getElementById("end").value,
-      travelMode: google.maps.TravelMode.BICYCLING,
+      origin: document.getElementById("start-input").value,
+      destination: document.getElementById("end-input").value,
+      travelMode: google.maps.TravelMode.WALKING,
     })
     .then((result) => {
       // Route the directions and pass the response to a function to create
       // markers for each step.
-      document.getElementById("warnings-panel").innerHTML =
-        "<b>" + result.routes[0].warnings + "</b>";
+    //   document.getElementById("warnings-panel").innerHTML =
+    //     "<b>" + result.routes[0].warnings + "</b>";
       directionsRenderer.setDirections(result);
       showSteps(result, markerArray1, stepDisplay, map);
     })
     .catch((e) => {
-      window.alert("Directions request failed due to " + e);
+      window.alert("Enter a valid Address");
     });
 }
 

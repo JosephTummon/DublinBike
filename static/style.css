@@ -214,13 +214,6 @@ the div
   left: 0;
 }
 
-
-#warnings-panel {
-  width: 100%;
-  height: 10%;
-  text-align: center;
-}
-
 #nearest-btn {
   margin: 0 auto;
   border-radius: 40px;
@@ -279,15 +272,84 @@ html, body {
 }
 
 #dropdown {
-  left: 25%;
-  z-index: 5;
+  display: flex;
   background-color: #fff;
-  padding: 5px;
-  border: 1px solid #999;
   text-align: center;
   font-family: "Roboto", "sans-serif";
-  line-height: 30px;
-  padding-left: 10px;
+  height: 100px;
+}
+
+.search {
+  display: flex;
+  margin: 20px auto;
+  border: 2px solid ghostwhite;
+  padding: 0;
+  height: 50px;
+  border-radius: 15px;
+}
+
+.search:hover {
+  border: 2px solid#cbd5e1;;
+}
+
+#go {
+  border: none;
+  background-color: ghostwhite;
+  height: 50px;
+  width: 50px;
+  color: #18181b;
+  text-decoration: none;
+  font-size: 16px;
+  font-weight: 400;
+  cursor: pointer;
+  border-bottom-left-radius: 15px;
+  border-top-left-radius: 15px;
+  transition: background-color .1s ease-in, transform .1s ease-in;
+}
+  
+#go:hover {
+  background-color: #cbd5e1;
+  color: #38bdf8;
+  transform: scale(1.05);
+}
+
+#go:active {
+  transform: scale(0.95);
+}
+
+#start-input, #end-input {
+  height: 50px;
+  width: 300px;
+  background: transparent;
+  border: 0;
+  outline: 0;
+  font-size: 18px;
+  color: #333;
+}
+
+.result-box {
+  max-height: 250px; 
+  overflow-y: auto;   
+}
+
+#result-box1 ul, #result-box2 ul {
+  border-top: 1px solid #999;
+  padding: 15px 10px;
+}
+
+#result-box1 ul li, #result-box2 ul li {
+  list-style: none;
+  border-radius: 3px;
+  padding: 15px 10px;
+  cursor: pointer;
+}
+
+#result-box1 ul li:hover, #result-box2 ul li:hover {
+  background: #e9f3ff;
+}
+
+#result-box1, #result-box2 {
+  background-color: white;
 }
 /* Changes bar chart for predictive model */
 .predictionbar {
