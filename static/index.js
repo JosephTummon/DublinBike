@@ -57,14 +57,13 @@ async function initMap() {
             position: user_pos,
             map: map
           });
-          console.log("function is returning:");
-          console.log(userLatLng);
+          
           resolve(userLatLng);
         },
         (error) => {
           var user_pos = {
-            lat: 53.3081318,
-            lng: -6.2242786
+            lat: 53.33777997830665,
+            lng: -6.256105280253531
           };
           var userLatLng = new google.maps.LatLng(user_pos.lat, user_pos.lng);
           switch (error.code) {
@@ -86,8 +85,6 @@ async function initMap() {
             position: user_pos,
             map: map
           });
-          console.log("function is returning:");
-          console.log(userLatLng);
           resolve(userLatLng);
         }
       );
@@ -336,32 +333,104 @@ async function initMap() {
   //code for nearest btns/////////////
   const nearest_bike_btn = document.getElementById("nearest-bike");
   nearest_bike_btn.addEventListener("click", async () => {
-    var stations = stations_with_bikes(markerArray);
+    var nearby_stations = nearby_stations_with_bikes(markerArray);
     var user_coords = await getUserLocation();
     console.log(user_coords);
-    nearest_station(stations, user_coords, 'WALKING');
+    nearest_station(nearby_stations, user_coords, 'WALKING');
 });
 
 const nearest_stand_btn = document.getElementById("nearest-stand");
 nearest_stand_btn.addEventListener("click", () => {
     var user_coords = getUserLocation();
     console.log(user_coords);
-    var stations = stations_with_stands(markerArray); 
+    var stations = nearby_stations_with_stands(markerArray); 
     nearest_station(stations, user_coords, 'BICYCLING');
 });
 
-//funcs that takes arg of bike/stand and array of markers, and returns array with available bikes/stands
-function stations_with_bikes(array){
+
+
+function distance_tween_points(latlng1, latlng2) {
+    var R = 6371; // Radius of the earth in km
+    var dLat = (latlng2.lat() - latlng1.lat()) * Math.PI / 180; // deg2rad below
+    var dLon = (latlng2.lng() - latlng1.lng()) * Math.PI / 180;
+    var a =
+      Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+      Math.cos(latlng1.lat() * Math.PI / 180) * Math.cos(latlng2.lat() * Math.PI / 180) *
+      Math.sin(dLon / 2) * Math.sin(dLon / 2)
+      ;
+    var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    var d = R * c; // Distance in km
+    return d;
+  }
+  
+  
+
+  function sortLocationsByProximity(locations, userPos) {
+    locations.sort(function(a, b) {
+      var distA = distance_tween_points(a.position, userPos);
+      var distB = distance_tween_points(b.position, userPos);
+      return distA - distB;
+    });
+    return locations;
+  }
+  
+  
+
+// Instantiate a directions service.
+const directionsService = new google.maps.DirectionsService();  
+// Create a renderer for directions and bind it to the map.
+const directionsRenderer = new google.maps.DirectionsRenderer({ map: map });
+
+
+  //make fresh array
+  var duplicate_markerArray=[];
+  for (let i = 0; i < markerArray.length; i++){
+    duplicate_markerArray.push(markerArray[i]);
+  }
+  //get user LatLng object
+  var user_coords = await getUserLocation();
+  //below not working
+  var sorted_array = sortLocationsByProximity(duplicate_markerArray, user_coords);
+  console.log("nearest as crow flies is");
+  for(let i = 0; i < 5; i++){
+    console.log(sorted_array[i]);
+  }
+
+  var nearest_stations = nearby_stations_with_bikes(sorted_array);
+  console.log("length of nearest stations arr:" + nearest_stations.length);
+  var nearest_bike = nearest_station(nearest_stations, user_coords, 'WALKING');
+  console.log(nearest_bike);
+  
+
+//func takes array of locssorted by proximity to user 
+//makes new subset array of locations with bikes
+//reduces size of that array to 10 or less 
+//output is nearest 10 or less stations with bikes
+function nearby_stations_with_bikes(array){
     var has_bikes = [];
     for (let i =0; i< array.length; i++ ){
         if (array[i].bikes_free > 0){
             has_bikes.push(array[i]);
         }
     }
-    return has_bikes;
+   //has_bikes is new sorted array that all have bikes
+   if (has_bikes.length >= 5){ 
+   var nearest = has_bikes.slice(0,5);
+   }
+   else {
+    var nearest = has_bikes;
+   }
+   console.log("here are the results from the nearby with bikes: ");
+   for (let i = 0; i<nearest.length; i++){
+    console.log(nearest[i]);
+   }
+
+
+   //nearest var will be array of 10 (or less) nearest bikes
+   return nearest;
 }
 
-function stations_with_stands(array){
+function nearby_stations_with_stands(array){
     var has_stands = [];
     for (let i =0; i< array.length; i++ ){
         if (array[i].free_stands > 0){
@@ -372,48 +441,46 @@ function stations_with_stands(array){
 }
 
 
-function nearest_station(array, lat_lng, mode){
+async function nearest_station(array, lat_lng, mode){
     var nearest_station;
     var min_dist = Infinity;
     var dist;
     for (let i = 0; i < array.length; i++){
         //need to calculate dist to marker
-
         var route = {
             origin: lat_lng,
             destination: array[i].position,
             travelMode: mode
         }
-
-        
-        directionsService.route(route,
-          function(response, status) { // anonymous function to capture directions
-            if (status !== 'OK') {
-              window.alert('Directions request failed due to ' + status);
-              return;
-            } else {
-              //directionsRenderer.setDirections(response); // Add route to the map
-              console.log(response)
-              var directionsData = response.routes[0].legs[0]; // Get data about the mapped route
-              if (!directionsData) {
+        try {
+            const response = await new Promise((resolve, reject) => {
+                directionsService.route(route, function(response, status) {
+                    if (status === 'OK') {
+                        resolve(response);
+                    } else {
+                        reject(status);
+                    }
+                });
+            });
+            var directionsData = response.routes[0].legs[0]; // Get data about the mapped route
+            if (!directionsData) {
                 window.alert('Directions request failed');
                 return;
-              }
-              else {
-                dist = directionsData.distance.text
-              }
+            } else {
+                dist = directionsData.distance.value;
             }
-          });
-
-          
+        } catch (error) {
+            window.alert('Directions request failed due to ' + error);
+            return;
+        }
         if (dist <= min_dist){
-            min_distance = dist;
-            nearest_station = array[i]
+            min_dist = dist;
+            nearest_station = array[i];
         }
     }
+    console.log(nearest_station)
     return nearest_station;
 }
-
 
 
 
@@ -423,10 +490,6 @@ function nearest_station(array, lat_lng, mode){
   //***** CODE FOR DIRECTIONS *****
   let markerArray1 = []
 
-  // Instantiate a directions service.
-  const directionsService = new google.maps.DirectionsService();  
-  // Create a renderer for directions and bind it to the map.
-  const directionsRenderer = new google.maps.DirectionsRenderer({ map: map });
   // Instantiate an info window to hold step text.
   const stepDisplay = new google.maps.InfoWindow();
 
