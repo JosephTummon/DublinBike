@@ -141,6 +141,31 @@ findStations.addEventListener("click", () => {
       }
   });
 
+////workinprogress////
+
+var search_nearest_bike =document.getElementById("search-nearest-bike");
+search_nearest_bike.addEventListener("click", async function () {
+    var target_coords = search_marker.position;
+    var sorted_array = sortLocationsByProximity(duplicate_markerArray, target_coords);
+    var nearest_stations = nearby_stations_with_x(sorted_array, "bikes");
+    var nearest_bike = await nearest_station(nearest_stations, target_coords, 'WALKING');
+    map.panTo(nearest_bike.position)
+    map.setZoom(map.getZoom() + 2);
+
+});
+
+var search_nearest_stand = document.getElementById("search-nearest-stand");
+search_nearest_stand.addEventListener("click", async function () {
+    var target_coords = search_marker.position;
+    var sorted_array = sortLocationsByProximity(duplicate_markerArray, target_coords);
+    var nearest_stations = nearby_stations_with_x(sorted_array, "stands");
+    var nearest_bike = await nearest_station(nearest_stations, target_coords, 'WALKING');
+    map.panTo(nearest_bike.position)
+    map.setZoom(map.getZoom() + 2);
+});
+
+
+
   const buttons = document.getElementById("button-div");
   const location_buttons = document.getElementById("location-buttons");
   const locateNearest = document.getElementById("nearest-btn");
@@ -826,7 +851,7 @@ dark_mode_button.addEventListener("click", () => {
     document.getElementById("weather").style.color= "black";
     document.getElementById("translate_button").style.backgroundColor= "lightblue";
     document.getElementById("pac-input").style.backgroundColor= "white";
-    document.getElementById("pac-input").style.color= "white";
+    document.getElementById("pac-input").style.color= "black";
 
       if (is_bikes == true){
           b1.style.backgroundColor = "lightblue";

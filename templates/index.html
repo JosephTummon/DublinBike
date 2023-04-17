@@ -11,6 +11,8 @@
   <body id = "body">
     <!--Header-->
     <header id="header">
+      <button id="search-nearest-bike"><a>search-nearest-bike</a></button>
+      <button id="search-nearest-stand"><a>search-nearest-stand</a></button>
 
        
         <div id="google_translate_element"></div>
@@ -29,9 +31,6 @@
     <!--Map-->
     <div id="map">
     </div>
-    
-
-   
     <!-- 
       The `defer` attribute causes the callback to execute after the full HTML
       document has been parsed. For non-blocking uses, avoiding race conditions,
@@ -101,6 +100,7 @@
 
     <!--End of swapping nums code-->
     <input id="pac-input"class="search"type="text"placeholder=" Search">
+ 
     <script
       src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDgYC8VXvS4UG9ApSUhS2v-ByddtHljFls&libraries=places&callback=initMap&v=weekly"
       defer
