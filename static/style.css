@@ -1,5 +1,5 @@
 body {
-  background-color: #f3f4f6;
+  background-color: #fff;
 }
 
 /* HEADER */
@@ -11,7 +11,6 @@ header {
   margin: auto;
   justify-content: space-between;
   align-items: center;
-  /*height: 74px;*/
   height: 80px;
   background-color: ghostwhite;
 }
@@ -24,6 +23,7 @@ header {
   list-style-type: none;
   text-decoration: none;
   color: black;
+  font-size: 35px;
 }
 
 .l {
@@ -36,144 +36,28 @@ header {
   color: #00a4d3;
 }
 
-.search {
-  position: relative;
-  width: 300px; /* adjust as per your needs */
-  margin-right: 300px;
-}
-
-.search input[type="text"] {
-  padding-right: 30px; /* adjust as per your icon size */
-  width: 100%;
-  box-sizing: border-box;
-  border: 1px solid #ccc; /* add a border for the search box */
-  border-radius: 5px; /* add border-radius for rounded corners */
-  outline: none; /* remove default outline on focus */
-  height: 35px;
-  border-radius: 20px;
-  padding-left: 7px;
-}
-
-.search .search-icon {
-  position: absolute;
-  top: 50%;
-  right: 10px;
-  transform: translateY(-50%);
-  height: 100%;
-  display: flex;
-  align-items: center;
-  padding: 0 10px;
-  pointer-events: none;
-}
-
-.search .search-icon i {
-  color: #aaa;
-  font-size: 16px;
-}
-
-/* SIDEBAR */
-/* The sidebar menu */
-#mySidebar {
-  height: 100%; /* 100% Full-height */
-  width: 0; /* 0 width - change this with JavaScript */
-  position: fixed; /* Stay in place */
-  z-index: 1; /* Stay on top */
-  top: 0;
-  left: 0;
-  background-color: #ffffff; /* White*/
-  overflow-y: scroll;
-  overflow-x: hidden; /* Disable horizontal scroll */
-  padding-top: 20px; /* Place content 60px from the top */
-  transition: 0.5s; /* 0.5 second transition effect to slide in the sidebar */
-  display: flex; 
-  flex-direction: column;
-  align-items: center;
-}
-#scrollspace{
-  height: 10000px;
-}
-#stationTitle {
-  text-align: center;
-  font-family: "Lucida Console", "Courier New", monospace;
-}
-/* The sidebar links */
-.sidebar a {
-  padding: 8px 8px 8px 32px;
-  text-decoration: none;
-  font-size: 25px;
-  color: #818181;
-  display: block;
-  transition: 0.3s;
-}
-
-/* When you mouse over the navigation links, change their color */
-.sidebar a:hover {
-  color: #f1f1f1;
-}
-
-#loading {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  display: none;
-}
-
-/* Position and style the close button (top right corner) */
-.sidebar .closebtn {
-  position: absolute;
-  top: 0;
-  right: 25px;
-  font-size: 36px;
-  margin-left: 50px;
-}
-
-/* The button used to open the sidebar */
-.openbtn {
-  font-size: 20px;
-  cursor: pointer;
-  background-color: #111;
-  color: white;
-  padding: 10px 15px;
-  border: none;
-}
-
-.openbtn:hover {
-  background-color: #444;
-}
-
-/* Style page content - use this if you want to push the page content to the right when you open the side navigation */
-#main {
-  transition: margin-left .5s; /* If you want a transition effect */
-  padding: 20px;
-}
-
-/* On smaller screens, where height is less than 450px, change the style of the sidenav (less padding and a smaller font size) */
-@media screen and (max-height: 450px) {
-  .sidebar {padding-top: 15px;}
-  .sidebar a {font-size: 18px;}
-}
-/* Chaneg the Google Chart */
-
-/* END OF SIDEBAR */
 /* NAVIGATION */
 
 /*Added code to style buttons and position translate element*/
+#button-div {
+  margin-top: 15px;
+  margin-right: 25px;
+}
 .btn{
   border-radius: 50px;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: center;  text-align: center;
+  align-items: center;  
+  text-align: center;
   padding: 10px;
-  height: 40px;
-  width: 100px;
+  width: 110px;
+  height: 50px;
   cursor: pointer;
 }
 
 .buttons {
   display: flex;
-  order: 2;
   margin-left: auto;
   background-color: white;
   border-radius: 50px;
@@ -189,18 +73,101 @@ header {
 } 
 
 #btn1.active {
-  background-color: #00a4d3;
+  color:white;
+  z-index: 101;
+  background-color: lightblue;
 }
 
 #btn2.active {
-  background-color: #00a4d3;
+  color:white;
+  z-index: 101;
+  background-color: lightblue;
+}
+
+#weather-info {
+  background-color: #cbd5e1;
+  border-radius: 50px;
+  position: relative;
+  cursor: pointer;
+  transition: transform 0.1s ease-in-out;
+}
+
+#weather-info:hover {
+  background-color: lightblue;
+  color: #38bdf8;
+}
+
+
+#weather-info:active {
+  font-size: 15px;
+  transform: translateY(4px);
+}
+
+#additional-info {
+  border: 1px solid black;
+  border-radius: 50px;
+  font-size: 13px;
+  background-color: white;
+  color: black;
+}
+
+#test {
+  display: flex;
 }
 
 #weather {
   display: flex;
-  order: 3;
-  margin-left: 20px;
+  flex-direction: column;
+  align-items: center;
+  border-radius: 50px;
+  width: 70px;
+  margin-bottom: 5px;
 }
+
+#weather img {
+  margin-bottom: 0px;
+}
+
+#weather h2 {
+  margin: 0 auto;
+  font-size: 13px;
+  color: #00a4d3;
+} 
+
+#wind {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-radius: 50px;
+  width: 70px;
+  margin-top: 22px;
+  margin-right: 5px;
+}
+
+#compass {
+  transform: translate(-50%, -50%);
+  transform: rotate(-45deg);
+  margin-bottom: 16px;
+}
+
+#speedometer {
+  margin: 0 auto;
+  font-size: 13px;
+  color: #00a4d3;
+}
+
+
+/* .description {
+  margin-top: 0px;
+  padding: 0px;
+}
+
+.description h2 {
+  font-size: 10px;
+  top: 51px;
+  right: 149px;
+  position: absolute;
+} */
 
 /* Always set the map height explicitly to define the size of
 the div
@@ -210,14 +177,81 @@ the div
     width: 100%;
   }
 
-  .info-window p {
-    font-size: 15px;
-  }
 
-#warnings-panel {
-  width: 100%;
-  height: 10%;
-  text-align: center;
+#pac-input {
+  padding-right: 10px; /* adjust as per your icon size */
+  box-sizing: border-box;
+  height: 45px;
+  width: 325px;
+  border-radius: 35px;
+  padding-left: 7px;
+  margin-top: 20px;
+  margin-left: 25px;
+  position: relative;
+}
+
+#pac-input:hover {
+  border: 2px solid #cbd5e1;
+  cursor: pointer;
+}
+
+#pac-input:focus {
+  border-color: black;
+}
+
+#search-icon {
+  position: absolute;
+  left: 0;
+}
+
+#nearest-btn {
+  margin: 0 auto;
+  border-radius: 40px;
+  background-color: white;
+  border: 1px solid black;
+  cursor: pointer;
+  width: 50px;
+  height: 50px;
+}
+
+#nearest-btn:hover {
+  background-color: #cbd5e1;
+  color: #38bdf8;
+}
+
+/* INFO WINDOW */
+
+button.gm-ui-hover-effect {
+  visibility: hidden;
+}
+
+.station-data {
+  display: flex;
+  justify-content: space-around;
+}
+
+.available-bikes {
+  display: flex;
+}
+
+.available-bikes h2 i {
+  color: #00a4d3;
+}
+
+.available-bikes p {
+  padding-left: 5px;
+}
+
+.parked {
+  display: flex;
+}
+
+.parked h2 i {
+  color: #00a4d3;
+}
+
+.parked p {
+  padding-left: 5px;
 }
 /* Optional: Makes the sample page fill the window. */
 html, body {
@@ -227,17 +261,159 @@ html, body {
   background-color: ghostwhite;
 }
 
-#dropdown {
-  left: 25%;
-  z-index: 5;
+#select-service {
   background-color: #fff;
-  padding: 5px;
-  border: 1px solid #999;
+}
+
+#select-service-container {
+  display: flex;
+  font-size: 13px;
+  color: #333;
+  padding: 3px;
+  justify-content: space-around;
+  width: 400px;
+  font-family: "Roboto", "sans-serif";
+  background-color: #fff;
+  padding-top: 10px;
+}
+
+#get-directions:hover {
+  cursor: pointer;
+  color: #38bdf8;
+}
+
+#find-stations:hover {
+  cursor: pointer;
+  color: #38bdf8;
+}
+
+#get-directions.active {
+  border-bottom: 2px solid #3897d3;
+}
+
+#find-stations.active {
+  border-bottom: 2px solid #3897d3;
+}
+
+#search-station {
+  border: 1px solid black;
+}
+
+#search-station-conatiner {
+  display: flex;
+  background-color: #fff;
   text-align: center;
   font-family: "Roboto", "sans-serif";
+  height: 150px;
+}
+
+.search {
+  display: flex;
+  margin: 50px auto;
+  border: 2px solid ghostwhite;
+  padding: 0;
+  height: 50px;
+  border-radius: 15px;
+}
+
+.search:hover {
+  border: 2px solid#cbd5e1;;
+}
+
+#go {
+  border: none;
+  background-color: ghostwhite;
+  height: 50px;
+  width: 50px;
+  color: #18181b;
+  text-decoration: none;
+  font-size: 16px;
+  font-weight: 400;
+  cursor: pointer;
+  border-bottom-left-radius: 15px;
+  border-top-left-radius: 15px;
+  transition: background-color .1s ease-in, transform .1s ease-in;
+}
+  
+#go:hover {
+  background-color: #cbd5e1;
+  color: #38bdf8;
+  transform: scale(1.05);
+}
+
+#go:active {
+  transform: scale(0.95);
+}
+
+#start-input, #end-input {
+  height: 50px;
+  width: 300px;
+  background: transparent;
+  border: 0;
+  outline: 0;
+  font-size: 18px;
+  color: #333;
+}
+
+.result-box {
+  max-height: 250px; 
+  overflow-y: auto;   
+}
+
+#result-box1 ul, #result-box2 ul {
+  border-top: 1px solid #999;
+  padding: 15px 10px;
+}
+
+#result-box1 ul li, #result-box2 ul li {
+  list-style: none;
+  border-radius: 3px;
+  padding: 15px 10px;
+  cursor: pointer;
+}
+
+#result-box1 ul li:hover, #result-box2 ul li:hover {
+  background: #e9f3ff;
+}
+
+#result-box1, #result-box2 {
+  background-color: white;
+}
+
+#dropdown {
+  background-color: #fff;
+  text-align: center;
+  font-family: "Roboto", "sans-serif";
+  background-color: #fff;
+  height: 150px;
+  display: none;
+}
+
+#dropdown-container {
+  padding: 5px;
+  text-align: center;
   line-height: 30px;
   padding-left: 10px;
+  margin: 0 auto;
 }
+
+#option {
+  border: 2px solid ghostwhite;
+  padding: 0;
+  height: 45px;
+  width: 300px;
+  border-radius: 15px;
+  margin: 50px auto;
+  font-family: "Roboto", "sans-serif";
+  font-size: 13px;
+  height: 50px;
+}
+
+#option:hover {
+  border: 2px solid#cbd5e1;
+  cursor: pointer;
+}
+
 /* Changes bar chart for predictive model */
 .predictionbar {
   background-color:red;
@@ -247,10 +423,110 @@ html, body {
   border-radius: 2px;
 }
 
-#google_translate_element {
-  position: fixed;
-  bottom: 10px;
-  right: 10px;
-}
+
 
 /*End of added code*/
+
+/*CODE FOR DARKMODE SLIDER */
+/* The switch - the box around the slider */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+}
+
+/* Hide default HTML checkbox */
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+/* The slider */
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+input:checked + .slider {
+  background-color: lightgreen;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px lightgreen;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+}
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+
+/*styling the location button */
+.custom-map-control-button {
+  background-color: #fff;
+  border: 1px solid transparent;
+  border-radius: 2px;
+  box-shadow: 0 1px 4px -1px rgba(0, 0, 0, 0.3);
+  cursor: pointer;
+  margin-bottom: 22px;
+  text-align: center;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+}
+
+.custom-map-control-button:hover {
+  background-color: #ebebeb;
+  border-color: #adadad;
+}
+
+.custom-map-control-button:focus {
+  border-color: #4d90fe;
+}
+
+.custom-map-control-button > i {
+  color: #737373;
+  font-size: 18px;
+  line-height: 32px;
+}
+
+#translate_button{
+  top: 20px;
+  background-color: lightblue;
+}
+#google_translate_element {
+  position: fixed;
+			top: 0;
+			left: 0;
+      display: none;
+}
