@@ -19,8 +19,9 @@ async function initMap() {
     center: dublin,
     zoom: 14,
     mapTypeControl: false, //removes satellite button
-    fullscreenControl: false // removes full screen toggle
-  });
+    fullscreenControl: false, // removes full screen toggle
+    styles: light_map
+});
 
 var selectDirectionsBtn = document.getElementById("get-directions");
 var findStations = document.getElementById("find-stations");
@@ -701,10 +702,38 @@ function attachInstructionText(stepDisplay, marker, text, map) {
   
 ////// light/darkmode code /////////
 var is_light = true;
-map.set("styles", light_map);
+var is_bikes = true;
 
 const b1= document.getElementById("btn1");
 const b2= document.getElementById("btn2");
+b1.style.backgroundColor = "lightblue";
+b1.style.color = "white";
+b1.style.zIndex = "101";
+b2.style.backgroundColor = "white";
+b2.style.color = "black";
+b2.style.zIndex = "100";
+b1.addEventListener("click", () => {
+is_bikes= true;
+
+b1.style.backgroundColor = "lightblue";
+b1.style.color = "white";
+b1.style.zIndex = "101";
+b2.style.backgroundColor = "white";
+b2.style.color = "black";
+b2.style.zIndex = "100";
+})
+b2.addEventListener("click", () => {
+is_bikes=false;
+
+b2.style.backgroundColor = "lightblue";
+b2.style.color = "white";
+b2.style.textDecorationColor = "white"
+b2.style.zIndex = "101";
+b1.style.backgroundColor = "white";
+b1.style.color = "black";
+b1.style.zIndex = "100";
+})
+
 var slider = document.getElementById("slider");
 slider.addEventListener("click", () => {
   if(is_light == true){
@@ -720,8 +749,8 @@ slider.addEventListener("click", () => {
     document.getElementById("body").style.backgroundColor = "white";
     document.getElementById("dropdown").style.backgroundColor = "white";
     document.getElementById("location-buttons").style.backgroundColor = "white";
-    document.getElementById("center-btn").style.color = "black";
-    document.getElementById("warnings-panel").style.backgroundColor = "white";
+    //document.getElementById("center-btn").style.color = "black";
+    //document.getElementById("warnings-panel").style.backgroundColor = "white";
     document.getElementById("compass").style.color = "black";
     document.getElementById("speedometer").style.color = "black";
     document.getElementById("pin").style.color = "lightblue";
@@ -729,14 +758,26 @@ slider.addEventListener("click", () => {
     document.getElementById("weather").style.backgroundColor = "lightblue";
     document.getElementById("weather").style.color= "black";
 
-
-    b1.style.backgroundColor = "lightblue";
-      b1.style.color = "white";
-      b1.style.zIndex = "101";
-      b2.style.backgroundColor = "white";
-      b2.style.color = "black";
-      b2.style.zIndex = "100";
+      if (is_bikes == true){
+          b1.style.backgroundColor = "lightblue";
+          b1.style.color = "white";
+          b1.style.zIndex = "101";
+          b2.style.backgroundColor = "white";
+          b2.style.color = "black";
+          b2.style.zIndex = "100";
+      }
+      else{
+          b2.style.backgroundColor = "lightblue";
+          b2.style.color = "white";
+          b2.style.zIndex = "101";
+          b1.style.backgroundColor = "white";
+          b1.style.color = "black";
+          b1.style.zIndex = "100";
+      }
+      
     b1.addEventListener("click", () => {
+      is_bikes= true;
+
       b1.style.backgroundColor = "lightblue";
       b1.style.color = "white";
       b1.style.zIndex = "101";
@@ -745,6 +786,8 @@ slider.addEventListener("click", () => {
       b2.style.zIndex = "100";
     })
     b2.addEventListener("click", () => {
+      
+      is_bikes = false;
       b2.style.backgroundColor = "lightblue";
       b2.style.color = "white";
       b2.style.textDecorationColor = "white"
@@ -753,23 +796,17 @@ slider.addEventListener("click", () => {
       b1.style.color = "black";
       b1.style.zIndex = "100";
     })
+
   }else{
     //darkmode styling
     map.set("styles", dark_map);
     document.getElementById("header").style.backgroundColor = "black";
-    b1.style.backgroundColor = "lightgreen";
-      b1.style.color = "white";
-      b1.style.textDecorationColor = "white"
-      b1.style.zIndex = "101";
-      b2.style.backgroundColor = "darkgreen";
-      b2.style.color = "white";
-      b2.style.zIndex = "100";
     document.getElementById("button-div").style.backgroundColor = "black";
     document.getElementById("body").style.backgroundColor = "black";
     document.getElementById("dropdown").style.backgroundColor = "black";
     document.getElementById("location-buttons").style.backgroundColor = "black";
-    document.getElementById("center-btn").style.color = "white";
-    document.getElementById("warnings-panel").style.backgroundColor = "black";
+    //document.getElementById("center-btn").style.color = "white";
+    //document.getElementById("warnings-panel").style.backgroundColor = "black";
     document.getElementById("compass").style.color = "white";
     document.getElementById("speedometer").style.color = "white";
     document.getElementById("pin").style.color = "lightgreen";
@@ -777,23 +814,42 @@ slider.addEventListener("click", () => {
     document.getElementById("weather").style.backgroundColor = "lightgreen";
     document.getElementById("weather").style.color= "white";
 
-
+    if (is_bikes == true){
+      b1.style.backgroundColor = "lightgreen";
+      b1.style.color = "white";
+      b1.style.zIndex = "101";
+      b2.style.backgroundColor = "black";
+      b2.style.textDecorationColor = "white"
+      b2.style.color = "white";
+      b2.style.zIndex = "100";
+    }else{
+      b2.style.backgroundColor = "lightgreen";
+      b2.style.color = "white";
+      b2.style.zIndex = "101";
+      b1.style.backgroundColor = "black";
+      b1.style.textDecorationColor = "white"
+      b1.style.color = "white";
+      b1.style.zIndex = "100";
+    }
+      
    
     b1.addEventListener("click", () => {
+      is_bikes=true;
       b1.style.backgroundColor = "lightgreen";
       b1.style.color = "white";
       b1.style.textDecorationColor = "white"
       b1.style.zIndex = "101";
-      b2.style.backgroundColor = "darkgreen";
+      b2.style.backgroundColor = "black";
       b2.style.color = "white";
       b2.style.zIndex = "100";
     })
     b2.addEventListener("click", () => {
+      is_bikes=false;
       b2.style.backgroundColor = "lightgreen";
       b2.style.color = "white";
       b2.style.textDecorationColor = "white"
       b2.style.zIndex = "101";
-      b1.style.backgroundColor = "darkgreen";
+      b1.style.backgroundColor = "black";
       b1.style.color = "white";
       b1.style.zIndex = "100";
     })
@@ -801,5 +857,6 @@ slider.addEventListener("click", () => {
 });
 //////end of dark-mode code/////////////
 }
+
 window.initMap = initMap;
 
