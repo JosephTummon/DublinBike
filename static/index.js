@@ -749,64 +749,63 @@ function showSteps(directionResult, markerArray1, stepDisplay, map) {
     b1.style.color = "black";
     b1.style.zIndex = "100";
   })
+}
 
-  function drawChart(number) {
-    const loadingDiv = document.getElementById("loading");
-    loadingDiv.style.display = "block"; // show the loading animation
-    const cacheBuster = Date.now(); // add a cache-busting parameter
-    fetch(`/averages/${number}?cb=${cacheBuster}`)
-      .then(response => response.json())
-      .then(data => {
-        const chosenStationName = data[0].address;
-        document.getElementById("stationTitle").innerHTML = `<h2>${chosenStationName}</h2>`;
-        const chart_data = new google.visualization.DataTable();
-        chart_data.addColumn("string", "Week_Day_No");
-        chart_data.addColumn("number", "Average Bikes Available");
-        chart_data.addColumn("number", "Average Bike Stands");
+function drawChart(number) {
+  const loadingDiv = document.getElementById("loading");
+  loadingDiv.style.display = "block"; // show the loading animation
+  const cacheBuster = Date.now(); // add a cache-busting parameter
+  fetch(`/averages/${number}?cb=${cacheBuster}`)
+    .then(response => response.json())
+    .then(data => {
+      const chosenStationName = data[0].address;
+      document.getElementById("stationTitle").innerHTML = `<h2>${chosenStationName}</h2>`;
+      const chart_data = new google.visualization.DataTable();
+      chart_data.addColumn("string", "Week_Day_No");
+      chart_data.addColumn("number", "Average Bikes Available");
+      chart_data.addColumn("number", "Average Bike Stands");
 
-        const dayNames = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+      const dayNames = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 
-        const rows = dayNames.map(dayName => {
-          const matchingData = data.find(obj => obj.day_of_week === dayName);
-          return [dayName, matchingData ? matchingData.Avg_bikes_free : null, matchingData ? matchingData.Avg_bike_stands : null];
-        });
-        chart_data.addRows(rows);
-        const options = {
-          titlePosition: 'none',
-          width: "700",
-          height: "450",
-          chartArea: { 'width': '75%', bottom: 15, 'height': '80%' },
-          legend: { position: "bottom" }
-        };
-        loadingDiv.style.display = "none"; // hide the loading animation 
-
-        const chart = new google.visualization.ColumnChart(document.getElementById("PredictiveChart"));
-        chart.draw(chart_data, options);
-
-        const form = document.querySelector('form');
-        form.addEventListener('submit', (event) => {
-          console.log("Testing");
-          event.preventDefault(); // prevent form submission
-          var datetime = document.getElementById('availabletime').value;
-          console.log(datetime); // log the value of the datetime input field
-          var datetime = new Date(datetime); 
-          const dayOfWeek = datetime.getDay(); // returns 0 for Sunday, 1 for Monday, and so on
-          const hour = datetime.getHours();
-          console.log(dayOfWeek, hour);
-          getPrediction(number, dayOfWeek, hour);
-        });
+      const rows = dayNames.map(dayName => {
+        const matchingData = data.find(obj => obj.day_of_week === dayName);
+        return [dayName, matchingData ? matchingData.Avg_bikes_free : null, matchingData ? matchingData.Avg_bike_stands : null];
       });
-  }
+      chart_data.addRows(rows);
+      const options = {
+        titlePosition: 'none',
+        width: "700",
+        height: "450",
+        chartArea: { 'width': '75%', bottom: 15, 'height': '80%' },
+        legend: { position: "bottom" }
+      };
+      loadingDiv.style.display = "none"; // hide the loading animation 
 
-  function getPrediction(number, dayOfWeek, hour) {
-    fetch(`/predictions/${number}`)
-      .then(response => response.json())
-      .then(data => {
-        document.getElementById("displayPrediction").innerHTML = "Number of available bikes: " + data[dayOfWeek][hour];
-        console.log(data[dayOfWeek][hour]);
+      const chart = new google.visualization.ColumnChart(document.getElementById("PredictiveChart"));
+      chart.draw(chart_data, options);
+
+      const form = document.querySelector('form');
+      form.addEventListener('submit', (event) => {
+        console.log("Testing");
+        event.preventDefault(); // prevent form submission
+        var datetime = document.getElementById('availabletime').value;
+        console.log(datetime); // log the value of the datetime input field
+        var datetime = new Date(datetime); 
+        const dayOfWeek = datetime.getDay(); // returns 0 for Sunday, 1 for Monday, and so on
+        const hour = datetime.getHours();
+        console.log(dayOfWeek, hour);
+        getPrediction(number, dayOfWeek, hour);
       });
-  }
-  
+    });
+}
+
+function getPrediction(number, dayOfWeek, hour) {
+  fetch(`/predictions/${number}`)
+    .then(response => response.json())
+    .then(data => {
+      document.getElementById("displayPrediction").innerHTML = "Number of available bikes: " + data[dayOfWeek][hour];
+      console.log(data[dayOfWeek][hour]);
+    });
 }
 
 function attachInstructionText(stepDisplay, marker, text, map) {

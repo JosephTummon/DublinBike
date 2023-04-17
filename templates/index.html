@@ -25,7 +25,31 @@
         </div>
         <div id="weather-info"></div>
     </header>
+
+    <!-- Side Bar-->
+  <div id="mySidebar" class="sidebar">
+    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+    <div id="chartContainer">
+      <div id="stationTitle"></div>
+      <div id="PredictiveChart">
+      </div>
+    </div>
+    <div id="loading">
+      <img src="static/Loading.gif" alt="Loading...">
+    </div>
+
+    <div id="Model">
+      <label id="modelTitle" for="availabletime">Check Station Availability:</label>
+      <form>
+        <input type="datetime-local" id="availabletime" name="availabletime">
+        <input type="submit">
+      </form>
+    </div>
+    <div id="displayPrediction"></div>
+  </div>
+
     <!--Map-->
+    <div id="main">
     <div id="map">
     </div>
     <div id = "location-buttons">
@@ -100,8 +124,10 @@
       </div>
     </div>
     </div>
+  </div>
     <!--End of swapping nums code-->
     <input id="pac-input"class="search"type="text"placeholder=" Search">
+    </body>
     <script
       src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDgYC8VXvS4UG9ApSUhS2v-ByddtHljFls&libraries=places&callback=initMap&v=weekly"
       defer
