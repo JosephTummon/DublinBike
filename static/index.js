@@ -120,6 +120,27 @@ findStations.addEventListener("click", () => {
   // Create the search box and link it to the UI element.
   const input = document.getElementById("pac-input");
   const searchBox = new google.maps.places.SearchBox(input);
+  var search_marker;
+  searchBox.addListener("places_changed", function() {
+    var places = searchBox.getPlaces();  
+    if (places.length == 0) {
+      return;
+    }
+    var location = places[0].geometry.location;
+    if (search_marker) {
+        search_marker.setPosition(location);
+        search_marker.setTitle(places[0].name);
+      }
+      // If a marker does not exist, create a new one
+      else {
+        search_marker = new google.maps.Marker({
+          position: location,
+          map: map,
+          title: places[0].name
+        });
+      }
+  });
+
   const buttons = document.getElementById("button-div");
   const location_buttons = document.getElementById("location-buttons");
   const locateNearest = document.getElementById("nearest-btn");
@@ -805,6 +826,7 @@ dark_mode_button.addEventListener("click", () => {
     document.getElementById("weather").style.color= "black";
     document.getElementById("translate_button").style.backgroundColor= "lightblue";
     document.getElementById("pac-input").style.backgroundColor= "white";
+    document.getElementById("pac-input").style.color= "white";
 
       if (is_bikes == true){
           b1.style.backgroundColor = "lightblue";
