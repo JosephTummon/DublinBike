@@ -50,69 +50,68 @@
 
     <!--Map-->
     <div id="main">
-    <div id="map">
-    </div>
-    <div id = "location-buttons">
-      <button id ="nearest-bike"><i class="fa-solid fa-bicycle"></i></button>
-      <button id ="nearest-stand"><i class="fa-solid fa-square-parking"></i></button>
-    </div>
+      <div id="map"></div>
+      <div id = "location-buttons">
+        <button id ="nearest-bike"><i class="fa-solid fa-bicycle"></i></button>
+        <button id ="nearest-stand"><i class="fa-solid fa-square-parking"></i></button>
+      </div>
 
-  <!-- 
-      The `defer` attribute causes the callback to execute after the full HTML
-      document has been parsed. For non-blocking uses, avoiding race conditions,
-      and consistent behavior across browsers, consider loading using Promises
-      with https://www.npmjs.com/package/@googlemaps/js-api-loader.
-      -->
-    <div id="select-service">
-      <div id ="select-service-container">
-        <div id = "get-directions" class = "get-directions active">
-          <h2>Get Directions</h2>
-        </div>
-        <div id = "find-stations">
-          <h2>Find Stations</h2>
+    <!-- 
+        The `defer` attribute causes the callback to execute after the full HTML
+        document has been parsed. For non-blocking uses, avoiding race conditions,
+        and consistent behavior across browsers, consider loading using Promises
+        with https://www.npmjs.com/package/@googlemaps/js-api-loader.
+        -->
+      <div id="select-service">
+        <div id ="select-service-container">
+          <div id = "get-directions" class = "get-directions active">
+            <h2>Get Directions</h2>
+          </div>
+          <div id = "find-stations">
+            <h2>Find Stations</h2>
+          </div>
         </div>
       </div>
-    </div>
-    <div class="directions">
-      <div></div>
-    </div>
-    <div id="directions">
-      <div id="search-station-conatiner">
-        <div class="search">
-        <button id="go">Go</button>
-        <div>
-            <i id="pin" class="fa-solid fa-map-pin" style="color: #00A4D3;"></i>
-            <input type="text" id="start-input" placeholder="Type to search for start destination">
-            <div id="result-box1" class="result-box"></div>
-            <div id="test1"></div>
-        </div>
-        <div>
-            <i id="dest_marker" class="fa-solid fa-location-dot" style="color: #00A4D3;"></i>
-            <input type="text" id="end-input" placeholder="Type to search for end destination">
-            <div id="result-box2" class="result-box"></div>
-            <div id="test1"></div>
-        </div>
-        </div>
-    </div>
-    </div>
-    <div id="dropdown">
-      <div id="dropdown-container">
-        <select id="option">
-          <option value="Smithfield North" selected>Find Station</option>
-        </select>
+      <div class="directions">
+        <div></div>
       </div>
-    </div>
-    <!--Code for swapping nums on station pins-->
-    <div id ="button-div" class="buttons">
-      <div id = "btn1" class = "btn active">
-        <i class="fa-solid fa-bicycle"></i>
-        <a class="button-text" >Available<br>Bikes</a>
+      <div id="directions">
+        <div id="search-station-conatiner">
+          <div class="search">
+          <button id="go">Go</button>
+          <div>
+              <i id="pin" class="fa-solid fa-map-pin" style="color: #00A4D3;"></i>
+              <input type="text" id="start-input" placeholder="Type to search for start destination">
+              <div id="result-box1" class="result-box"></div>
+              <div id="test1"></div>
+          </div>
+          <div>
+              <i id="dest_marker" class="fa-solid fa-location-dot" style="color: #00A4D3;"></i>
+              <input type="text" id="end-input" placeholder="Type to search for end destination">
+              <div id="result-box2" class="result-box"></div>
+              <div id="test1"></div>
+          </div>
+          </div>
       </div>
-      <div id = "btn2" class = "btn">
-        <i class="fa-solid fa-square-parking"></i>
-        <a class="button-text">Available<br>Stands</a>
       </div>
-    </div>
+      <div id="dropdown">
+        <div id="dropdown-container">
+          <select id="option">
+            <option value="Smithfield North" selected>Find Station</option>
+          </select>
+        </div>
+      </div>
+      <!--Code for swapping nums on station pins-->
+      <div id ="button-div" class="buttons">
+        <div id = "btn1" class = "btn active">
+          <i class="fa-solid fa-bicycle"></i>
+          <a class="button-text" >Available<br>Bikes</a>
+        </div>
+        <div id = "btn2" class = "btn">
+          <i class="fa-solid fa-square-parking"></i>
+          <a class="button-text">Available<br>Stands</a>
+        </div>
+      </div>
     </div>
   </div>
     <!--End of swapping nums code-->
