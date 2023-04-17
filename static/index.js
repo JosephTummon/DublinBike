@@ -664,7 +664,7 @@ function calculateAndDisplayRoute(
     .route({
       origin: document.getElementById("start-input").value,
       destination: document.getElementById("end-input").value,
-      travelMode: google.maps.TravelMode.WALKING,
+      travelMode: google.maps.TravelMode.BICYCLING,
     })
     .then((result) => {
       // Route the directions and pass the response to a function to create
