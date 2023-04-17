@@ -28,7 +28,6 @@ async function initMap() {
         document.getElementById("google_translate_element").style.display = "none";
         translate_vis = false;
     }
-
   });
 
   
@@ -42,55 +41,58 @@ async function initMap() {
    locationButton.classList.add("custom-map-control-button");
    map.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(locationButton);
    locationButton.style.marginRight = "15px";
-
-   locationButton.addEventListener('click', function() {
-    var marker;
-    navigator.geolocation.getCurrentPosition(function(position) {
-      var user_pos = {
-        lat: position.coords.latitude,
-        lng: position.coords.longitude
-      };
+   locationButton.addEventListener('click', async () => {
+    const userCoords = await getUserLocation();
+    map.panTo(userCoords);
+  });   
   
-      map.panTo(user_pos);
-  
-        marker = new google.maps.Marker({
-          position: user_pos,
-          map: map
-        });
-      
-    }, 
-    function(error) {
-      var user_pos = {
-        lat: 53.3081318,
-        lng: -6.2242786
-      };
-  
-      switch (error.code) {
-        case error.PERMISSION_DENIED:
-          alert("Location access denied by user. Using default location");
-          break;
-        case error.POSITION_UNAVAILABLE:
-          alert("Location information is unavailable.Using default location");
-          break;
-        case error.TIMEOUT:
-          alert("Location request timed out. Using default location");
-          break;
-        default:
-          alert("An unknown error occurred. Using default location");
-          break;
-      }
-  
-      map.panTo(user_pos);
-
-        marker = new google.maps.Marker({
-          position: user_pos,
-          map: map
-        });
-    
+   function getUserLocation() {
+    return new Promise((resolve, reject) => {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          var user_pos = {
+            lat: position.coords.latitude,
+            lng: position.coords.longitude
+          };
+          var userLatLng = new google.maps.LatLng(user_pos.lat, user_pos.lng);
+          //map.panTo(user_pos);
+          var marker = new google.maps.Marker({
+            position: user_pos,
+            map: map
+          });
+          
+          resolve(userLatLng);
+        },
+        (error) => {
+          var user_pos = {
+            lat: 53.3065,
+            lng: -6.2187
+          };
+          var userLatLng = new google.maps.LatLng(user_pos.lat, user_pos.lng);
+          switch (error.code) {
+            case error.PERMISSION_DENIED:
+              alert("Location access denied by user. Using default location");
+              break;
+            case error.POSITION_UNAVAILABLE:
+              alert("Location information is unavailable.Using default location");
+              break;
+            case error.TIMEOUT:
+              alert("Location request timed out. Using default location");
+              break;
+            default:
+              alert("An unknown error occurred. Using default location");
+              break;
+          }
+          //map.panTo(user_pos);
+          var marker = new google.maps.Marker({
+            position: user_pos,
+            map: map
+          });
+          resolve(userLatLng);
+        }
+      );
     });
-  });
-
-
+  }
 
   
   // Create the search box and link it to the UI element.
@@ -310,8 +312,6 @@ function displayWeather(data) {
   // Creates a new marker object for the given station and adds it to the map
   function createMarker(station) {
     var myLatlng = { lat: station.position.lat, lng: station.position.lng };
-    
-
 
     var marker = new google.maps.Marker({
       position: myLatlng,
@@ -401,13 +401,159 @@ function displayWeather(data) {
   }
       
 
+
+  //code for nearest btns/////////////
+    //make fresh array
+    var duplicate_markerArray=[];
+    for (let i = 0; i < markerArray.length; i++){
+    duplicate_markerArray.push(markerArray[i]);
+    }
+
+
+const nearest_bike_btn = document.getElementById("nearest-bike");
+nearest_bike_btn.addEventListener("click", async () => {
+    var user_coords = await getUserLocation();
+    console.log("type of "+ typeof(user_coords));
+    var sorted_array = sortLocationsByProximity(duplicate_markerArray, user_coords);
+    var nearest_stations = nearby_stations_with_x(sorted_array, "bikes");
+    var nearest_bike = await nearest_station(nearest_stations, user_coords, 'WALKING');
+    map.panTo(nearest_bike.position)
+    map.setZoom(map.getZoom() + 2);
+});
+
+const nearest_stand_btn = document.getElementById("nearest-stand");
+nearest_stand_btn.addEventListener("click", async () => {
+    var user_coords = await getUserLocation();
+        console.log("type of "+ typeof(user_coords));
+        var sorted_array = sortLocationsByProximity(duplicate_markerArray, user_coords);
+        var nearest_stations = nearby_stations_with_x(sorted_array, "stands");
+        var nearest_bike = await nearest_station(nearest_stations, user_coords, 'BICYCLING');
+        ;
+        map.panTo(nearest_bike.position)
+        map.setZoom(map.getZoom() + 2);
+});
+
+function distance_tween_points(latlng1, latlng2) {
+    var R = 6371; // Radius of the earth in km
+    var dLat = (latlng2.lat() - latlng1.lat()) * Math.PI / 180; // deg2rad below
+    var dLon = (latlng2.lng() - latlng1.lng()) * Math.PI / 180;
+    var a =
+      Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+      Math.cos(latlng1.lat() * Math.PI / 180) * Math.cos(latlng2.lat() * Math.PI / 180) *
+      Math.sin(dLon / 2) * Math.sin(dLon / 2)
+      ;
+    var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    var d = R * c; // Distance in km
+    return d;
+  }
+  
+  
+
+  function sortLocationsByProximity(locations, userPos) {
+    locations.sort(function(a, b) {
+      var distA = distance_tween_points(a.position, userPos);
+      var distB = distance_tween_points(b.position, userPos);
+      return distA - distB;
+    });
+    return locations;
+  }
+  
+  
+
+// Instantiate a directions service.
+const directionsService = new google.maps.DirectionsService();  
+// Create a renderer for directions and bind it to the map.
+const directionsRenderer = new google.maps.DirectionsRenderer({ map: map });
+
+
+  
+
+//func takes array of locssorted by proximity to user 
+//makes new subset array of locations with bikes
+//reduces size of that array to 10 or less 
+//output is nearest 10 or less stations with bikes
+function nearby_stations_with_x(array, x){
+    var has_x = [];
+    if (x == "bikes"){
+        for (let i =0; i< array.length; i++ ){
+            if (array[i].bikes_free > 0){
+                has_x.push(array[i]);
+            }
+        }
+    }
+    if (x == "stands"){
+        for (let i =0; i< array.length; i++ ){
+            if (array[i].free_stands > 0){
+                has_x.push(array[i]);
+            }
+        }
+    }
+    
+   //has_x is new sorted array that all have x
+   if (has_x.length >= 5){ 
+   var nearest = has_x.slice(0,5);
+   }
+   else {
+    var nearest = has_x;
+   }
+   //console.log("here are the results from the nearby with bikes: ");
+   for (let i = 0; i<nearest.length; i++){
+    //console.log(nearest[i]);
+   }
+   //nearest var will be array of 10 (or less) nearest bikes
+   return nearest;
+}
+
+
+
+
+async function nearest_station(array, lat_lng, mode){
+    var nearest_station;
+    var min_dist = Infinity;
+    var dist;
+    for (let i = 0; i < array.length; i++){
+        //need to calculate dist to marker
+        var route = {
+            origin: lat_lng,
+            destination: array[i].position,
+            travelMode: mode
+        }
+        try {
+            const response = await new Promise((resolve, reject) => {
+                directionsService.route(route, function(response, status) {
+                    if (status === 'OK') {
+                        resolve(response);
+                    } else {
+                        reject(status);
+                    }
+                });
+            });
+            var directionsData = response.routes[0].legs[0]; // Get data about the mapped route
+            if (!directionsData) {
+                window.alert('Directions request failed');
+                return;
+            } else {
+                dist = directionsData.distance.value;
+            }
+        } catch (error) {
+            window.alert('Directions request failed due to ' + error);
+            return;
+        }
+        if (dist <= min_dist){
+            min_dist = dist;
+            nearest_station = array[i];
+        }
+    }
+    return nearest_station;
+}
+
+
+
+
+
   //***** CODE FOR DIRECTIONS *****
   let markerArray1 = []
 
-  // Instantiate a directions service.
-  const directionsService = new google.maps.DirectionsService();  
-  // Create a renderer for directions and bind it to the map.
-  const directionsRenderer = new google.maps.DirectionsRenderer({ map: map });
   // Instantiate an info window to hold step text.
   const stepDisplay = new google.maps.InfoWindow();
 
