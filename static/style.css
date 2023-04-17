@@ -72,17 +72,7 @@ header {
   font-size: 18px;
 } 
 
-#btn1.active {
-  color:white;
-  z-index: 101;
-  background-color: lightblue;
-}
 
-#btn2.active {
-  color: black;
-  z-index: 100;
-  background-color: lightblue;
-}
 
 #weather-info {
   background-color: #cbd5e1;

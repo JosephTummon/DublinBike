@@ -330,22 +330,14 @@ function displayWeather(data) {
     });  
     marker.setLabel(station.available_bikes.toString());
     //Toggle code to change num on station pin
-    const toggleButton1 = document.getElementById("btn1");
-    toggleButton1.addEventListener("click", () => {    
+    const btn1 = document.getElementById("btn1");
+    btn1.addEventListener("click", () => {    
         marker.setLabel(station.available_bikes.toString());});
-    const toggleButton2 = document.getElementById("btn2");
-    toggleButton2.addEventListener("click", () => {    
+    const btn2 = document.getElementById("btn2");
+    btn2.addEventListener("click", () => {    
         marker.setLabel(station.available_bike_stands.toString());});
     
-    toggleButton1.addEventListener("click", () => {
-      btn1.classList.add("active");
-      btn2.classList.remove("active");
-    });
-    
-    toggleButton2.addEventListener("click", () => {
-      btn1.classList.remove("active");
-      btn2.classList.add("active");
-    });
+
     return marker;
   }
 
@@ -557,14 +549,6 @@ async function nearest_station(array, lat_lng, mode){
   // Instantiate an info window to hold step text.
   const stepDisplay = new google.maps.InfoWindow();
 
-  // Display the route between the initial start and end selections.
-  calculateAndDisplayRoute(
-    directionsRenderer,
-    directionsService,
-    markerArray1,
-    stepDisplay,
-    map
-  );
 
   // Listen to change events from the start and end lists.
   const onChangeHandler = function () {
@@ -577,9 +561,11 @@ async function nearest_station(array, lat_lng, mode){
     );
   };
 
-  document.getElementById("start").addEventListener("change", onChangeHandler);
-  document.getElementById("end").addEventListener("change", onChangeHandler);
+  //document.getElementById("start").addEventListener("change", onChangeHandler);
+  //document.getElementById("end").addEventListener("change", onChangeHandler);
+  document.getElementById("go-btn").addEventListener("click", onChangeHandler);
 
+  
 
   ////// light/darkmode code /////////
   var is_light = true;
@@ -1118,17 +1104,13 @@ async function nearest_station(array, lat_lng, mode){
         b1.style.color = "black";
         b1.style.zIndex = "100";
       })
+
     }else{
+
       //darkmode styling
       map.set("styles", dark_map);
       document.getElementById("header").style.backgroundColor = "black";
-      b1.style.backgroundColor = "lightgreen";
-        b1.style.color = "white";
-        b1.style.textDecorationColor = "white"
-        b1.style.zIndex = "101";
-        b2.style.backgroundColor = "darkgreen";
-        b2.style.color = "white";
-        b2.style.zIndex = "100";
+      
       document.getElementById("button-div").style.backgroundColor = "black";
       document.getElementById("body").style.backgroundColor = "black";
       document.getElementById("dropdown").style.backgroundColor = "black";
@@ -1142,14 +1124,20 @@ async function nearest_station(array, lat_lng, mode){
       document.getElementById("weather").style.backgroundColor = "lightgreen";
       document.getElementById("weather").style.color= "white";
 
-
+        b1.style.backgroundColor = "lightgreen";
+        b1.style.color = "white";
+        b1.style.zIndex = "101";
+        b2.style.backgroundColor = "black";
+        b2.style.textDecorationColor = "white"
+        b2.style.color = "white";
+        b2.style.zIndex = "100";
      
       b1.addEventListener("click", () => {
         b1.style.backgroundColor = "lightgreen";
         b1.style.color = "white";
         b1.style.textDecorationColor = "white"
         b1.style.zIndex = "101";
-        b2.style.backgroundColor = "darkgreen";
+        b2.style.backgroundColor = "black";
         b2.style.color = "white";
         b2.style.zIndex = "100";
       })
@@ -1158,7 +1146,7 @@ async function nearest_station(array, lat_lng, mode){
         b2.style.color = "white";
         b2.style.textDecorationColor = "white"
         b2.style.zIndex = "101";
-        b1.style.backgroundColor = "darkgreen";
+        b1.style.backgroundColor = "black";
         b1.style.color = "white";
         b1.style.zIndex = "100";
       })
