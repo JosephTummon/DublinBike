@@ -1053,6 +1053,7 @@ async function nearest_station(array, lat_lng, mode){
   ];
 
   var is_light = true;
+  var is_bikes = true;
   const b1= document.getElementById("btn1");
   const b2= document.getElementById("btn2");
   b1.style.backgroundColor = "lightblue";
@@ -1078,6 +1079,7 @@ b2.addEventListener("click", () => {
   b1.style.color = "black";
   b1.style.zIndex = "100";
 })
+
   var slider = document.getElementById("slider");
   slider.addEventListener("click", () => {
     if(is_light == true){
@@ -1102,14 +1104,25 @@ b2.addEventListener("click", () => {
       document.getElementById("weather").style.backgroundColor = "lightblue";
       document.getElementById("weather").style.color= "black";
 
-
-        b1.style.backgroundColor = "lightblue";
-        b1.style.color = "white";
-        b1.style.zIndex = "101";
-        b2.style.backgroundColor = "white";
-        b2.style.color = "black";
-        b2.style.zIndex = "100";
+        if (is_bikes == true){
+            b1.style.backgroundColor = "lightblue";
+            b1.style.color = "white";
+            b1.style.zIndex = "101";
+            b2.style.backgroundColor = "white";
+            b2.style.color = "black";
+            b2.style.zIndex = "100";
+        }
+        else{
+            b2.style.backgroundColor = "lightblue";
+            b2.style.color = "white";
+            b2.style.zIndex = "101";
+            b1.style.backgroundColor = "white";
+            b1.style.color = "black";
+            b1.style.zIndex = "100";
+        }
+        
       b1.addEventListener("click", () => {
+        is_bikes= true;
         b1.style.backgroundColor = "lightblue";
         b1.style.color = "white";
         b1.style.zIndex = "101";
@@ -1118,6 +1131,7 @@ b2.addEventListener("click", () => {
         b2.style.zIndex = "100";
       })
       b2.addEventListener("click", () => {
+        is_bikes = false;
         b2.style.backgroundColor = "lightblue";
         b2.style.color = "white";
         b2.style.textDecorationColor = "white"
@@ -1145,6 +1159,7 @@ b2.addEventListener("click", () => {
       document.getElementById("weather").style.backgroundColor = "lightgreen";
       document.getElementById("weather").style.color= "white";
 
+      if (is_bikes == true){
         b1.style.backgroundColor = "lightgreen";
         b1.style.color = "white";
         b1.style.zIndex = "101";
@@ -1152,8 +1167,19 @@ b2.addEventListener("click", () => {
         b2.style.textDecorationColor = "white"
         b2.style.color = "white";
         b2.style.zIndex = "100";
+      }else{
+        b2.style.backgroundColor = "lightgreen";
+        b2.style.color = "white";
+        b2.style.zIndex = "101";
+        b1.style.backgroundColor = "black";
+        b1.style.textDecorationColor = "white"
+        b1.style.color = "white";
+        b1.style.zIndex = "100";
+      }
+        
      
       b1.addEventListener("click", () => {
+        is_bikes=true;
         b1.style.backgroundColor = "lightgreen";
         b1.style.color = "white";
         b1.style.textDecorationColor = "white"
@@ -1163,6 +1189,7 @@ b2.addEventListener("click", () => {
         b2.style.zIndex = "100";
       })
       b2.addEventListener("click", () => {
+        is_bikes=false;
         b2.style.backgroundColor = "lightgreen";
         b2.style.color = "white";
         b2.style.textDecorationColor = "white"
