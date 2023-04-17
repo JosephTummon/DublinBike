@@ -629,13 +629,20 @@ async function nearest_station(array, lat_lng, mode){
 
   
 const button = document.getElementById("go");
-
+const clear_button = document.getElementById("clear-directions");
 
 // Add event listener to the button element
 button.addEventListener("click", function() {
     // Call the calculateAndDisplayRoute function when the button is clicked
     calculateAndDisplayRoute(directionsRenderer, directionsService, markerArray1, stepDisplay, map);
   });
+  
+clear_button.addEventListener("click", function() {
+for (let i = 0; i < markerArray1.length; i++) {
+    markerArray1[i].setMap(null);
+    }
+    directionsRenderer.setDirections({routes: []}); // Remove directions line    
+});
 
 
 function calculateAndDisplayRoute(
@@ -649,6 +656,7 @@ function calculateAndDisplayRoute(
   for (let i = 0; i < markerArray1.length; i++) {
     markerArray1[i].setMap(null);
   }
+
 
   // Retrieve the start and end locations and create a DirectionsRequest using
   // WALKING directions.
