@@ -141,7 +141,6 @@ findStations.addEventListener("click", () => {
       }
   });
 
-////workinprogress////
 
 var search_nearest_bike =document.getElementById("search-nearest-bike");
 search_nearest_bike.addEventListener("click", async function () {
@@ -169,8 +168,9 @@ search_nearest_stand.addEventListener("click", async function () {
   const buttons = document.getElementById("button-div");
   const location_buttons = document.getElementById("location-buttons");
   const locateNearest = document.getElementById("nearest-btn");
-
+  const search_nearest_div = document.getElementById("search-nearest-btns");
   map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+  map.controls[google.maps.ControlPosition.LEFT_TOP].push(search_nearest_div);
   map.controls[google.maps.ControlPosition.TOP_RIGHT].push(buttons);
   map.controls[google.maps.ControlPosition.RIGHT_TOP].push(location_buttons);
   map.controls[google.maps.ControlPosition.BOTTOM_RIGHT].push(locateNearest);
@@ -826,7 +826,9 @@ dark_mode_button.addEventListener("click", () => {
 
     nearest_bike_btn.style.backgroundColor = "lightblue";
     nearest_stand_btn.style.backgroundColor = "lightblue";
-    
+    search_nearest_bike.style.backgroundColor = "lightblue";
+    search_nearest_stand.style.backgroundColor = "lightblue";
+
     document.getElementById("select-service").style.backgroundColor="white"
     document.getElementById("select-service-container").style.color="white";
     document.getElementById("get-directions").style.color = "black";
@@ -896,6 +898,8 @@ dark_mode_button.addEventListener("click", () => {
     map.set("styles", dark_map);
     nearest_bike_btn.style.backgroundColor = "lightgreen";
     nearest_stand_btn.style.backgroundColor = "lightgreen";
+    search_nearest_bike.style.backgroundColor = "lightblue";
+    search_nearest_stand.style.backgroundColor = "lightblue";
     document.getElementById("select-service").style.backgroundColor="black"
     document.getElementById("select-service-container").style.color="black";
     document.getElementById("get-directions").style.color = "white";

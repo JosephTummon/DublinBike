@@ -187,6 +187,7 @@ the div
   padding-left: 7px;
   margin-top: 20px;
   margin-left: 25px;
+  margin-bottom: 0px;
   position: relative;
 }
 
@@ -526,6 +527,35 @@ button img {
   background-color: white;
   border-radius: 35px;
   margin-right: 25px;
+  margin-top: 10px;
+}
+
+#search-nearest-bike{
+  top: 20px;
+  background-color: lightblue;
+  border-radius: 35px;
+  height:65px;
+  width:65px;
+  border-width: 0px;
+  color:white;
+  cursor: pointer;
+}
+
+#search-nearest-stand{
+top: 20px;
+  background-color: lightblue;
+  border-radius: 35px;
+  height:65px;
+  width:65px;
+  border-width: 0px;
+  color:white;
+  cursor: pointer;
+}
+
+#search-nearest-btns{
+  background-color: white;
+  border-radius: 35px;
+  margin-left: 25px;
   margin-top: 10px;
 }
 
