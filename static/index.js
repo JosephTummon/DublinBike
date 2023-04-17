@@ -389,10 +389,11 @@ async function initMap() {
         loadingDiv.style.display = "none"; // hide the loading animation 
 
         const chart = new google.visualization.ColumnChart(document.getElementById("PredictiveChart"));
-        chart.draw(chart_data, options);o
+        chart.draw(chart_data, options);
 
         const form = document.querySelector('form');
         form.addEventListener('submit', (event) => {
+          console.log("Testing");
           event.preventDefault(); // prevent form submission
           var datetime = document.getElementById('availabletime').value;
           console.log(datetime); // log the value of the datetime input field
