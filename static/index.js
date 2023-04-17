@@ -828,7 +828,7 @@ dark_mode_button.addEventListener("click", () => {
     nearest_stand_btn.style.backgroundColor = "lightblue";
     search_nearest_bike.style.backgroundColor = "lightblue";
     search_nearest_stand.style.backgroundColor = "lightblue";
-
+    search_nearest_div.style.backgroundColor = "white";
     document.getElementById("select-service").style.backgroundColor="white"
     document.getElementById("select-service-container").style.color="white";
     document.getElementById("get-directions").style.color = "black";
@@ -898,8 +898,9 @@ dark_mode_button.addEventListener("click", () => {
     map.set("styles", dark_map);
     nearest_bike_btn.style.backgroundColor = "lightgreen";
     nearest_stand_btn.style.backgroundColor = "lightgreen";
-    search_nearest_bike.style.backgroundColor = "lightblue";
-    search_nearest_stand.style.backgroundColor = "lightblue";
+    search_nearest_bike.style.backgroundColor = "lightgreen";
+    search_nearest_stand.style.backgroundColor = "lightgreen";
+    search_nearest_div.style.backgroundColor = "black";
     document.getElementById("select-service").style.backgroundColor="black"
     document.getElementById("select-service-container").style.color="black";
     document.getElementById("get-directions").style.color = "white";
