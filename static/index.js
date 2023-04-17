@@ -1,5 +1,4 @@
 import { light_map } from './light_map.js';
-console.log("light imported");
 import { dark_map } from './dark_map.js';
 
 // Declare map and marker variables
@@ -490,9 +489,7 @@ function nearby_stations_with_x(array, x){
    else {
     var nearest = has_x;
    }
-   //console.log("here are the results from the nearby with bikes: ");
    for (let i = 0; i<nearest.length; i++){
-    //console.log(nearest[i]);
    }
    //nearest var will be array of 10 (or less) nearest bikes
    return nearest;
@@ -566,11 +563,8 @@ async function nearest_station(array, lat_lng, mode){
   //document.getElementById("start").addEventListener("change", onChangeHandler);
   //document.getElementById("end").addEventListener("change", onChangeHandler);
   document.getElementById("go-btn").addEventListener("click", onChangeHandler);
-
   
-
   ////// light/darkmode code /////////
-  
   map.set("styles", light_map);
   
   var is_light = true;
@@ -584,6 +578,8 @@ async function nearest_station(array, lat_lng, mode){
   b2.style.color = "black";
   b2.style.zIndex = "100";
 b1.addEventListener("click", () => {
+  is_bikes= true;
+
   b1.style.backgroundColor = "lightblue";
   b1.style.color = "white";
   b1.style.zIndex = "101";
@@ -592,6 +588,8 @@ b1.addEventListener("click", () => {
   b2.style.zIndex = "100";
 })
 b2.addEventListener("click", () => {
+  is_bikes=false;
+
   b2.style.backgroundColor = "lightblue";
   b2.style.color = "white";
   b2.style.textDecorationColor = "white"
@@ -644,6 +642,7 @@ b2.addEventListener("click", () => {
         
       b1.addEventListener("click", () => {
         is_bikes= true;
+
         b1.style.backgroundColor = "lightblue";
         b1.style.color = "white";
         b1.style.zIndex = "101";
@@ -652,6 +651,7 @@ b2.addEventListener("click", () => {
         b2.style.zIndex = "100";
       })
       b2.addEventListener("click", () => {
+        
         is_bikes = false;
         b2.style.backgroundColor = "lightblue";
         b2.style.color = "white";
@@ -663,7 +663,6 @@ b2.addEventListener("click", () => {
       })
 
     }else{
-
       //darkmode styling
       map.set("styles", dark_map);
       document.getElementById("header").style.backgroundColor = "black";
