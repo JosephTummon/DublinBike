@@ -704,6 +704,7 @@ function attachInstructionText(stepDisplay, marker, text, map) {
 var is_light = true;
 var is_bikes = true;
 document.getElementById("weather-info").style.backgroundColor = "lightblue";
+document.getElementById("dark-icon").style.display="none";
 
 
 const b1= document.getElementById("btn1");
@@ -736,8 +737,8 @@ b1.style.color = "black";
 b1.style.zIndex = "100";
 })
 
-var slider = document.getElementById("slider");
-slider.addEventListener("click", () => {
+var dark_mode_button = document.getElementById("dark-mode-button");
+dark_mode_button.addEventListener("click", () => {
   if(is_light == true){
     is_light = false;
   } else if(is_light == false){
@@ -746,9 +747,12 @@ slider.addEventListener("click", () => {
   if (is_light == true){
     //light mode styling
     map.set("styles", light_map);
+    document.getElementById("dark-mode-button").style.backgroundColor = "lightblue";
     document.getElementById("header").style.backgroundColor = "white";
     document.getElementById("db").style.color = "lightblue";
     document.getElementById("icon-text").style.color = "black";
+    document.getElementById("dark-icon").style.display="none";
+    document.getElementById("light-icon").style.display="";
     document.getElementById("button-div").style.backgroundColor = "white";
     document.getElementById("body").style.backgroundColor = "white";
     document.getElementById("dropdown").style.backgroundColor = "white";
@@ -760,6 +764,7 @@ slider.addEventListener("click", () => {
     document.getElementById("weather-info").style.backgroundColor = "lightblue";
     document.getElementById("weather").style.color= "black";
     document.getElementById("translate_button").style.backgroundColor= "lightblue";
+    document.getElementById("pac-input").style.backgroundColor= "white";
 
       if (is_bikes == true){
           b1.style.backgroundColor = "lightblue";
@@ -803,6 +808,9 @@ slider.addEventListener("click", () => {
   }else{
     //darkmode styling
     map.set("styles", dark_map);
+    document.getElementById("dark-mode-button").style.backgroundColor = "lightgreen";
+    document.getElementById("light-icon").style.display="none";
+    document.getElementById("dark-icon").style.display="";
     document.getElementById("header").style.backgroundColor = "black";
     document.getElementById("db").style.color = "lightgreen";
     document.getElementById("icon-text").style.color = "white";
@@ -819,6 +827,9 @@ slider.addEventListener("click", () => {
     document.getElementById("weather-info").style.backgroundColor = "lightgreen";
     document.getElementById("weather").style.color= "white";
     document.getElementById("translate_button").style.backgroundColor= "lightgreen";
+    document.getElementById("pac-input").style.backgroundColor= "black";
+    document.getElementById("pac-input").style.color= "white";
+
 
     if (is_bikes == true){
       b1.style.backgroundColor = "lightgreen";
