@@ -384,13 +384,13 @@ async function initMap() {
           titlePosition: 'none',
           width: "700",
           height: "450",
-          chartArea: { 'width': '75%', 'height': '80%' },
+          chartArea: { 'width': '75%', bottom: 15, 'height': '80%' },
           legend: { position: "bottom" }
         };
         loadingDiv.style.display = "none"; // hide the loading animation 
 
         const chart = new google.visualization.ColumnChart(document.getElementById("PredictiveChart"));
-        chart.draw(chart_data, options);
+        chart.draw(chart_data, options);o
 
         const form = document.querySelector('form');
         form.addEventListener('submit', (event) => {
