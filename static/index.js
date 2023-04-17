@@ -1,6 +1,3 @@
-import { light_map } from './light_map.js';
-import { dark_map } from './dark_map.js';
-
 // Declare map and marker variables
 let map;
 let autocomplete;
@@ -353,12 +350,22 @@ function displayWeather(data) {
     });  
     marker.setLabel(station.available_bikes.toString());
     //Toggle code to change num on station pin
-    const btn1 = document.getElementById("btn1");
-    btn1.addEventListener("click", () => {    
+    const toggleButton1 = document.getElementById("btn1");
+    toggleButton1.addEventListener("click", () => {    
         marker.setLabel(station.available_bikes.toString());});
-    const btn2 = document.getElementById("btn2");
-    btn2.addEventListener("click", () => {    
+    const toggleButton2 = document.getElementById("btn2");
+    toggleButton2.addEventListener("click", () => {    
         marker.setLabel(station.available_bike_stands.toString());});
+    
+    toggleButton1.addEventListener("click", () => {
+      btn1.classList.add("active");
+      btn2.classList.remove("active");
+    });
+    
+    toggleButton2.addEventListener("click", () => {
+      btn1.classList.remove("active");
+      btn2.classList.add("active");
+    });
     return marker;
   }
 
@@ -552,7 +559,9 @@ function nearby_stations_with_x(array, x){
    else {
     var nearest = has_x;
    }
+   //console.log("here are the results from the nearby with bikes: ");
    for (let i = 0; i<nearest.length; i++){
+    //console.log(nearest[i]);
    }
    //nearest var will be array of 10 (or less) nearest bikes
    return nearest;
@@ -619,177 +628,6 @@ const button = document.getElementById("go");
 button.addEventListener("click", function() {
     // Call the calculateAndDisplayRoute function when the button is clicked
     calculateAndDisplayRoute(directionsRenderer, directionsService, markerArray1, stepDisplay, map);
-
-  // Listen to change events from the start and end lists.
-  const onChangeHandler = function () {
-    calculateAndDisplayRoute(
-      directionsRenderer,
-      directionsService,
-      markerArray1,
-      stepDisplay,
-      map
-    );
-  };
-
-  //document.getElementById("start").addEventListener("change", onChangeHandler);
-  //document.getElementById("end").addEventListener("change", onChangeHandler);
-  document.getElementById("go-btn").addEventListener("click", onChangeHandler);
-  
-  ////// light/darkmode code /////////
-  map.set("styles", light_map);
-  
-  var is_light = true;
-  var is_bikes = true;
-  const b1= document.getElementById("btn1");
-  const b2= document.getElementById("btn2");
-  b1.style.backgroundColor = "lightblue";
-  b1.style.color = "white";
-  b1.style.zIndex = "101";
-  b2.style.backgroundColor = "white";
-  b2.style.color = "black";
-  b2.style.zIndex = "100";
-b1.addEventListener("click", () => {
-  is_bikes= true;
-
-  b1.style.backgroundColor = "lightblue";
-  b1.style.color = "white";
-  b1.style.zIndex = "101";
-  b2.style.backgroundColor = "white";
-  b2.style.color = "black";
-  b2.style.zIndex = "100";
-})
-b2.addEventListener("click", () => {
-  is_bikes=false;
-
-  b2.style.backgroundColor = "lightblue";
-  b2.style.color = "white";
-  b2.style.textDecorationColor = "white"
-  b2.style.zIndex = "101";
-  b1.style.backgroundColor = "white";
-  b1.style.color = "black";
-  b1.style.zIndex = "100";
-})
-
-  var slider = document.getElementById("slider");
-  slider.addEventListener("click", () => {
-    if(is_light == true){
-      is_light = false;
-    } else if(is_light == false){
-      is_light = true;
-    }
-    if (is_light == true){
-      //light mode styling
-      map.set("styles", light_map);
-      document.getElementById("header").style.backgroundColor = "white";
-      document.getElementById("button-div").style.backgroundColor = "white";
-      document.getElementById("body").style.backgroundColor = "white";
-      document.getElementById("dropdown").style.backgroundColor = "white";
-      document.getElementById("location-buttons").style.backgroundColor = "white";
-      //document.getElementById("center-btn").style.color = "black";
-      document.getElementById("warnings-panel").style.backgroundColor = "white";
-      document.getElementById("compass").style.color = "black";
-      document.getElementById("speedometer").style.color = "black";
-      document.getElementById("pin").style.color = "lightblue";
-      document.getElementById("dest_marker").style.color = "lightblue";
-      document.getElementById("weather").style.backgroundColor = "lightblue";
-      document.getElementById("weather").style.color= "black";
-
-        if (is_bikes == true){
-            b1.style.backgroundColor = "lightblue";
-            b1.style.color = "white";
-            b1.style.zIndex = "101";
-            b2.style.backgroundColor = "white";
-            b2.style.color = "black";
-            b2.style.zIndex = "100";
-        }
-        else{
-            b2.style.backgroundColor = "lightblue";
-            b2.style.color = "white";
-            b2.style.zIndex = "101";
-            b1.style.backgroundColor = "white";
-            b1.style.color = "black";
-            b1.style.zIndex = "100";
-        }
-        
-      b1.addEventListener("click", () => {
-        is_bikes= true;
-
-        b1.style.backgroundColor = "lightblue";
-        b1.style.color = "white";
-        b1.style.zIndex = "101";
-        b2.style.backgroundColor = "white";
-        b2.style.color = "black";
-        b2.style.zIndex = "100";
-      })
-      b2.addEventListener("click", () => {
-        
-        is_bikes = false;
-        b2.style.backgroundColor = "lightblue";
-        b2.style.color = "white";
-        b2.style.textDecorationColor = "white"
-        b2.style.zIndex = "101";
-        b1.style.backgroundColor = "white";
-        b1.style.color = "black";
-        b1.style.zIndex = "100";
-      })
-
-    }else{
-      //darkmode styling
-      map.set("styles", dark_map);
-      document.getElementById("header").style.backgroundColor = "black";
-      document.getElementById("button-div").style.backgroundColor = "black";
-      document.getElementById("body").style.backgroundColor = "black";
-      document.getElementById("dropdown").style.backgroundColor = "black";
-      document.getElementById("location-buttons").style.backgroundColor = "black";
-      //document.getElementById("center-btn").style.color = "white";
-      document.getElementById("warnings-panel").style.backgroundColor = "black";
-      document.getElementById("compass").style.color = "white";
-      document.getElementById("speedometer").style.color = "white";
-      document.getElementById("pin").style.color = "lightgreen";
-      document.getElementById("dest_marker").style.color = "lightgreen";
-      document.getElementById("weather").style.backgroundColor = "lightgreen";
-      document.getElementById("weather").style.color= "white";
-
-      if (is_bikes == true){
-        b1.style.backgroundColor = "lightgreen";
-        b1.style.color = "white";
-        b1.style.zIndex = "101";
-        b2.style.backgroundColor = "black";
-        b2.style.textDecorationColor = "white"
-        b2.style.color = "white";
-        b2.style.zIndex = "100";
-      }else{
-        b2.style.backgroundColor = "lightgreen";
-        b2.style.color = "white";
-        b2.style.zIndex = "101";
-        b1.style.backgroundColor = "black";
-        b1.style.textDecorationColor = "white"
-        b1.style.color = "white";
-        b1.style.zIndex = "100";
-      }
-        
-     
-      b1.addEventListener("click", () => {
-        is_bikes=true;
-        b1.style.backgroundColor = "lightgreen";
-        b1.style.color = "white";
-        b1.style.textDecorationColor = "white"
-        b1.style.zIndex = "101";
-        b2.style.backgroundColor = "black";
-        b2.style.color = "white";
-        b2.style.zIndex = "100";
-      })
-      b2.addEventListener("click", () => {
-        is_bikes=false;
-        b2.style.backgroundColor = "lightgreen";
-        b2.style.color = "white";
-        b2.style.textDecorationColor = "white"
-        b2.style.zIndex = "101";
-        b1.style.backgroundColor = "black";
-        b1.style.color = "white";
-        b1.style.zIndex = "100";
-      })
-    }
   });
 
 

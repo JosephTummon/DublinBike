@@ -72,6 +72,11 @@ header {
   font-size: 18px;
 } 
 
+#btn1.active {
+  color:white;
+  z-index: 101;
+  background-color: lightblue;
+}
 
 #btn2.active {
   color:white;
