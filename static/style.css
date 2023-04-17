@@ -443,6 +443,16 @@ html, body {
 }
 
 
+#search-station-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 10vh; /* or whatever height you want */
+}
+
+.search {
+  text-align: center;
+}
 
 /*styling the location button */
 .custom-map-control-button {
