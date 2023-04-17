@@ -3,17 +3,6 @@ let map;
 let autocomplete;
 let infoWindow;
 var markerArray = [];
-
-    
-    // toggleButton1.addEventListener("click", () => {
-    //   btn1.classList.add("active");
-    //   btn2.classList.remove("active");
-    // });
-    
-    // toggleButton2.addEventListener("click", () => {
-    //   btn1.classList.remove("active");
-    //   btn2.classList.add("active");
-    // });
  
 // Initialize and add the map
 async function initMap() {
@@ -38,39 +27,15 @@ const dropDown = document.getElementById("dropdown");
 selectDirectionsBtn.addEventListener("click", () => {   
     directionsContainer.style.display = "block";
     dropDown.style.display = "None";
-//     directionsContainer.innerHTML = `
-//     <div id="search-station-conatiner">
-//         <div class="search">
-//         <button id="go">Go</button>
-//         <div>
-//             <i id="pin" class="fa-solid fa-map-pin" style="color: #00A4D3;"></i>
-//             <input type="text" id="start-input" placeholder="Type to search for start destination">
-//             <div id="result-box1" class="result-box"></div>
-//             <div id="test1"></div>
-//         </div>
-//         <div>
-//             <i id="dest_marker" class="fa-solid fa-location-dot" style="color: #00A4D3;"></i>
-//             <input type="text" id="end-input" placeholder="Type to search for end destination">
-//             <div id="result-box2" class="result-box"></div>
-//             <div id="test1"></div>
-//         </div>
-//         </div>
-//     </div>
-// `});
+    selectDirectionsBtn.classList.add("active");
+    findStations.classList.remove("active");
 });
 
 findStations.addEventListener("click", () => {  
     directionsContainer.style.display = "None";
-    dropDown.style.display = "Block"; 
-//     directionsContainer.innerHTML = `
-//     <div id="dropdown">
-//         <div id="dropdown-container">
-//             <select id="option">
-//                 <option value="Smithfield North" selected>Origin</option>
-//             </select>
-//         </div>
-//     </div>
-// `});
+    dropDown.style.display = "Block";
+    selectDirectionsBtn.classList.remove("active"); 
+    findStations.classList.add("active");
 });
 
   const translate_button = document.getElementById("translate_button");
@@ -87,9 +52,6 @@ findStations.addEventListener("click", () => {
 
   });
 
-  
-  
-  
    // Requesting user location and adding their marker to map
    const locationButton = document.createElement("button");
    locationButton.innerHTML = '<i class="fa-solid fa-location-crosshairs"></i>';
@@ -146,9 +108,6 @@ findStations.addEventListener("click", () => {
     });
   });
 
-
-
-  
   // Create the search box and link it to the UI element.
   const input = document.getElementById("pac-input");
   const searchBox = new google.maps.places.SearchBox(input);
@@ -198,12 +157,6 @@ findStations.addEventListener("click", () => {
   // Fetch weather data 
   await fetchWeatherData();
 
-   // Update station data every 60 seconds
-
-
-
- 
-
   // fetch stations
   async function fetchStationData() {
     const response = await fetch("/stations");
@@ -229,18 +182,7 @@ function displayWeather(data) {
     // Get temperature and convert temperature to Degrees Celcius
     var kelvin = data.main.temp;
     var celsius = Math.round((kelvin - 273.15) * 10) / 10;
-    var fahrenheit = Math.round((kelvin - 273.15) * 9/5 + 32)
-    var degrees 
-    // Get city
-    // var city = data.name;
-    // Get description of weather
-    // var weatherDescription = data.weather[0].description;
-    // Get additional weather data
-    // var feelsLike = data.main.feels_like;
-    // var humidity = data.main.humidity;
-    // var tempMax = data.main.temp_max;
-    // var tempMin = data.main.temp_min;
-  
+    var fahrenheit = Math.round((kelvin - 273.15) * 9/5 + 32);
     var weatherDiv = document.getElementById("weather-info");
   
     // Coding wind compass
@@ -287,40 +229,8 @@ function displayWeather(data) {
         `
         }
         });
-    //   <div id="additional-info">
-    //       <p>Feels Like: ${feelsLike} <br> Humidity: ${humidity} <br></p> 
-    //       <p>Max Temperature: ${tempMax} <br> Min Temperature: ${tempMin}</p>
-    //   </div>;
-
-    // Set up the popup content
-    // var popup = `
-    //   <div id="additional-info">
-    //       <h2>${city}</h2>
-    //       <p>Feels Like: ${feelsLike}</p>
-    //       <p>Humidity: ${humidity}</p>
-    //       <p>Max Temperature: ${tempMax}</p>
-    //       <p>Min Temperature: ${tempMin}</p>
-    //   </div>`;
-    // document.getElementById("additional-info").style.display = "none";
-
-    // const compass = document.getElementById("compass");
-    // compass.style.transform = 'rotate(' + wind_dir + 'deg)';
-  
-    // // Add event listener for mouseover on weatherDiv
-    // weatherDiv.addEventListener("mouseover", function () {
-    //     document.getElementById("additional-info").style.display = "flex"; // Append the popup content to weatherDiv
-    // });
-
-    // // Find the #additional-info element
-
-    // // Add event listener for mouseout on weatherDiv
-    // weatherDiv.addEventListener("mouseout", function () {
-    //     document.getElementById("additional-info").style.display = "none";
-    // });
   }
 
-  
-  
   function displayInputBox(stations) {
     const stationList = [];
     const start = document.getElementById("start-input");
@@ -419,9 +329,6 @@ function displayWeather(data) {
   // Creates a new marker object for the given station and adds it to the map
   function createMarker(station) {
     var myLatlng = { lat: station.position.lat, lng: station.position.lng };
-    
-
-
     var marker = new google.maps.Marker({
       position: myLatlng,
       map: map,
@@ -509,17 +416,49 @@ function displayWeather(data) {
     });
   }
 
-  function displayDropDown(stations) {
-    // Display drop down for start destination
+  var markers = []; // Array to store markers
+
+  // Function to display drop down for stations
+function displayDropDown(stations) {
+    var dropdown = document.getElementById("option");
+  
+    // Add options for each station
     stations.forEach(station => {
       var option = document.createElement("option");
-      option.setAttribute("id", "start-option");
-      option.setAttribute("placeholder", "start-option");
-      option.innerHTML = station.address;
-      document.getElementById("option").appendChild(option);      
- })
-}
+      option.value = station.number; // Use station number as value for each option
+      option.textContent = station.address; // Use station address as text for each option
+      dropdown.appendChild(option);
+    });
+  
+    // Add event listener for change event on dropdown
+    dropdown.addEventListener("change", function() {
+    markers.forEach(marker => {
+        marker.setMap(null);
+        });
+        markers = []; // Clear the markers array
+      var selectedStationNumber = this.value;
+      var selectedStation = stations.find(station => station.number === parseInt(selectedStationNumber));
+      if (selectedStation) {
+        // Get coordinates of selected station
+        var lat = selectedStation.position.lat;
+        var lng = selectedStation.position.lng;
+  
+        // Create a marker on the map
+        var marker = new google.maps.Marker({
+          position: {lat: lat, lng: lng},
+          map: map,
+          title: selectedStation.name
+        });
 
+        
+        markers.push(marker);
+  
+        // Center the map on the marker
+        map.setCenter({lat: lat, lng: lng});
+        map.setZoom(15); // Set zoom level to 15
+      }
+    });
+}
 
   //***** CODE FOR DIRECTIONS *****
   let markerArray1 = []

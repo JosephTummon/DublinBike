@@ -79,8 +79,8 @@ header {
 }
 
 #btn2.active {
-  color: black;
-  z-index: 100;
+  color:white;
+  z-index: 101;
   background-color: lightblue;
 }
 
@@ -95,7 +95,6 @@ header {
 #weather-info:hover {
   background-color: lightblue;
   color: #38bdf8;
-  /* transform: translateX(-30px); */
 }
 
 
@@ -104,24 +103,13 @@ header {
   transform: translateY(4px);
 }
 
-/* #weather-info:hover #additional-info {
-  transform: translateX(200%);
-} */
-
 #additional-info {
-  /* Set the right property to -100% to position the element initially outside the weather-info element on the left side */
-  /* transition: transform 0.3s ease-in-out; */
-  /* transform: translateX(0); */
   border: 1px solid black;
   border-radius: 50px;
   font-size: 13px;
   background-color: white;
   color: black;
 }
-
-/* #weather-info:hover #additional-info {
-  transform: translateX(0%); /* Set the transform property to translateX(0%) to slide the element in from the left side when hovering over weather-info */
-
 
 #test {
   display: flex;
@@ -289,11 +277,21 @@ html, body {
   padding-top: 10px;
 }
 
-#get-directions {
+#get-directions:hover {
+  cursor: pointer;
+  color: #38bdf8;
+}
+
+#find-stations:hover {
+  cursor: pointer;
+  color: #38bdf8;
+}
+
+#get-directions.active {
   border-bottom: 2px solid #3897d3;
 }
 
-#find-stations {
+#find-stations.active {
   border-bottom: 2px solid #3897d3;
 }
 
