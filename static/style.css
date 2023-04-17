@@ -214,6 +214,8 @@ the div
   height: 50px;
 }
 
+
+
 #nearest-btn:hover {
   background-color: #cbd5e1;
   color: #38bdf8;
@@ -494,3 +496,29 @@ button img {
   
 }
 
+#nearest-bike{
+  top: 20px;
+  background-color: lightblue;
+  border-radius: 35px;
+  height:65px;
+  width:65px;
+  border-width: 0px;
+  color:white;
+}
+
+#nearest-stand{
+  top: 20px;
+  background-color: lightblue;
+  border-radius: 35px;
+  height:65px;
+  width:65px;
+  border-width: 0px;
+  color:white;
+}
+
+#location-buttons{
+  background-color: white;
+  border-radius: 35px;
+  margin-right: 25px;
+  margin-top: 10px;
+}

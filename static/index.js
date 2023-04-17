@@ -121,10 +121,12 @@ findStations.addEventListener("click", () => {
   const input = document.getElementById("pac-input");
   const searchBox = new google.maps.places.SearchBox(input);
   const buttons = document.getElementById("button-div");
+  const location_buttons = document.getElementById("location-buttons");
   const locateNearest = document.getElementById("nearest-btn");
 
   map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
   map.controls[google.maps.ControlPosition.TOP_RIGHT].push(buttons);
+  map.controls[google.maps.ControlPosition.RIGHT_TOP].push(location_buttons);
   map.controls[google.maps.ControlPosition.BOTTOM_RIGHT].push(locateNearest);
   // Bias the SearchBox results towards current map's viewport.
   map.addListener("bounds_changed", () => {
@@ -747,6 +749,8 @@ dark_mode_button.addEventListener("click", () => {
   if (is_light == true){
     //light mode styling
     map.set("styles", light_map);
+    nearest_bike_btn.style.backgroundColor = "lightblue";
+    nearest_stand_btn.style.backgroundColor = "lightblue";
     document.getElementById("dark-mode-button").style.backgroundColor = "lightblue";
     document.getElementById("header").style.backgroundColor = "white";
     document.getElementById("db").style.color = "lightblue";
@@ -798,7 +802,6 @@ dark_mode_button.addEventListener("click", () => {
       is_bikes = false;
       b2.style.backgroundColor = "lightblue";
       b2.style.color = "white";
-      b2.style.textDecorationColor = "white"
       b2.style.zIndex = "101";
       b1.style.backgroundColor = "white";
       b1.style.color = "black";
@@ -808,6 +811,8 @@ dark_mode_button.addEventListener("click", () => {
   }else{
     //darkmode styling
     map.set("styles", dark_map);
+    nearest_bike_btn.style.backgroundColor = "lightgreen";
+    nearest_stand_btn.style.backgroundColor = "lightgreen";
     document.getElementById("dark-mode-button").style.backgroundColor = "lightgreen";
     document.getElementById("light-icon").style.display="none";
     document.getElementById("dark-icon").style.display="";
@@ -836,7 +841,6 @@ dark_mode_button.addEventListener("click", () => {
       b1.style.color = "white";
       b1.style.zIndex = "101";
       b2.style.backgroundColor = "black";
-      b2.style.textDecorationColor = "white"
       b2.style.color = "white";
       b2.style.zIndex = "100";
     }else{
@@ -844,7 +848,6 @@ dark_mode_button.addEventListener("click", () => {
       b2.style.color = "white";
       b2.style.zIndex = "101";
       b1.style.backgroundColor = "black";
-      b1.style.textDecorationColor = "white"
       b1.style.color = "white";
       b1.style.zIndex = "100";
     }
