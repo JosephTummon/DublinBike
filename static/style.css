@@ -1,5 +1,5 @@
 body {
-  background-color: #f3f4f6;
+  background-color: #fff;
 }
 
 /* HEADER */
@@ -193,16 +193,18 @@ the div
 #pac-input {
   padding-right: 10px; /* adjust as per your icon size */
   box-sizing: border-box;
-  border: 1px solid #ccc; /* add a border for the search box */
-  border-radius: 5px; /* add border-radius for rounded corners */
-  outline: none; /* remove default outline on focus */
-  height: 40px;
+  height: 45px;
   width: 325px;
-  border-radius: 20px;
+  border-radius: 35px;
   padding-left: 7px;
   margin-top: 20px;
   margin-left: 25px;
   position: relative;
+}
+
+#pac-input:hover {
+  border: 2px solid #cbd5e1;
+  cursor: pointer;
 }
 
 #pac-input:focus {
@@ -271,17 +273,45 @@ html, body {
   background-color: ghostwhite;
 }
 
-#dropdown {
+#select-service {
+  background-color: #fff;
+}
+
+#select-service-container {
+  display: flex;
+  font-size: 13px;
+  color: #333;
+  padding: 3px;
+  justify-content: space-around;
+  width: 400px;
+  font-family: "Roboto", "sans-serif";
+  background-color: #fff;
+  padding-top: 10px;
+}
+
+#get-directions {
+  border-bottom: 2px solid #3897d3;
+}
+
+#find-stations {
+  border-bottom: 2px solid #3897d3;
+}
+
+#search-station {
+  border: 1px solid black;
+}
+
+#search-station-conatiner {
   display: flex;
   background-color: #fff;
   text-align: center;
   font-family: "Roboto", "sans-serif";
-  height: 100px;
+  height: 150px;
 }
 
 .search {
   display: flex;
-  margin: 20px auto;
+  margin: 50px auto;
   border: 2px solid ghostwhite;
   padding: 0;
   height: 50px;
@@ -351,6 +381,41 @@ html, body {
 #result-box1, #result-box2 {
   background-color: white;
 }
+
+#dropdown {
+  background-color: #fff;
+  text-align: center;
+  font-family: "Roboto", "sans-serif";
+  background-color: #fff;
+  height: 150px;
+  display: none;
+}
+
+#dropdown-container {
+  padding: 5px;
+  text-align: center;
+  line-height: 30px;
+  padding-left: 10px;
+  margin: 0 auto;
+}
+
+#option {
+  border: 2px solid ghostwhite;
+  padding: 0;
+  height: 45px;
+  width: 300px;
+  border-radius: 15px;
+  margin: 50px auto;
+  font-family: "Roboto", "sans-serif";
+  font-size: 13px;
+  height: 50px;
+}
+
+#option:hover {
+  border: 2px solid#cbd5e1;
+  cursor: pointer;
+}
+
 /* Changes bar chart for predictive model */
 .predictionbar {
   background-color:red;

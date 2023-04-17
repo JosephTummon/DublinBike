@@ -1,7 +1,19 @@
 // Declare map and marker variables
 let map;
 let autocomplete;
+let infoWindow;
 var markerArray = [];
+
+    
+    // toggleButton1.addEventListener("click", () => {
+    //   btn1.classList.add("active");
+    //   btn2.classList.remove("active");
+    // });
+    
+    // toggleButton2.addEventListener("click", () => {
+    //   btn1.classList.remove("active");
+    //   btn2.classList.add("active");
+    // });
  
 // Initialize and add the map
 async function initMap() {
@@ -16,6 +28,50 @@ async function initMap() {
     mapTypeControl: false, //removes satellite button
     fullscreenControl: false // removes full screen toggle
   });
+
+var selectDirectionsBtn = document.getElementById("get-directions");
+var findStations = document.getElementById("find-stations");
+
+const directionsContainer= document.getElementById("directions");
+const dropDown = document.getElementById("dropdown");
+
+selectDirectionsBtn.addEventListener("click", () => {   
+    directionsContainer.style.display = "block";
+    dropDown.style.display = "None";
+//     directionsContainer.innerHTML = `
+//     <div id="search-station-conatiner">
+//         <div class="search">
+//         <button id="go">Go</button>
+//         <div>
+//             <i id="pin" class="fa-solid fa-map-pin" style="color: #00A4D3;"></i>
+//             <input type="text" id="start-input" placeholder="Type to search for start destination">
+//             <div id="result-box1" class="result-box"></div>
+//             <div id="test1"></div>
+//         </div>
+//         <div>
+//             <i id="dest_marker" class="fa-solid fa-location-dot" style="color: #00A4D3;"></i>
+//             <input type="text" id="end-input" placeholder="Type to search for end destination">
+//             <div id="result-box2" class="result-box"></div>
+//             <div id="test1"></div>
+//         </div>
+//         </div>
+//     </div>
+// `});
+});
+
+findStations.addEventListener("click", () => {  
+    directionsContainer.style.display = "None";
+    dropDown.style.display = "Block"; 
+//     directionsContainer.innerHTML = `
+//     <div id="dropdown">
+//         <div id="dropdown-container">
+//             <select id="option">
+//                 <option value="Smithfield North" selected>Origin</option>
+//             </select>
+//         </div>
+//     </div>
+// `});
+});
 
   const translate_button = document.getElementById("translate_button");
   var translate_vis = false;
@@ -154,6 +210,7 @@ async function initMap() {
     const data = await response.json();
     console.log('fetch response', typeof data);
     displayInputBox(data);
+    displayDropDown(data);
     addMarkers(data);
   }
 
@@ -261,6 +318,8 @@ function displayWeather(data) {
     //     document.getElementById("additional-info").style.display = "none";
     // });
   }
+
+  
   
   function displayInputBox(stations) {
     const stationList = [];
@@ -449,7 +508,18 @@ function displayWeather(data) {
       currentInfoWindow = null;
     });
   }
-      
+
+  function displayDropDown(stations) {
+    // Display drop down for start destination
+    stations.forEach(station => {
+      var option = document.createElement("option");
+      option.setAttribute("id", "start-option");
+      option.setAttribute("placeholder", "start-option");
+      option.innerHTML = station.address;
+      document.getElementById("option").appendChild(option);      
+ })
+}
+
 
   //***** CODE FOR DIRECTIONS *****
   let markerArray1 = []
@@ -464,7 +534,8 @@ function displayWeather(data) {
   
 const button = document.getElementById("go");
 
-  // Add event listener to the button element
+
+// Add event listener to the button element
 button.addEventListener("click", function() {
     // Call the calculateAndDisplayRoute function when the button is clicked
     calculateAndDisplayRoute(directionsRenderer, directionsService, markerArray1, stepDisplay, map);
@@ -534,8 +605,7 @@ function attachInstructionText(stepDisplay, marker, text, map) {
   });
 }
 
-
-
+  
 ////// light/darkmode code /////////
 var is_light = true;
 var light_map = [
