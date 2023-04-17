@@ -776,18 +776,17 @@ dark_mode_button.addEventListener("click", () => {
   if (is_light == true){
     //light mode styling
     map.set("styles", light_map);
-    var white_marker = {
-        url: 'data:image/svg+xml;charset=UTF-8,' +
-          encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"><circle cx="16" cy="16" r="16" stroke="#000000" stroke-width="1" fill="#FFFFFF"/></svg>'),
-        scaledSize: new google.maps.Size(32, 32),
-        anchor: new google.maps.Point(16, 16)
-    };
 
-    for (let i = 0; i < markerArray1.length; i++) {
-        markerArray[i].setIcon(white_marker);
-      }
+
     nearest_bike_btn.style.backgroundColor = "lightblue";
     nearest_stand_btn.style.backgroundColor = "lightblue";
+    
+    document.getElementById("select-service").style.backgroundColor="white"
+    document.getElementById("select-service-container").style.color="white";
+    document.getElementById("get-directions").style.color = "black";
+    document.getElementById("find-stations").style.color = "black";
+    document.getElementById("directions").style.backgroundColor = "white";
+    document.getElementById("search-station-container").style.backgroundColor = "white";
     document.getElementById("dark-mode-button").style.backgroundColor = "lightblue";
     document.getElementById("header").style.backgroundColor = "white";
     document.getElementById("db").style.color = "lightblue";
@@ -848,21 +847,12 @@ dark_mode_button.addEventListener("click", () => {
   }else{
     //darkmode styling
     map.set("styles", dark_map);
-    var green_marker = {
-        url: 'data:image/svg+xml;charset=UTF-8,' +
-          encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"><circle cx="16" cy="16" r="16" stroke="#000000" stroke-width="1" fill="#90EE90"/></svg>'),
-        scaledSize: new google.maps.Size(32, 32),
-        anchor: new google.maps.Point(16, 16)
-    };
-    for (let i = 0; i < markerArray1.length; i++) {
-        markerArray[i].setIcon(green_marker);
-        console.log("changing to green")
-      }
-
-
-
     nearest_bike_btn.style.backgroundColor = "lightgreen";
     nearest_stand_btn.style.backgroundColor = "lightgreen";
+    document.getElementById("select-service").style.backgroundColor="black"
+    document.getElementById("select-service-container").style.color="black";
+    document.getElementById("get-directions").style.color = "white";
+    document.getElementById("find-stations").style.color = "white";
     document.getElementById("dark-mode-button").style.backgroundColor = "lightgreen";
     document.getElementById("light-icon").style.display="none";
     document.getElementById("dark-icon").style.display="";
