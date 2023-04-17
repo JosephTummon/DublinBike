@@ -160,7 +160,6 @@ async function initMap() {
       marker.addListener("click", () => {
         google.charts.load('current', { 'packages': ['corechart'] });
         drawChart(station.number);
-        getPrediction(station.number);
         document.getElementById("mySidebar").style.width = "650px";
         document.getElementById("main").style.marginLeft = "650px";
       });

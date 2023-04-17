@@ -71,7 +71,7 @@ def get_predictions(number):
             for j in range(24):
                 prediction = model.predict([[number, i, j]]).tolist()[0]
                 name = "station" + str(number) + str(i) + str(j)
-                vals[str(i)][str] = prediction
+                vals[str(i)][str(j)] = prediction
         return jsonify(vals)
     
 
