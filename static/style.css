@@ -33,7 +33,7 @@ header {
 }
 
 #db {
-  color: #00a4d3;
+  color: lightblue;
 }
 
 /* NAVIGATION */
@@ -85,7 +85,6 @@ header {
 }
 
 #weather-info {
-  background-color: #cbd5e1;
   border-radius: 50px;
   position: relative;
   cursor: pointer;
@@ -131,7 +130,7 @@ header {
 #weather h2 {
   margin: 0 auto;
   font-size: 13px;
-  color: #00a4d3;
+  color: white;
 } 
 
 #wind {
@@ -148,12 +147,13 @@ header {
   transform: translate(-50%, -50%);
   transform: rotate(-45deg);
   margin-bottom: 16px;
+  color: white;
 }
 
 #speedometer {
   margin: 0 auto;
   font-size: 13px;
-  color: #00a4d3;
+  color: white;
 }
 
 

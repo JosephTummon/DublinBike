@@ -220,7 +220,7 @@ function displayWeather(data) {
                 <img src=https://openweathermap.org/img/wn/${weatherIcon}.png alt='icon' width='42' height='40'><h2 id='temperature'>${fahrenheit}°F</h2>
             </div>
             <div id="wind">
-                <i id='compass' class='fa-solid fa-location-arrow fa-lg'></i><h2 id="speedometer">${windSpeedKmhr} mphh</h2>
+                <i id='compass' class='fa-solid fa-location-arrow fa-lg'></i><h2 id="speedometer">${windSpeedKmhr} mph</h2>
             </div>
         <div>
             `
@@ -703,6 +703,8 @@ function attachInstructionText(stepDisplay, marker, text, map) {
 ////// light/darkmode code /////////
 var is_light = true;
 var is_bikes = true;
+document.getElementById("weather-info").style.backgroundColor = "lightblue";
+
 
 const b1= document.getElementById("btn1");
 const b2= document.getElementById("btn2");
@@ -745,17 +747,17 @@ slider.addEventListener("click", () => {
     //light mode styling
     map.set("styles", light_map);
     document.getElementById("header").style.backgroundColor = "white";
+    document.getElementById("db").style.color = "lightblue";
+    document.getElementById("icon-text").style.color = "black";
     document.getElementById("button-div").style.backgroundColor = "white";
     document.getElementById("body").style.backgroundColor = "white";
     document.getElementById("dropdown").style.backgroundColor = "white";
     document.getElementById("location-buttons").style.backgroundColor = "white";
     //document.getElementById("center-btn").style.color = "black";
     //document.getElementById("warnings-panel").style.backgroundColor = "white";
-    document.getElementById("compass").style.color = "black";
-    document.getElementById("speedometer").style.color = "black";
     document.getElementById("pin").style.color = "lightblue";
     document.getElementById("dest_marker").style.color = "lightblue";
-    document.getElementById("weather").style.backgroundColor = "lightblue";
+    document.getElementById("weather-info").style.backgroundColor = "lightblue";
     document.getElementById("weather").style.color= "black";
     document.getElementById("translate_button").style.backgroundColor= "lightblue";
 
@@ -802,6 +804,8 @@ slider.addEventListener("click", () => {
     //darkmode styling
     map.set("styles", dark_map);
     document.getElementById("header").style.backgroundColor = "black";
+    document.getElementById("db").style.color = "lightgreen";
+    document.getElementById("icon-text").style.color = "white";
     document.getElementById("button-div").style.backgroundColor = "black";
     document.getElementById("body").style.backgroundColor = "black";
     document.getElementById("dropdown").style.backgroundColor = "black";
@@ -812,7 +816,7 @@ slider.addEventListener("click", () => {
     document.getElementById("speedometer").style.color = "white";
     document.getElementById("pin").style.color = "lightgreen";
     document.getElementById("dest_marker").style.color = "lightgreen";
-    document.getElementById("weather").style.backgroundColor = "lightgreen";
+    document.getElementById("weather-info").style.backgroundColor = "lightgreen";
     document.getElementById("weather").style.color= "white";
     document.getElementById("translate_button").style.backgroundColor= "lightgreen";
 
