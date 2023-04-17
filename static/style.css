@@ -1,5 +1,5 @@
 body {
-  background-color: #f3f4f6;
+  background-color: #fff;
 }
 
 /* HEADER */
@@ -79,8 +79,8 @@ header {
 }
 
 #btn2.active {
-  color: black;
-  z-index: 100;
+  color:white;
+  z-index: 101;
   background-color: lightblue;
 }
 
@@ -95,7 +95,6 @@ header {
 #weather-info:hover {
   background-color: lightblue;
   color: #38bdf8;
-  /* transform: translateX(-30px); */
 }
 
 
@@ -104,24 +103,13 @@ header {
   transform: translateY(4px);
 }
 
-/* #weather-info:hover #additional-info {
-  transform: translateX(200%);
-} */
-
 #additional-info {
-  /* Set the right property to -100% to position the element initially outside the weather-info element on the left side */
-  /* transition: transform 0.3s ease-in-out; */
-  /* transform: translateX(0); */
   border: 1px solid black;
   border-radius: 50px;
   font-size: 13px;
   background-color: white;
   color: black;
 }
-
-/* #weather-info:hover #additional-info {
-  transform: translateX(0%); /* Set the transform property to translateX(0%) to slide the element in from the left side when hovering over weather-info */
-
 
 #test {
   display: flex;
@@ -193,16 +181,18 @@ the div
 #pac-input {
   padding-right: 10px; /* adjust as per your icon size */
   box-sizing: border-box;
-  border: 1px solid #ccc; /* add a border for the search box */
-  border-radius: 5px; /* add border-radius for rounded corners */
-  outline: none; /* remove default outline on focus */
-  height: 40px;
+  height: 45px;
   width: 325px;
-  border-radius: 20px;
+  border-radius: 35px;
   padding-left: 7px;
   margin-top: 20px;
   margin-left: 25px;
   position: relative;
+}
+
+#pac-input:hover {
+  border: 2px solid #cbd5e1;
+  cursor: pointer;
 }
 
 #pac-input:focus {
@@ -212,13 +202,6 @@ the div
 #search-icon {
   position: absolute;
   left: 0;
-}
-
-
-#warnings-panel {
-  width: 100%;
-  height: 10%;
-  text-align: center;
 }
 
 #nearest-btn {
@@ -278,17 +261,159 @@ html, body {
   background-color: ghostwhite;
 }
 
-#dropdown {
-  left: 25%;
-  z-index: 5;
+#select-service {
   background-color: #fff;
-  padding: 5px;
-  border: 1px solid #999;
+}
+
+#select-service-container {
+  display: flex;
+  font-size: 13px;
+  color: #333;
+  padding: 3px;
+  justify-content: space-around;
+  width: 400px;
+  font-family: "Roboto", "sans-serif";
+  background-color: #fff;
+  padding-top: 10px;
+}
+
+#get-directions:hover {
+  cursor: pointer;
+  color: #38bdf8;
+}
+
+#find-stations:hover {
+  cursor: pointer;
+  color: #38bdf8;
+}
+
+#get-directions.active {
+  border-bottom: 2px solid #3897d3;
+}
+
+#find-stations.active {
+  border-bottom: 2px solid #3897d3;
+}
+
+#search-station {
+  border: 1px solid black;
+}
+
+#search-station-conatiner {
+  display: flex;
+  background-color: #fff;
   text-align: center;
   font-family: "Roboto", "sans-serif";
+  height: 150px;
+}
+
+.search {
+  display: flex;
+  margin: 50px auto;
+  border: 2px solid ghostwhite;
+  padding: 0;
+  height: 50px;
+  border-radius: 15px;
+}
+
+.search:hover {
+  border: 2px solid#cbd5e1;;
+}
+
+#go {
+  border: none;
+  background-color: ghostwhite;
+  height: 50px;
+  width: 50px;
+  color: #18181b;
+  text-decoration: none;
+  font-size: 16px;
+  font-weight: 400;
+  cursor: pointer;
+  border-bottom-left-radius: 15px;
+  border-top-left-radius: 15px;
+  transition: background-color .1s ease-in, transform .1s ease-in;
+}
+  
+#go:hover {
+  background-color: #cbd5e1;
+  color: #38bdf8;
+  transform: scale(1.05);
+}
+
+#go:active {
+  transform: scale(0.95);
+}
+
+#start-input, #end-input {
+  height: 50px;
+  width: 300px;
+  background: transparent;
+  border: 0;
+  outline: 0;
+  font-size: 18px;
+  color: #333;
+}
+
+.result-box {
+  max-height: 250px; 
+  overflow-y: auto;   
+}
+
+#result-box1 ul, #result-box2 ul {
+  border-top: 1px solid #999;
+  padding: 15px 10px;
+}
+
+#result-box1 ul li, #result-box2 ul li {
+  list-style: none;
+  border-radius: 3px;
+  padding: 15px 10px;
+  cursor: pointer;
+}
+
+#result-box1 ul li:hover, #result-box2 ul li:hover {
+  background: #e9f3ff;
+}
+
+#result-box1, #result-box2 {
+  background-color: white;
+}
+
+#dropdown {
+  background-color: #fff;
+  text-align: center;
+  font-family: "Roboto", "sans-serif";
+  background-color: #fff;
+  height: 150px;
+  display: none;
+}
+
+#dropdown-container {
+  padding: 5px;
+  text-align: center;
   line-height: 30px;
   padding-left: 10px;
+  margin: 0 auto;
 }
+
+#option {
+  border: 2px solid ghostwhite;
+  padding: 0;
+  height: 45px;
+  width: 300px;
+  border-radius: 15px;
+  margin: 50px auto;
+  font-family: "Roboto", "sans-serif";
+  font-size: 13px;
+  height: 50px;
+}
+
+#option:hover {
+  border: 2px solid#cbd5e1;
+  cursor: pointer;
+}
+
 /* Changes bar chart for predictive model */
 .predictionbar {
   background-color:red;

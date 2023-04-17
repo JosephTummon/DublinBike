@@ -2,21 +2,9 @@
   <head>
     <title>Dublin Bikes</title>
     <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
-    <link rel = "icon" href = 
-"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRnlkb-CEy6bhOsWRtUOASzFfh5K2z-HL6JDA&usqp=CAU" 
-        type = "image/x-icon">
-        
-    
-    <!--
-      *UNCOMMENT THIS IS YOU ARE WORKING ON THE DESIGNING FRONTEND AND DEVELOP WITH LIVE SERVER
-      EASIER THAN DOING IT THROUGH FLASK*
-    
-    <link rel="stylesheet" type="text/css" href="/static/style.css" />
-    <link rel="stylesheet" type="text/css" href="/static/index.js" />
-    -->
-    
+    <link rel = "icon" href = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRnlkb-CEy6bhOsWRtUOASzFfh5K2z-HL6JDA&usqp=CAU" type = "image/x-icon"> 
+    <script type="module" src="{{ url_for('static', filename='index.js') }}"></script>   
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}"/>
-    <script type="module" src="{{ url_for('static', filename='index.js') }}"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
    
   </head>
@@ -25,20 +13,6 @@
     <header id="header">
         <button id = "translate_button"><i class="fa-solid fa-language"></i></button>
         <div id="google_translate_element"></div>
-    <!--  --> 
-    <script type="text/javascript">  
-        function googleTranslateElementInit() {  
-            new google.translate.TranslateElement(  
-                {pageLanguage: 'en',},  
-                'google_translate_element'  
-            );  
-        }  
-    </script>  
-  
-<!-- Script code for google translator API -->  
-    <script type="text/javascript"   
-    src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit">  
-    </script>  
         <div>
           <label class="switch">
             <input id = "slider" type="checkbox">
@@ -51,33 +25,54 @@
         <div id="weather-info"></div>
     </header>
     <!--Map-->
-    <div id="map"></div>
-    <div class="search">
-
-      <input id="pac-input"class="search"type="text"placeholder=" Search">
-    </div>
-    <div id = "location-buttons">
-      <button id ="nearest-bike"><i class="fa-solid fa-bicycle"></i></button>
-      <button id ="nearest-stand"><i class="fa-solid fa-square-parking"></i></button>
+    <div id="map">
     </div>
 
+   
     <!-- 
       The `defer` attribute causes the callback to execute after the full HTML
       document has been parsed. For non-blocking uses, avoiding race conditions,
       and consistent behavior across browsers, consider loading using Promises
       with https://www.npmjs.com/package/@googlemaps/js-api-loader.
       -->
-
+    <div id="select-service">
+      <div id ="select-service-container">
+        <div id = "get-directions" class = "get-directions active">
+          <h2>Get Directions</h2>
+        </div>
+        <div id = "find-stations">
+          <h2>Find Stations</h2>
+        </div>
+      </div>
+    </div>
+    <div class="directions">
+      <div></div>
+    </div>
+    <div id="directions">
+      <div id="search-station-conatiner">
+        <div class="search">
+        <button id="go">Go</button>
+        <div>
+            <i id="pin" class="fa-solid fa-map-pin" style="color: #00A4D3;"></i>
+            <input type="text" id="start-input" placeholder="Type to search for start destination">
+            <div id="result-box1" class="result-box"></div>
+            <div id="test1"></div>
+        </div>
+        <div>
+            <i id="dest_marker" class="fa-solid fa-location-dot" style="color: #00A4D3;"></i>
+            <input type="text" id="end-input" placeholder="Type to search for end destination">
+            <div id="result-box2" class="result-box"></div>
+            <div id="test1"></div>
+        </div>
+        </div>
+    </div>
+    </div>
     <div id="dropdown">
-      <button>Go</button>
-      <i id = "pin" class="fa-solid fa-map-pin" style="color: #00A4D3;"></i>
-      <select id="start">
-        <option value="" selected>Origin</option>
-      </select>
-      <i id = "dest_marker" class="fa-solid fa-location-dot" style="color: #00A4D3;"></i>
-      <select id="end">
-        <option value="" selected>Destination</option>
-      </select>
+      <div id="dropdown-container">
+        <select id="option">
+          <option value="Smithfield North" selected>Find Station</option>
+        </select>
+      </div>
     </div>
     <!--Code for swapping nums on station pins-->
     <div id ="button-div" class="buttons">
@@ -91,12 +86,24 @@
       </div>
     </div>
     <!--End of swapping nums code-->
-    <div id="warnings-panel"></div>  
-    
-    
+    <input id="pac-input"class="search"type="text"placeholder=" Search">
     <script
       src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDgYC8VXvS4UG9ApSUhS2v-ByddtHljFls&libraries=places&callback=initMap&v=weekly"
       defer
     ></script>
+     <!--  --> 
+     <script type="text/javascript">  
+      function googleTranslateElementInit() {  
+          new google.translate.TranslateElement(  
+              {pageLanguage: 'en',},  
+              'google_translate_element'  
+          );  
+      }  
+  </script>  
+
+<!-- Script code for google translator API -->  
+  <script type="text/javascript"   
+  src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit">  
+  </script> 
   </body>
 </html> 
