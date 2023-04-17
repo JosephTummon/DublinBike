@@ -520,13 +520,27 @@ input:checked + .slider:before {
   line-height: 32px;
 }
 
-#translate_button{
-  top: 20px;
-  background-color: lightblue;
-}
+
+
 #google_translate_element {
   position: fixed;
 			top: 0;
 			left: 0;
       display: none;
 }
+
+#translate_button{
+  top: 20px;
+  background-color: lightblue;
+  border-radius: 35px;
+  height:65px;
+  width:65px;
+  border-width: 0px;
+}
+button img {
+  width:40px;
+  height:40px;
+  color: white;
+  
+}
+

@@ -757,6 +757,7 @@ slider.addEventListener("click", () => {
     document.getElementById("dest_marker").style.color = "lightblue";
     document.getElementById("weather").style.backgroundColor = "lightblue";
     document.getElementById("weather").style.color= "black";
+    document.getElementById("translate_button").style.backgroundColor= "lightblue";
 
       if (is_bikes == true){
           b1.style.backgroundColor = "lightblue";
@@ -813,6 +814,7 @@ slider.addEventListener("click", () => {
     document.getElementById("dest_marker").style.color = "lightgreen";
     document.getElementById("weather").style.backgroundColor = "lightgreen";
     document.getElementById("weather").style.color= "white";
+    document.getElementById("translate_button").style.backgroundColor= "lightgreen";
 
     if (is_bikes == true){
       b1.style.backgroundColor = "lightgreen";

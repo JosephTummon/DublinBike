@@ -11,7 +11,8 @@
   <body id = "body">
     <!--Header-->
     <header id="header">
-        <button id = "translate_button"><i class="fa-solid fa-language"></i></button>
+
+       
         <div id="google_translate_element"></div>
         <div>
           <label class="switch">
@@ -22,6 +23,8 @@
         <div class="logo">
             <h1><a class="l" href="http://127.0.0.1:5000/"><span id="db">DB</span>ikes</a></h1>
         </div>
+        <button id = "translate_button"><img id = "translate-icon" src="{{ url_for('static', filename='images/google-translate-white.png') }}" alt="Translate logo">
+        </button>
         <div id="weather-info"></div>
     </header>
     <!--Map-->
