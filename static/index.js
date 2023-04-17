@@ -332,6 +332,13 @@ function displayWeather(data) {
 
       // Attach listeners to show and hide the info window when the marker is hovered over
       attachInfoWindowListeners(marker, infoWindow);
+      marker.addListener("click", () => {
+        google.charts.load('current', { 'packages': ['corechart'] });
+        drawChart(station.number);
+        document.getElementById("mySidebar").style.width = "650px";
+        document.getElementById("main").style.marginLeft = "650px";
+      });
+
     }
   }
 
@@ -688,6 +695,118 @@ function showSteps(directionResult, markerArray1, stepDisplay, map) {
       map
     );
   }
+
+  function showSteps(directionResult, markerArray, stepDisplay, map) {
+    // For each step, place a marker, and add the text to the marker's infowindow.
+    // Also attach the marker to an array so we can keep track of it and remove it
+    // when calculating new routes.
+    const myRoute = directionResult.routes[0].legs[0];
+
+    for (let i = 0; i < myRoute.steps.length; i++) {
+      const marker = (markerArray[i] =
+        markerArray[i] || new google.maps.Marker());
+
+      marker.setMap(map);
+      marker.setPosition(myRoute.steps[i].start_location);
+      attachInstructionText(
+        stepDisplay,
+        marker,
+        myRoute.steps[i].instructions,
+        map
+      );
+    }
+  }
+
+  function attachInstructionText(stepDisplay, marker, text, map) {
+    google.maps.event.addListener(marker, "click", () => {
+      // Open an info window when the marker is clicked on, containing the text
+      // of the step.
+      stepDisplay.setContent(text);
+      stepDisplay.open(map, marker);
+    });
+
+  }
+
+  //code to change style of bike / stand selector buttons when clicked
+  const b1 = document.getElementById("btn1");
+  const b2 = document.getElementById("btn2");
+
+  b1.addEventListener("click", () => {
+    b1.style.backgroundColor = "lightblue";
+    b1.style.color = "white";
+    b1.style.zIndex = "101";
+    b2.style.backgroundColor = "white";
+    b2.style.color = "black";
+    b2.style.zIndex = "100";
+  })
+
+  b2.addEventListener("click", () => {
+    b2.style.backgroundColor = "lightblue";
+    b2.style.color = "white";
+    b2.style.textDecorationColor = "white"
+    b2.style.zIndex = "101";
+    b1.style.backgroundColor = "white";
+    b1.style.color = "black";
+    b1.style.zIndex = "100";
+  })
+
+  function drawChart(number) {
+    const loadingDiv = document.getElementById("loading");
+    loadingDiv.style.display = "block"; // show the loading animation
+    const cacheBuster = Date.now(); // add a cache-busting parameter
+    fetch(`/averages/${number}?cb=${cacheBuster}`)
+      .then(response => response.json())
+      .then(data => {
+        const chosenStationName = data[0].address;
+        document.getElementById("stationTitle").innerHTML = `<h2>${chosenStationName}</h2>`;
+        const chart_data = new google.visualization.DataTable();
+        chart_data.addColumn("string", "Week_Day_No");
+        chart_data.addColumn("number", "Average Bikes Available");
+        chart_data.addColumn("number", "Average Bike Stands");
+
+        const dayNames = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+
+        const rows = dayNames.map(dayName => {
+          const matchingData = data.find(obj => obj.day_of_week === dayName);
+          return [dayName, matchingData ? matchingData.Avg_bikes_free : null, matchingData ? matchingData.Avg_bike_stands : null];
+        });
+        chart_data.addRows(rows);
+        const options = {
+          titlePosition: 'none',
+          width: "700",
+          height: "450",
+          chartArea: { 'width': '75%', bottom: 15, 'height': '80%' },
+          legend: { position: "bottom" }
+        };
+        loadingDiv.style.display = "none"; // hide the loading animation 
+
+        const chart = new google.visualization.ColumnChart(document.getElementById("PredictiveChart"));
+        chart.draw(chart_data, options);
+
+        const form = document.querySelector('form');
+        form.addEventListener('submit', (event) => {
+          console.log("Testing");
+          event.preventDefault(); // prevent form submission
+          var datetime = document.getElementById('availabletime').value;
+          console.log(datetime); // log the value of the datetime input field
+          var datetime = new Date(datetime); 
+          const dayOfWeek = datetime.getDay(); // returns 0 for Sunday, 1 for Monday, and so on
+          const hour = datetime.getHours();
+          console.log(dayOfWeek, hour);
+          getPrediction(number, dayOfWeek, hour);
+        });
+      });
+  }
+
+  function getPrediction(number, dayOfWeek, hour) {
+    fetch(`/predictions/${number}`)
+      .then(response => response.json())
+      .then(data => {
+        document.getElementById("displayPrediction").innerHTML = "Number of available bikes: " + data[dayOfWeek][hour];
+        console.log(data[dayOfWeek][hour]);
+      });
+  }
+  
 }
 
 function attachInstructionText(stepDisplay, marker, text, map) {

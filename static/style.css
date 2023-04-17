@@ -43,12 +43,158 @@ header {
   margin-top: 15px;
   margin-right: 25px;
 }
-.btn{
+.search {
+  position: relative;
+  width: 300px;
+  /* adjust as per your needs */
+  margin-right: 300px;
+}
+
+.search input[type="text"] {
+  padding-right: 30px;
+  /* adjust as per your icon size */
+  width: 100%;
+  box-sizing: border-box;
+  border: 1px solid #ccc;
+  /* add a border for the search box */
+  border-radius: 5px;
+  /* add border-radius for rounded corners */
+  outline: none;
+  /* remove default outline on focus */
+  height: 35px;
+  border-radius: 20px;
+  padding-left: 7px;
+}
+
+.search .search-icon {
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
+  height: 100%;
+  display: flex;
+  align-items: center;
+  padding: 0 10px;
+  pointer-events: none;
+}
+
+.search .search-icon i {
+  color: #aaa;
+  font-size: 16px;
+}
+
+/* SIDEBAR */
+/* The sidebar menu */
+#mySidebar {
+  height: 100%;
+  /* 100% Full-height */
+  width: 0;
+  /* 0 width - change this with JavaScript */
+  position: fixed;
+  /* Stay in place */
+  z-index: 1;
+  /* Stay on top */
+  top: 0;
+  left: 0;
+  background-color: #ffffff;
+  /* White*/
+  overflow-y: scroll;
+  overflow-x: hidden;
+  /* Disable horizontal scroll */
+  padding-top: 20px;
+  /* Place content 60px from the top */
+  transition: 0.5s;
+  /* 0.5 second transition effect to slide in the sidebar */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#scrollspace {
+  height: 10000px;
+}
+
+#stationTitle, #modelTitle {
+  text-align: center;
+  font-family: "Lucida Console", "Courier New", monospace;
+}
+
+/* The sidebar links */
+.sidebar a {
+  padding: 8px 8px 8px 32px;
+  text-decoration: none;
+  font-size: 25px;
+  color: #818181;
+  display: block;
+  transition: 0.3s;
+}
+
+/* When you mouse over the navigation links, change their color */
+.sidebar a:hover {
+  color: #f1f1f1;
+}
+
+#loading {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: none;
+}
+
+/* Position and style the close button (top right corner) */
+.sidebar .closebtn {
+  position: absolute;
+  top: 0;
+  right: 25px;
+  font-size: 36px;
+  margin-left: 50px;
+}
+
+/* The button used to open the sidebar */
+.openbtn {
+  font-size: 20px;
+  cursor: pointer;
+  background-color: #111;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+}
+
+.openbtn:hover {
+  background-color: #444;
+}
+
+/* Style page content - use this if you want to push the page content to the right when you open the side navigation */
+#main {
+  transition: margin-left .5s;
+  /* If you want a transition effect */
+  padding: 20px;
+}
+
+/* On smaller screens, where height is less than 450px, change the style of the sidenav (less padding and a smaller font size) */
+@media screen and (max-height: 450px) {
+  .sidebar {
+    padding-top: 15px;
+  }
+
+  .sidebar a {
+    font-size: 18px;
+  }
+}
+
+/* Chaneg the Google Chart */
+
+/* END OF SIDEBAR */
+/* NAVIGATION */
+
+/*Added code to style buttons and position translate element*/
+.btn {
   border-radius: 50px;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: center;  
+  align-items: center;
   text-align: center;
   padding: 10px;
   width: 110px;
@@ -70,7 +216,7 @@ header {
 
 .btn:active {
   font-size: 18px;
-} 
+}
 
 #btn1.active {
   color:white;
@@ -173,9 +319,9 @@ header {
 the div
 * element that contains the map. */
 #map {
-    height: 665px;
-    width: 100%;
-  }
+  height: 665px;
+  width: 100%;
+}
 
 
 #pac-input {
@@ -253,8 +399,10 @@ button.gm-ui-hover-effect {
 .parked p {
   padding-left: 5px;
 }
+
 /* Optional: Makes the sample page fill the window. */
-html, body {
+html,
+body {
   height: 100%;
   margin: 0;
   padding: 0;
@@ -416,7 +564,7 @@ html, body {
 
 /* Changes bar chart for predictive model */
 .predictionbar {
-  background-color:red;
+  background-color: red;
   margin: 3px;
   width: 15px;
   float: left;
