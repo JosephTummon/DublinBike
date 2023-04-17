@@ -332,8 +332,8 @@ html, body {
   font-size: 16px;
   font-weight: 400;
   cursor: pointer;
-  border-bottom-left-radius: 15px;
-  border-top-left-radius: 15px;
+  border-bottom-right-radius: 15px;
+  border-top-right-radius: 15px;
   transition: background-color .1s ease-in, transform .1s ease-in;
 }
   
@@ -439,6 +439,8 @@ html, body {
   height:65px;
   width:65px;
   border-width: 0px;
+  cursor: pointer;
+
 }
 
 
@@ -488,6 +490,8 @@ html, body {
   height:65px;
   width:65px;
   border-width: 0px;
+  cursor: pointer;
+
 }
 button img {
   width:40px;
@@ -504,6 +508,8 @@ button img {
   width:65px;
   border-width: 0px;
   color:white;
+  cursor: pointer;
+
 }
 
 #nearest-stand{
@@ -514,6 +520,8 @@ button img {
   width:65px;
   border-width: 0px;
   color:white;
+  cursor: pointer;
+
 }
 
 #location-buttons{
@@ -521,4 +529,19 @@ button img {
   border-radius: 35px;
   margin-right: 25px;
   margin-top: 10px;
+}
+
+#clear-directions {
+  border: none;
+  background-color: ghostwhite;
+  height: 50px;
+  width: 50px;
+  color: #18181b;
+  text-decoration: none;
+  font-size: 16px;
+  font-weight: 400;
+  cursor: pointer;
+  border-bottom-left-radius: 15px;
+  border-top-left-radius: 15px;
+  transition: background-color .1s ease-in, transform .1s ease-in;
 }

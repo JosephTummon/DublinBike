@@ -356,6 +356,8 @@ function displayWeather(data) {
       
     });  
     marker.setLabel(station.available_bikes.toString());
+    
+    
     //Toggle code to change num on station pin
     const toggleButton1 = document.getElementById("btn1");
     toggleButton1.addEventListener("click", () => {    
@@ -679,6 +681,16 @@ function calculateAndDisplayRoute(
     });
 }
 
+// const arrowIcon = {
+//     path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW, // arrow shape
+//     strokeColor: '#000000', // arrow color
+//     strokeWeight: 2, // arrow stroke weight
+//     fillColor: '#FFFFFF', // fill color
+//     fillOpacity: 1, // fill opacity
+//     scale: 5, // arrow size
+//     rotation: 0 // initial rotation angle
+//   };
+
 function showSteps(directionResult, markerArray1, stepDisplay, map) {
   // For each step, place a marker, and add the text to the marker's infowindow.
   // Also attach the marker to an array so we can keep track of it and remove it
@@ -688,8 +700,15 @@ function showSteps(directionResult, markerArray1, stepDisplay, map) {
   for (let i = 0; i < myRoute.steps.length; i++) {
     const marker = (markerArray1[i] =
       markerArray1[i] || new google.maps.Marker());
-
     marker.setMap(map);
+
+    // marker.setIcon(arrowIcon);
+
+    // const stepDirection = myRoute.steps[i].heading; // direction of the step in degrees
+    // console.log(stepDirection);
+    // marker.getIcon().setRotation(stepDirection); 
+
+
     marker.setPosition(myRoute.steps[i].start_location);
     attachInstructionText(
       stepDisplay,
@@ -757,6 +776,16 @@ dark_mode_button.addEventListener("click", () => {
   if (is_light == true){
     //light mode styling
     map.set("styles", light_map);
+    var white_marker = {
+        url: 'data:image/svg+xml;charset=UTF-8,' +
+          encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"><circle cx="16" cy="16" r="16" stroke="#000000" stroke-width="1" fill="#FFFFFF"/></svg>'),
+        scaledSize: new google.maps.Size(32, 32),
+        anchor: new google.maps.Point(16, 16)
+    };
+
+    for (let i = 0; i < markerArray1.length; i++) {
+        markerArray[i].setIcon(white_marker);
+      }
     nearest_bike_btn.style.backgroundColor = "lightblue";
     nearest_stand_btn.style.backgroundColor = "lightblue";
     document.getElementById("dark-mode-button").style.backgroundColor = "lightblue";
@@ -819,6 +848,19 @@ dark_mode_button.addEventListener("click", () => {
   }else{
     //darkmode styling
     map.set("styles", dark_map);
+    var green_marker = {
+        url: 'data:image/svg+xml;charset=UTF-8,' +
+          encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"><circle cx="16" cy="16" r="16" stroke="#000000" stroke-width="1" fill="#90EE90"/></svg>'),
+        scaledSize: new google.maps.Size(32, 32),
+        anchor: new google.maps.Point(16, 16)
+    };
+    for (let i = 0; i < markerArray1.length; i++) {
+        markerArray[i].setIcon(green_marker);
+        console.log("changing to green")
+      }
+
+
+
     nearest_bike_btn.style.backgroundColor = "lightgreen";
     nearest_stand_btn.style.backgroundColor = "lightgreen";
     document.getElementById("dark-mode-button").style.backgroundColor = "lightgreen";
