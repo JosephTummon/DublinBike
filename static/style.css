@@ -657,3 +657,7 @@ input:checked + .slider:before {
 			left: 0;
       display: none;
 }
+
+#station-directions{
+  cursor: pointer;
+}
