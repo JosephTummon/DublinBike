@@ -661,7 +661,7 @@ function calculateAndDisplayRoute(
     .route({
       origin: document.getElementById("start-input").value,
       destination: document.getElementById("end-input").value,
-      travelMode: google.maps.TravelMode.WALKING,
+      travelMode: google.maps.TravelMode.BICYCLING,
     })
     .then((result) => {
       // Route the directions and pass the response to a function to create
@@ -759,7 +759,47 @@ function drawChart(number) {
     .then(response => response.json())
     .then(data => {
       const chosenStationName = data[0].address;
-      document.getElementById("stationTitle").innerHTML = `<h2>${chosenStationName}</h2>`;
+
+      //changing this to add directions
+      document.getElementById("stationTitle").innerHTML = `<h2>${chosenStationName}</h2><button id ="station-directions">Directions</button>`;
+      var station_directions = document.getElementById("station-directions");
+      station_directions.addEventListener("click", async () => {
+      var target_station_coords;
+      for (let i = 0; i < markerArray.length; i++){
+        if (data[0].address == markerArray[i].title){
+          target_station_coords = markerArray[i].position;
+        }
+      }
+      var user_coords = await getUserLocation();
+      var route = {
+        origin: user_coords,
+        destination: target_station_coords,
+        travelMode: google.maps.TravelMode.WALKING
+      }
+      try {
+        const response = await new Promise((resolve, reject) => {
+          directionsService.route(route, function(response, status) {
+              if (status === 'OK') {
+                  resolve(response);
+              } else {
+                  reject(status);
+              }
+          });
+      });
+      var directionsData = response.routes[0].legs[0]; // Get data about the mapped route
+      if (!directionsData) {
+          window.alert('Directions request failed');
+          return;
+      } else {
+        directionsRenderer.setDirections(response);
+      }
+      } catch (error) {
+            window.alert('Directions request failed due to ' + error);
+            return;
+        }   
+    });
+      
+      
       const chart_data = new google.visualization.DataTable();
       chart_data.addColumn("string", "Week_Day_No");
       chart_data.addColumn("number", "Average Bikes Available");
