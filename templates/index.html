@@ -11,16 +11,21 @@
   <body id = "body">
     <!--Header-->
     <header id="header">
+      <img id="header-img" rel="icon" src="/static/images/dblogo-removebg-preview.png" width="35" height="35" type="image/x-icon">
       <div class="logo">
           <h1><a id="icon-text" class="l" href="http://127.0.0.1:5000/"><span id="db">DB</span>ikes</a></h1>
       </div>
-      <div id="weather-info"></div>
-      <div class="tanslate-and-translate-container">
-        <button id = "dark-mode-button">
-          <i class="fa-solid fa-circle-half-stroke fa-xl"></i>
-        </button>
-        <button id = "translate_button"><img id = "translate-icon" src="{{ url_for('static', filename='images/google-translate.png') }}" alt="Translate logo"></button>
-      </div> 
+      <div class="nav-functionality-container">
+          <div id="weather-info"></div>
+          <div class="translate-btn">
+            <button id = "translate_button"><img src="{{ url_for('static', filename='images/google-translate.png') }}" alt="Translate logo"></button>
+          </div>
+          <div class="dark-mode-btn">
+            <button id = "dark-mode-button">
+              <img src="{{ url_for('static', filename='images/sun-removebg-preview.png') }}" alt="Translate logo" height="37" width="37">
+            </button>
+          </div>
+      </div>
     </header>
     <div id="google_translate_element"></div>
     <!--Map-->
@@ -107,6 +112,9 @@
 
     <!--End of swapping nums code-->
     <input id="pac-input"class="search"type="text"placeholder=" Search">
+
+    <div id="weather-popdown">
+    </div>
  
     <script
       src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDgYC8VXvS4UG9ApSUhS2v-ByddtHljFls&libraries=places&callback=initMap&v=weekly"

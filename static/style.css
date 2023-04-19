@@ -1,8 +1,14 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
+
 body {
   background-color: #fff;
+  font-family: 'Montserrat', sans-serif;
 }
 
 /* HEADER */
+#header-img {
+  background-color: none;
+}
 header {
   max-width: 1200px;
   width: 100%;
@@ -11,7 +17,7 @@ header {
   justify-content: space-around;
   margin: auto;
   align-items: center;
-  height: 80px;
+  height: 90px;
 }
 
 .logo {
@@ -22,7 +28,7 @@ header {
   list-style-type: none;
   text-decoration: none;
   color: black;
-  font-size: 35px;
+  font-size: 38px;
 }
 
 .l {
@@ -42,6 +48,7 @@ header {
   margin-top: 15px;
   margin-right: 25px;
 }
+
 .btn{
   border-radius: 50px;
   display: flex;
@@ -83,16 +90,106 @@ header {
   background-color: #3897d3;
 }
 
+.nav-functionality-container {
+  display: flex;
+}
+
+/* DROP DOWN */
+
+#weather-popdown {
+  background-color: #fff;
+  position: absolute;
+  right: 18%;
+  top: 11%;
+  width: 250px;
+  border-radius: 15px;
+  border-bottom: 11px solid #FFFFFF;
+  border-left: 11px solid transparent;
+  border-right: 11px solid transparent;
+}
+
+.location {
+  display: flex;
+}
+
+.location i {
+  margin-top: 30px;
+  margin-left: 15px;
+}
+
+.location h3 {
+  margin-left: 10px;
+  font-size: 20px;
+  color:#3897d3;
+}
+
+.icon {
+  width: 100%;
+}
+
+.icon img {
+  padding-left: 70px;
+}
+
+.temperature {
+  text-align: center;
+}
+
+.temperature h2 {
+  font-weight: bolder;
+  color:#3897d3;
+}
+
+.windandhumidity {
+  display: flex;
+  justify-content: space-around;
+  padding-bottom: 10px;
+}
+
+.windandhumidity i {
+  margin-top: 30px;
+}
+
+.humidity {
+  display: flex;
+}
+
+.wind {
+  display: flex;
+}
+
+.windandhumidity h4 {
+  font-size: 12px;
+  margin-bottom: 5px;
+  padding-left: 3px;
+  color:#3897d3;
+}
+
+#weather-popdown:after {
+  position: absolute;
+  right: 2%;
+  margin-left: -20px;
+  top: -14px;
+  width: 0;
+  height: 0;
+  content:'';
+  border-left: 20px solid transparent;
+  border-right: 20px solid transparent;
+  border-bottom: 20px solid #fff;
+}
+
+
+/* -------- */
 #weather-info {
+  margin-right: 5px;
   border-radius: 50px;
-  position: relative;
   cursor: pointer;
   transition: transform 0.1s ease-in-out;
-  margin-right: 300px;
+
 }
 
 #weather-info:hover {
-  color: #38bdf8;
+  background-color: lightblue;
 }
 
 
@@ -102,28 +199,22 @@ header {
 }
 
 #additional-info {
-  border: 1px solid black;
   border-radius: 50px;
   font-size: 13px;
   background-color: white;
   color: black;
 }
 
-#test {
-  display: flex;
-}
-
 #weather {
   display: flex;
   flex-direction: column;
   align-items: center;
-  border-radius: 50px;
   width: 70px;
-  margin-bottom: 5px auto;
+  height: 100%;
 }
 
 #weather img {
-  margin-bottom: 0px;
+  padding-top: 4px;
 }
 
 #weather h2 {
@@ -169,49 +260,38 @@ header {
 the div
 * element that contains the map. */
 
-
-/* Dark Mode */
-
-#dark-mode-button{
-  border-radius: 50px;
-  height:50px;
-  width: 50px;
-  border-width: 0px;
-  cursor: pointer;
-  background-color: ghostwhite;
-}
-
-#dark-mode-button button {
-  width: 50px;
-  height: 50px;
-  margin: 0 auto;
-}
-
-
 /* Translate */
-.tanslate-and-translate-container {
-  display: flex;
-}
+
 
 #google_translate_element {
   position: fixed;
-  top: 0;
-  left: 50%;
+  top: 18px;
+  left: 20%;
   display: none;
 }
 
 #translate_button{
   background-color: ghostwhite;
-  border-radius: 35px;
-  height:50px;
-  width: 50px;
-  border-width: 0px;
+  height:70px;
+  width: 70px;
   cursor: pointer;
+  border: none;
 }
 
 #translate_button img {
   width: 35px;
   height: 35px;
+  border: none;
+}
+
+/* Dark Mode */
+
+#dark-mode-button{
+  height: 100%;
+  width: 65px;
+  cursor: pointer;
+  background-color: ghostwhite;
+  border: none;
 }
 
 
@@ -252,7 +332,6 @@ the div
   margin: 0 auto;
   border-radius: 40px;
   background-color: white;
-  border: 1px solid black;
   cursor: pointer;
   width: 50px;
   height: 50px;
