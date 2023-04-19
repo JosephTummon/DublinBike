@@ -389,7 +389,12 @@ function displayWeather(data) {
 
       // Attach listeners to show and hide the info window when the marker is hovered over
       attachInfoWindowListeners(marker, infoWindow);
-    }
+      marker.addListener("click", () => {
+        google.charts.load('current', { 'packages': ['corechart'] });
+        drawChart(station.number);
+        document.getElementById("mySidebar").style.width = "650px";
+        document.getElementById("main").style.marginLeft = "650px";
+      });    }
   }
 
   // Creates a new marker object for the given station and adds it to the map
@@ -773,6 +778,106 @@ function showSteps(directionResult, markerArray1, stepDisplay, map) {
     );
   }
 }
+
+
+function drawChart(number) {
+  const loadingDiv = document.getElementById("loading");
+  loadingDiv.style.display = "block"; // show the loading animation
+  const cacheBuster = Date.now(); // add a cache-busting parameter
+  fetch(`/averages/${number}?cb=${cacheBuster}`)
+    .then(response => response.json())
+    .then(data => {
+      const chosenStationName = data[0].address;
+
+      //changing this to add directions
+      document.getElementById("stationTitle").innerHTML = `<h2>${chosenStationName}</h2><button id ="station-directions">Directions</button>`;
+      var station_directions = document.getElementById("station-directions");
+      station_directions.addEventListener("click", async () => {
+      var target_station_coords;
+      for (let i = 0; i < markerArray.length; i++){
+        if (data[0].address == markerArray[i].title){
+          target_station_coords = markerArray[i].position;
+        }
+      }
+      var user_coords = await getUserLocation();
+      var route = {
+        origin: user_coords,
+        destination: target_station_coords,
+        travelMode: google.maps.TravelMode.WALKING
+      }
+      try {
+        const response = await new Promise((resolve, reject) => {
+          directionsService.route(route, function(response, status) {
+              if (status === 'OK') {
+                  resolve(response);
+              } else {
+                  reject(status);
+              }
+          });
+      });
+      var directionsData = response.routes[0].legs[0]; // Get data about the mapped route
+      if (!directionsData) {
+          window.alert('Directions request failed');
+          return;
+      } else {
+        directionsRenderer.setDirections(response);
+      }
+      } catch (error) {
+            window.alert('Directions request failed due to ' + error);
+            return;
+        }   
+    });
+      
+      
+      const chart_data = new google.visualization.DataTable();
+      chart_data.addColumn("string", "Week_Day_No");
+      chart_data.addColumn("number", "Average Bikes Available");
+      chart_data.addColumn("number", "Average Bike Stands");
+
+      const dayNames = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+
+      const rows = dayNames.map(dayName => {
+        const matchingData = data.find(obj => obj.day_of_week === dayName);
+        return [dayName, matchingData ? matchingData.Avg_bikes_free : null, matchingData ? matchingData.Avg_bike_stands : null];
+      });
+      chart_data.addRows(rows);
+      const options = {
+        titlePosition: 'none',
+        width: "700",
+        height: "450",
+        chartArea: { 'width': '75%', bottom: 15, 'height': '80%' },
+        legend: { position: "bottom" }
+      };
+      loadingDiv.style.display = "none"; // hide the loading animation 
+
+      const chart = new google.visualization.ColumnChart(document.getElementById("PredictiveChart"));
+      chart.draw(chart_data, options);
+
+      const form = document.querySelector('form');
+      form.addEventListener('submit', (event) => {
+        console.log("Testing");
+        event.preventDefault(); // prevent form submission
+        var datetime = document.getElementById('availabletime').value;
+        console.log(datetime); // log the value of the datetime input field
+        var datetime = new Date(datetime); 
+        const dayOfWeek = datetime.getDay(); // returns 0 for Sunday, 1 for Monday, and so on
+        const hour = datetime.getHours();
+        console.log(dayOfWeek, hour);
+        getPrediction(number, dayOfWeek, hour);
+      });
+    });
+}
+
+function getPrediction(number, dayOfWeek, hour) {
+  fetch(`/predictions/${number}`)
+    .then(response => response.json())
+    .then(data => {
+      document.getElementById("displayPrediction").innerHTML = "Number of available bikes: " + data[dayOfWeek][hour];
+      console.log(data[dayOfWeek][hour]);
+    });
+}
+
+
 
 function attachInstructionText(stepDisplay, marker, text, map) {
   google.maps.event.addListener(marker, "click", () => {

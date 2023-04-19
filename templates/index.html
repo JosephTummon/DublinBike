@@ -2,6 +2,7 @@
   <head>
     <title>Dublin Bikes</title>
     <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+    <script src="https://www.gstatic.com/charts/loader.js"></script>
     <link rel = "icon" href = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRnlkb-CEy6bhOsWRtUOASzFfh5K2z-HL6JDA&usqp=CAU" type = "image/x-icon"> 
     <script type="module" src="{{ url_for('static', filename='index.js') }}"></script>   
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}"/>
@@ -20,10 +21,12 @@
         <a>Target<br></a>
         <i class="fa-solid fa-square-parking"></i>
       </button>
-    </div>
-       
+    </div>      
         <div id="google_translate_element"></div>
       
+
+
+
         <div class="logo">
             <h1><a id="icon-text" class="l" href="http://127.0.0.1:5000/"><span id="db">DB</span>ikes</a></h1>
         </div>
@@ -35,7 +38,33 @@
         </button>
         <div id="weather-info"></div>
     </header>
+
+
+        <!-- Side Bar-->
+        <div id="mySidebar" class="sidebar">
+          <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+          <div id="chartContainer">
+            <div id="stationTitle"></div>
+            <div id="PredictiveChart">
+            </div>
+          </div>
+          <div id="loading">
+            <img src="static/Loading.gif" alt="Loading...">
+          </div>
+      
+          <div id="Model">
+            <label id="modelTitle" for="availabletime">Check Station Availability:</label>
+            <form>
+              <input type="datetime-local" id="availabletime" name="availabletime">
+              <input type="submit">
+            </form>
+          </div>
+          <div id="displayPrediction"></div>
+        </div>
+
     <!--Map-->
+    <div id="main">
+
     <div id="map">
     </div>
     <!-- 
@@ -104,6 +133,7 @@
         <i class="fa-solid fa-square-parking"></i>
       </button>
     </div>
+    </div>
 
     <!--End of swapping nums code-->
     <input id="pac-input"class="search"type="text"placeholder=" Search">
@@ -126,5 +156,11 @@
   <script type="text/javascript"   
   src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit">  
   </script> 
+  <script>
+    function closeNav() {
+      document.getElementById("mySidebar").style.width = "0";
+      document.getElementById("main").style.marginLeft = "0";
+    }
+  </script>
   </body>
 </html> 
