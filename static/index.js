@@ -787,7 +787,6 @@ function attachInstructionText(stepDisplay, marker, text, map) {
 ////// light/darkmode code /////////
 var is_light = true;
 var is_bikes = true;
-document.getElementById("weather-info").style.backgroundColor = "lightblue";
 document.getElementById("dark-icon").style.display="none";
 
 

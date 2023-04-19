@@ -11,30 +11,18 @@
   <body id = "body">
     <!--Header-->
     <header id="header">
-      <div id = "search-nearest-btns">
-      <button id="search-nearest-bike">
-        <a>Target</a>
-        <i class="fa-solid fa-bicycle"></i>
-      </button>
-      <button id="search-nearest-stand">
-        <a>Target<br></a>
-        <i class="fa-solid fa-square-parking"></i>
-      </button>
-    </div>
-       
-        <div id="google_translate_element"></div>
-      
-        <div class="logo">
-            <h1><a id="icon-text" class="l" href="http://127.0.0.1:5000/"><span id="db">DB</span>ikes</a></h1>
-        </div>
+      <div class="logo">
+          <h1><a id="icon-text" class="l" href="http://127.0.0.1:5000/"><span id="db">DB</span>ikes</a></h1>
+      </div>
+      <div id="weather-info"></div>
+      <div class="tanslate-and-translate-container">
         <button id = "dark-mode-button">
-          <img id = "light-icon" src="{{ url_for('static', filename='images/sun.png') }}" alt="Translate logo">
-          <img id = "dark-icon" src="{{ url_for('static', filename='images/moon.png') }}" alt="Translate logo">
+          <i class="fa-solid fa-circle-half-stroke fa-xl"></i>
         </button>
-        <button id = "translate_button"><img id = "translate-icon" src="{{ url_for('static', filename='images/google-translate-white.png') }}" alt="Translate logo">
-        </button>
-        <div id="weather-info"></div>
+        <button id = "translate_button"><img id = "translate-icon" src="{{ url_for('static', filename='images/google-translate.png') }}" alt="Translate logo"></button>
+      </div> 
     </header>
+    <div id="google_translate_element"></div>
     <!--Map-->
     <div id="map">
     </div>
@@ -81,6 +69,18 @@
           <option value="Smithfield North" selected>Find Station</option>
         </select>
       </div>
+    </div>
+
+  <!--ELEMENTS IN THE MAPS-->
+    <div id = "search-nearest-btns">
+      <button id="search-nearest-bike">
+        <a>Target</a>
+        <i class="fa-solid fa-bicycle"></i>
+      </button>
+      <button id="search-nearest-stand">
+        <a>Target<br></a>
+        <i class="fa-solid fa-square-parking"></i>
+      </button>
     </div>
     <!--Code for swapping nums on station pins-->
     <div id ="button-div" class="buttons">

@@ -8,11 +8,10 @@ header {
   width: 100%;
   display: flex;
   flex-wrap: wrap;
+  justify-content: space-around;
   margin: auto;
-  justify-content: space-between;
   align-items: center;
   height: 80px;
-  background-color: ghostwhite;
 }
 
 .logo {
@@ -33,7 +32,7 @@ header {
 }
 
 #db {
-  color: lightblue;
+  color: #3897d3;
 }
 
 /* NAVIGATION */
@@ -75,13 +74,13 @@ header {
 #btn1.active {
   color:white;
   z-index: 101;
-  background-color: lightblue;
+  background-color: #3897d3;
 }
 
 #btn2.active {
   color:white;
   z-index: 101;
-  background-color: lightblue;
+  background-color: #3897d3;
 }
 
 #weather-info {
@@ -89,10 +88,10 @@ header {
   position: relative;
   cursor: pointer;
   transition: transform 0.1s ease-in-out;
+  margin-right: 300px;
 }
 
 #weather-info:hover {
-  background-color: lightblue;
   color: #38bdf8;
 }
 
@@ -120,7 +119,7 @@ header {
   align-items: center;
   border-radius: 50px;
   width: 70px;
-  margin-bottom: 5px;
+  margin-bottom: 5px auto;
 }
 
 #weather img {
@@ -130,7 +129,6 @@ header {
 #weather h2 {
   margin: 0 auto;
   font-size: 13px;
-  color: white;
 } 
 
 #wind {
@@ -147,13 +145,11 @@ header {
   transform: translate(-50%, -50%);
   transform: rotate(-45deg);
   margin-bottom: 16px;
-  color: white;
 }
 
 #speedometer {
   margin: 0 auto;
   font-size: 13px;
-  color: white;
 }
 
 
@@ -172,6 +168,53 @@ header {
 /* Always set the map height explicitly to define the size of
 the div
 * element that contains the map. */
+
+
+/* Dark Mode */
+
+#dark-mode-button{
+  border-radius: 50px;
+  height:50px;
+  width: 50px;
+  border-width: 0px;
+  cursor: pointer;
+  background-color: ghostwhite;
+}
+
+#dark-mode-button button {
+  width: 50px;
+  height: 50px;
+  margin: 0 auto;
+}
+
+
+/* Translate */
+.tanslate-and-translate-container {
+  display: flex;
+}
+
+#google_translate_element {
+  position: fixed;
+  top: 0;
+  left: 50%;
+  display: none;
+}
+
+#translate_button{
+  background-color: ghostwhite;
+  border-radius: 35px;
+  height:50px;
+  width: 50px;
+  border-width: 0px;
+  cursor: pointer;
+}
+
+#translate_button img {
+  width: 35px;
+  height: 35px;
+}
+
+
 #map {
     height: 665px;
     width: 100%;
@@ -425,23 +468,7 @@ html, body {
   border-radius: 2px;
 }
 
-
-
 /*End of added code*/
-
-
-
-#dark-mode-button{
-  background-color: lightblue;
-  top: 20px;
-  background-color: lightblue;
-  border-radius: 35px;
-  height:65px;
-  width:65px;
-  border-width: 0px;
-  cursor: pointer;
-}
-
 
 #search-station-container {
   display: flex;
@@ -474,7 +501,7 @@ html, body {
 }
 
 .custom-map-control-button:focus {
-  border-color: #4d90fe;
+  border-color: #3897d3;
 }
 
 .custom-map-control-button > i {
@@ -483,35 +510,9 @@ html, body {
   line-height: 32px;
 }
 
-
-
-#google_translate_element {
-  position: fixed;
-			top: 0;
-			left: 0;
-      display: none;
-}
-
-#translate_button{
-  top: 20px;
-  background-color: lightblue;
-  border-radius: 35px;
-  height:65px;
-  width:65px;
-  border-width: 0px;
-  cursor: pointer;
-
-}
-button img {
-  width:40px;
-  height:40px;
-  color: white;
-  
-}
-
 #nearest-bike{
   top: 20px;
-  background-color: lightblue;
+  background-color: #3897d3;
   border-radius: 35px;
   height:65px;
   width:65px;
@@ -523,7 +524,7 @@ button img {
 
 #nearest-stand{
   top: 20px;
-  background-color: lightblue;
+  background-color: #3897d3;
   border-radius: 35px;
   height:65px;
   width:65px;
@@ -542,7 +543,7 @@ button img {
 
 #search-nearest-bike{
   top: 20px;
-  background-color: lightblue;
+  background-color: #3897d3;
   border-radius: 35px;
   height:65px;
   width:65px;
@@ -553,7 +554,7 @@ button img {
 
 #search-nearest-stand{
 top: 20px;
-  background-color: lightblue;
+  background-color: #3897d3;
   border-radius: 35px;
   height:65px;
   width:65px;
