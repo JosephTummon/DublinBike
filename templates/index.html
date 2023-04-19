@@ -12,111 +12,132 @@
   <body id = "body">
     <!--Header-->
     <header id="header">
-        <button id = "translate_button"><i class="fa-solid fa-language"></i></button>
+      <div id = "search-nearest-btns">
+      <button id="search-nearest-bike">
+        <a>Target</a>
+        <i class="fa-solid fa-bicycle"></i>
+      </button>
+      <button id="search-nearest-stand">
+        <a>Target<br></a>
+        <i class="fa-solid fa-square-parking"></i>
+      </button>
+    </div>      
         <div id="google_translate_element"></div>
-        <div>
-          <label class="switch">
-            <input id = "slider" type="checkbox">
-            <span class="slider round"></span>
-          </label>
-        </div>
+      
+
+
+
         <div class="logo">
-            <h1><a class="l" href="http://127.0.0.1:5000/"><span id="db">DB</span>ikes</a></h1>
+            <h1><a id="icon-text" class="l" href="http://127.0.0.1:5000/"><span id="db">DB</span>ikes</a></h1>
         </div>
+        <button id = "dark-mode-button">
+          <img id = "light-icon" src="{{ url_for('static', filename='images/sun.png') }}" alt="Translate logo">
+          <img id = "dark-icon" src="{{ url_for('static', filename='images/moon.png') }}" alt="Translate logo">
+        </button>
+        <button id = "translate_button"><img id = "translate-icon" src="{{ url_for('static', filename='images/google-translate-white.png') }}" alt="Translate logo">
+        </button>
         <div id="weather-info"></div>
     </header>
 
-    <!-- Side Bar-->
-  <div id="mySidebar" class="sidebar">
-    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-    <div id="chartContainer">
-      <div id="stationTitle"></div>
-      <div id="PredictiveChart">
-      </div>
-    </div>
-    <div id="loading">
-      <img src="static/Loading.gif" alt="Loading...">
-    </div>
 
-    <div id="Model">
-      <label id="modelTitle" for="availabletime">Check Station Availability:</label>
-      <form>
-        <input type="datetime-local" id="availabletime" name="availabletime">
-        <input type="submit">
-      </form>
-    </div>
-    <div id="displayPrediction"></div>
-  </div>
+        <!-- Side Bar-->
+        <div id="mySidebar" class="sidebar">
+          <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+          <div id="chartContainer">
+            <div id="stationTitle"></div>
+            <div id="PredictiveChart">
+            </div>
+          </div>
+          <div id="loading">
+            <img src="static/Loading.gif" alt="Loading...">
+          </div>
+      
+          <div id="Model">
+            <label id="modelTitle" for="availabletime">Check Station Availability:</label>
+            <form>
+              <input type="datetime-local" id="availabletime" name="availabletime">
+              <input type="submit">
+            </form>
+          </div>
+          <div id="displayPrediction"></div>
+        </div>
 
     <!--Map-->
     <div id="main">
-      <div id="map"></div>
-      <div id = "location-buttons">
-        <button id ="nearest-bike"><i class="fa-solid fa-bicycle"></i></button>
-        <button id ="nearest-stand"><i class="fa-solid fa-square-parking"></i></button>
-      </div>
 
+    <div id="map">
+    </div>
     <!-- 
-        The `defer` attribute causes the callback to execute after the full HTML
-        document has been parsed. For non-blocking uses, avoiding race conditions,
-        and consistent behavior across browsers, consider loading using Promises
-        with https://www.npmjs.com/package/@googlemaps/js-api-loader.
-        -->
-      <div id="select-service">
-        <div id ="select-service-container">
-          <div id = "get-directions" class = "get-directions active">
-            <h2>Get Directions</h2>
-          </div>
-          <div id = "find-stations">
-            <h2>Find Stations</h2>
-          </div>
+      The `defer` attribute causes the callback to execute after the full HTML
+      document has been parsed. For non-blocking uses, avoiding race conditions,
+      and consistent behavior across browsers, consider loading using Promises
+      with https://www.npmjs.com/package/@googlemaps/js-api-loader.
+      -->
+    <div id="select-service">
+      <div id ="select-service-container">
+        <div id = "get-directions" class = "get-directions active">
+          <h2>Get Directions</h2>
         </div>
-      </div>
-      <div class="directions">
-        <div></div>
-      </div>
-      <div id="directions">
-        <div id="search-station-conatiner">
-          <div class="search">
-          <button id="go">Go</button>
-          <div>
-              <i id="pin" class="fa-solid fa-map-pin" style="color: #00A4D3;"></i>
-              <input type="text" id="start-input" placeholder="Type to search for start destination">
-              <div id="result-box1" class="result-box"></div>
-              <div id="test1"></div>
-          </div>
-          <div>
-              <i id="dest_marker" class="fa-solid fa-location-dot" style="color: #00A4D3;"></i>
-              <input type="text" id="end-input" placeholder="Type to search for end destination">
-              <div id="result-box2" class="result-box"></div>
-              <div id="test1"></div>
-          </div>
-          </div>
-      </div>
-      </div>
-      <div id="dropdown">
-        <div id="dropdown-container">
-          <select id="option">
-            <option value="Smithfield North" selected>Find Station</option>
-          </select>
-        </div>
-      </div>
-      <!--Code for swapping nums on station pins-->
-      <div id ="button-div" class="buttons">
-        <div id = "btn1" class = "btn active">
-          <i class="fa-solid fa-bicycle"></i>
-          <a class="button-text" >Available<br>Bikes</a>
-        </div>
-        <div id = "btn2" class = "btn">
-          <i class="fa-solid fa-square-parking"></i>
-          <a class="button-text">Available<br>Stands</a>
+        <div id = "find-stations">
+          <h2>Find Stations</h2>
         </div>
       </div>
     </div>
-  </div>
+    <div id="directions">
+      <div id="search-station-container">
+        <div class="search">
+        <button id="clear-directions">Clear</button>
+        <div>
+            <i id="pin" class="fa-solid fa-map-pin" style="color: #00A4D3;"></i>
+            <input type="text" id="start-input" placeholder="Type to search for start destination">
+            <div id="result-box1" class="result-box"></div>
+            <div id="test1"></div>
+        </div>
+        <div>
+            <i id="dest_marker" class="fa-solid fa-location-dot" style="color: #00A4D3;"></i>
+            <input type="text" id="end-input" placeholder="Type to search for end destination">
+            <div id="result-box2" class="result-box"></div>
+            <div id="test1"></div>
+        </div>
+        <button id="go">Go</button>
+
+        </div>
+    </div>
+    </div>
+    <div id="dropdown">
+      <div id="dropdown-container">
+        <select id="option">
+          <option value="Smithfield North" selected>Find Station</option>
+        </select>
+      </div>
+    </div>
+    <!--Code for swapping nums on station pins-->
+    <div id ="button-div" class="buttons">
+      <div id = "btn1" class = "btn active">
+        <i class="fa-solid fa-bicycle"></i>
+        <a class="button-text" >Available<br>Bikes</a>
+      </div>
+      <div id = "btn2" class = "btn">
+        <i class="fa-solid fa-square-parking"></i>
+        <a class="button-text">Available<br>Stands</a>
+      </div>
+    </div>
+
+    <div id = "location-buttons">
+      <button id ="nearest-bike">
+        <a class="button-text">User<br></a>
+        <i class="fa-solid fa-bicycle"></i>
+      </button>
+      <button id ="nearest-stand">
+        <a class="button-text">User<br></a>
+        <i class="fa-solid fa-square-parking"></i>
+      </button>
+    </div>
+    </div>
+
     <!--End of swapping nums code-->
     <input id="pac-input"class="search"type="text"placeholder=" Search">
-    </body>
+ 
     <script
       src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDgYC8VXvS4UG9ApSUhS2v-ByddtHljFls&libraries=places&callback=initMap&v=weekly"
       defer

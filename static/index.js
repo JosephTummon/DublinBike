@@ -120,11 +120,68 @@ findStations.addEventListener("click", () => {
   // Create the search box and link it to the UI element.
   const input = document.getElementById("pac-input");
   const searchBox = new google.maps.places.SearchBox(input);
-  const buttons = document.getElementById("button-div");
-  const locateNearest = document.getElementById("nearest-btn");
+  var search_marker;
+  searchBox.addListener("places_changed", function() {
+    var places = searchBox.getPlaces();  
+    if (places.length == 0) {
+      return;
+    }
+    var location = places[0].geometry.location;
+    if (search_marker) {
+        search_marker.setPosition(location);
+        search_marker.setTitle(places[0].name);
+      }
+      // If a marker does not exist, create a new one
+      else {
+        search_marker = new google.maps.Marker({
+          position: location,
+          map: map,
+          title: places[0].name
+        });
+      }
+  });
 
+
+var search_nearest_bike =document.getElementById("search-nearest-bike");
+search_nearest_bike.addEventListener("click", async function () {
+  if(!search_marker){
+    alert("Search for a station before clicking target bike")
+  }
+  else{
+    var target_coords = search_marker.position;
+    var sorted_array = sortLocationsByProximity(duplicate_markerArray, target_coords);
+    var nearest_stations = nearby_stations_with_x(sorted_array, "bikes");
+    var nearest_bike = await nearest_station(nearest_stations, target_coords, 'WALKING');
+    map.panTo(nearest_bike.position)
+    map.setZoom(map.getZoom() + 2);
+  }
+});
+
+var search_nearest_stand = document.getElementById("search-nearest-stand");
+search_nearest_stand.addEventListener("click", async function () {
+  if(!search_marker){
+    alert("Search for a station before clicking target stand")
+  }
+  else{  
+  var target_coords = search_marker.position;
+    var sorted_array = sortLocationsByProximity(duplicate_markerArray, target_coords);
+    var nearest_stations = nearby_stations_with_x(sorted_array, "stands");
+    var nearest_bike = await nearest_station(nearest_stations, target_coords, 'WALKING');
+    map.panTo(nearest_bike.position)
+    map.setZoom(map.getZoom() + 2);
+  }
+});
+
+
+
+  const buttons = document.getElementById("button-div");
+  const location_buttons = document.getElementById("location-buttons");
+  const locateNearest = document.getElementById("nearest-btn");
+  const search_nearest_div = document.getElementById("search-nearest-btns");
   map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+  map.controls[google.maps.ControlPosition.LEFT_TOP].push(search_nearest_div);
   map.controls[google.maps.ControlPosition.TOP_RIGHT].push(buttons);
+  map.controls[google.maps.ControlPosition.RIGHT_TOP].push(location_buttons);
   map.controls[google.maps.ControlPosition.BOTTOM_RIGHT].push(locateNearest);
   // Bias the SearchBox results towards current map's viewport.
   map.addListener("bounds_changed", () => {
@@ -220,7 +277,7 @@ function displayWeather(data) {
                 <img src=https://openweathermap.org/img/wn/${weatherIcon}.png alt='icon' width='42' height='40'><h2 id='temperature'>${fahrenheit}°F</h2>
             </div>
             <div id="wind">
-                <i id='compass' class='fa-solid fa-location-arrow fa-lg'></i><h2 id="speedometer">${windSpeedKmhr} mphh</h2>
+                <i id='compass' class='fa-solid fa-location-arrow fa-lg'></i><h2 id="speedometer">${windSpeedKmhr} mph</h2>
             </div>
         <div>
             `
@@ -337,9 +394,7 @@ function displayWeather(data) {
         drawChart(station.number);
         document.getElementById("mySidebar").style.width = "650px";
         document.getElementById("main").style.marginLeft = "650px";
-      });
-
-    }
+      });    }
   }
 
   // Creates a new marker object for the given station and adds it to the map
@@ -361,6 +416,8 @@ function displayWeather(data) {
       
     });  
     marker.setLabel(station.available_bikes.toString());
+    
+    
     //Toggle code to change num on station pin
     const toggleButton1 = document.getElementById("btn1");
     toggleButton1.addEventListener("click", () => {    
@@ -634,13 +691,20 @@ async function nearest_station(array, lat_lng, mode){
 
   
 const button = document.getElementById("go");
-
+const clear_button = document.getElementById("clear-directions");
 
 // Add event listener to the button element
 button.addEventListener("click", function() {
     // Call the calculateAndDisplayRoute function when the button is clicked
     calculateAndDisplayRoute(directionsRenderer, directionsService, markerArray1, stepDisplay, map);
   });
+  
+clear_button.addEventListener("click", function() {
+for (let i = 0; i < markerArray1.length; i++) {
+    markerArray1[i].setMap(null);
+    }
+    directionsRenderer.setDirections({routes: []}); // Remove directions line    
+});
 
 
 function calculateAndDisplayRoute(
@@ -654,6 +718,7 @@ function calculateAndDisplayRoute(
   for (let i = 0; i < markerArray1.length; i++) {
     markerArray1[i].setMap(null);
   }
+
 
   // Retrieve the start and end locations and create a DirectionsRequest using
   // WALKING directions.
@@ -676,6 +741,16 @@ function calculateAndDisplayRoute(
     });
 }
 
+// const arrowIcon = {
+//     path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW, // arrow shape
+//     strokeColor: '#000000', // arrow color
+//     strokeWeight: 2, // arrow stroke weight
+//     fillColor: '#FFFFFF', // fill color
+//     fillOpacity: 1, // fill opacity
+//     scale: 5, // arrow size
+//     rotation: 0 // initial rotation angle
+//   };
+
 function showSteps(directionResult, markerArray1, stepDisplay, map) {
   // For each step, place a marker, and add the text to the marker's infowindow.
   // Also attach the marker to an array so we can keep track of it and remove it
@@ -685,8 +760,15 @@ function showSteps(directionResult, markerArray1, stepDisplay, map) {
   for (let i = 0; i < myRoute.steps.length; i++) {
     const marker = (markerArray1[i] =
       markerArray1[i] || new google.maps.Marker());
-
     marker.setMap(map);
+
+    // marker.setIcon(arrowIcon);
+
+    // const stepDirection = myRoute.steps[i].heading; // direction of the step in degrees
+    // console.log(stepDirection);
+    // marker.getIcon().setRotation(stepDirection); 
+
+
     marker.setPosition(myRoute.steps[i].start_location);
     attachInstructionText(
       stepDisplay,
@@ -695,61 +777,8 @@ function showSteps(directionResult, markerArray1, stepDisplay, map) {
       map
     );
   }
-
-  function showSteps(directionResult, markerArray, stepDisplay, map) {
-    // For each step, place a marker, and add the text to the marker's infowindow.
-    // Also attach the marker to an array so we can keep track of it and remove it
-    // when calculating new routes.
-    const myRoute = directionResult.routes[0].legs[0];
-
-    for (let i = 0; i < myRoute.steps.length; i++) {
-      const marker = (markerArray[i] =
-        markerArray[i] || new google.maps.Marker());
-
-      marker.setMap(map);
-      marker.setPosition(myRoute.steps[i].start_location);
-      attachInstructionText(
-        stepDisplay,
-        marker,
-        myRoute.steps[i].instructions,
-        map
-      );
-    }
-  }
-
-  function attachInstructionText(stepDisplay, marker, text, map) {
-    google.maps.event.addListener(marker, "click", () => {
-      // Open an info window when the marker is clicked on, containing the text
-      // of the step.
-      stepDisplay.setContent(text);
-      stepDisplay.open(map, marker);
-    });
-
-  }
-
-  //code to change style of bike / stand selector buttons when clicked
-  const b1 = document.getElementById("btn1");
-  const b2 = document.getElementById("btn2");
-
-  b1.addEventListener("click", () => {
-    b1.style.backgroundColor = "lightblue";
-    b1.style.color = "white";
-    b1.style.zIndex = "101";
-    b2.style.backgroundColor = "white";
-    b2.style.color = "black";
-    b2.style.zIndex = "100";
-  })
-
-  b2.addEventListener("click", () => {
-    b2.style.backgroundColor = "lightblue";
-    b2.style.color = "white";
-    b2.style.textDecorationColor = "white"
-    b2.style.zIndex = "101";
-    b1.style.backgroundColor = "white";
-    b1.style.color = "black";
-    b1.style.zIndex = "100";
-  })
 }
+
 
 function drawChart(number) {
   const loadingDiv = document.getElementById("loading");
@@ -848,6 +877,8 @@ function getPrediction(number, dayOfWeek, hour) {
     });
 }
 
+
+
 function attachInstructionText(stepDisplay, marker, text, map) {
   google.maps.event.addListener(marker, "click", () => {
     // Open an info window when the marker is clicked on, containing the text
@@ -861,6 +892,9 @@ function attachInstructionText(stepDisplay, marker, text, map) {
 ////// light/darkmode code /////////
 var is_light = true;
 var is_bikes = true;
+document.getElementById("weather-info").style.backgroundColor = "lightblue";
+document.getElementById("dark-icon").style.display="none";
+
 
 const b1= document.getElementById("btn1");
 const b2= document.getElementById("btn2");
@@ -892,8 +926,8 @@ b1.style.color = "black";
 b1.style.zIndex = "100";
 })
 
-var slider = document.getElementById("slider");
-slider.addEventListener("click", () => {
+var dark_mode_button = document.getElementById("dark-mode-button");
+dark_mode_button.addEventListener("click", () => {
   if(is_light == true){
     is_light = false;
   } else if(is_light == false){
@@ -902,19 +936,38 @@ slider.addEventListener("click", () => {
   if (is_light == true){
     //light mode styling
     map.set("styles", light_map);
+
+
+    nearest_bike_btn.style.backgroundColor = "lightblue";
+    nearest_stand_btn.style.backgroundColor = "lightblue";
+    search_nearest_bike.style.backgroundColor = "lightblue";
+    search_nearest_stand.style.backgroundColor = "lightblue";
+    search_nearest_div.style.backgroundColor = "white";
+    document.getElementById("select-service").style.backgroundColor="white"
+    document.getElementById("select-service-container").style.color="white";
+    document.getElementById("get-directions").style.color = "black";
+    document.getElementById("find-stations").style.color = "black";
+    document.getElementById("directions").style.backgroundColor = "white";
+    document.getElementById("search-station-container").style.backgroundColor = "white";
+    document.getElementById("dark-mode-button").style.backgroundColor = "lightblue";
     document.getElementById("header").style.backgroundColor = "white";
+    document.getElementById("db").style.color = "lightblue";
+    document.getElementById("icon-text").style.color = "black";
+    document.getElementById("dark-icon").style.display="none";
+    document.getElementById("light-icon").style.display="";
     document.getElementById("button-div").style.backgroundColor = "white";
     document.getElementById("body").style.backgroundColor = "white";
     document.getElementById("dropdown").style.backgroundColor = "white";
     document.getElementById("location-buttons").style.backgroundColor = "white";
     //document.getElementById("center-btn").style.color = "black";
     //document.getElementById("warnings-panel").style.backgroundColor = "white";
-    document.getElementById("compass").style.color = "black";
-    document.getElementById("speedometer").style.color = "black";
     document.getElementById("pin").style.color = "lightblue";
     document.getElementById("dest_marker").style.color = "lightblue";
-    document.getElementById("weather").style.backgroundColor = "lightblue";
+    document.getElementById("weather-info").style.backgroundColor = "lightblue";
     document.getElementById("weather").style.color= "black";
+    document.getElementById("translate_button").style.backgroundColor= "lightblue";
+    document.getElementById("pac-input").style.backgroundColor= "white";
+    document.getElementById("pac-input").style.color= "black";
 
       if (is_bikes == true){
           b1.style.backgroundColor = "lightblue";
@@ -948,7 +1001,6 @@ slider.addEventListener("click", () => {
       is_bikes = false;
       b2.style.backgroundColor = "lightblue";
       b2.style.color = "white";
-      b2.style.textDecorationColor = "white"
       b2.style.zIndex = "101";
       b1.style.backgroundColor = "white";
       b1.style.color = "black";
@@ -958,7 +1010,21 @@ slider.addEventListener("click", () => {
   }else{
     //darkmode styling
     map.set("styles", dark_map);
+    nearest_bike_btn.style.backgroundColor = "lightgreen";
+    nearest_stand_btn.style.backgroundColor = "lightgreen";
+    search_nearest_bike.style.backgroundColor = "lightgreen";
+    search_nearest_stand.style.backgroundColor = "lightgreen";
+    search_nearest_div.style.backgroundColor = "black";
+    document.getElementById("select-service").style.backgroundColor="black"
+    document.getElementById("select-service-container").style.color="black";
+    document.getElementById("get-directions").style.color = "white";
+    document.getElementById("find-stations").style.color = "white";
+    document.getElementById("dark-mode-button").style.backgroundColor = "lightgreen";
+    document.getElementById("light-icon").style.display="none";
+    document.getElementById("dark-icon").style.display="";
     document.getElementById("header").style.backgroundColor = "black";
+    document.getElementById("db").style.color = "lightgreen";
+    document.getElementById("icon-text").style.color = "white";
     document.getElementById("button-div").style.backgroundColor = "black";
     document.getElementById("body").style.backgroundColor = "black";
     document.getElementById("dropdown").style.backgroundColor = "black";
@@ -969,15 +1035,18 @@ slider.addEventListener("click", () => {
     document.getElementById("speedometer").style.color = "white";
     document.getElementById("pin").style.color = "lightgreen";
     document.getElementById("dest_marker").style.color = "lightgreen";
-    document.getElementById("weather").style.backgroundColor = "lightgreen";
+    document.getElementById("weather-info").style.backgroundColor = "lightgreen";
     document.getElementById("weather").style.color= "white";
+    document.getElementById("translate_button").style.backgroundColor= "lightgreen";
+    document.getElementById("pac-input").style.backgroundColor= "black";
+    document.getElementById("pac-input").style.color= "white";
+
 
     if (is_bikes == true){
       b1.style.backgroundColor = "lightgreen";
       b1.style.color = "white";
       b1.style.zIndex = "101";
       b2.style.backgroundColor = "black";
-      b2.style.textDecorationColor = "white"
       b2.style.color = "white";
       b2.style.zIndex = "100";
     }else{
@@ -985,7 +1054,6 @@ slider.addEventListener("click", () => {
       b2.style.color = "white";
       b2.style.zIndex = "101";
       b1.style.backgroundColor = "black";
-      b1.style.textDecorationColor = "white"
       b1.style.color = "white";
       b1.style.zIndex = "100";
     }
