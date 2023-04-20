@@ -850,3 +850,12 @@ button.gm-ui-hover-effect {
   transition: background-color .1s ease-in, transform .1s ease-in;
 }
 
+
+#locationButton{
+  margin-right: 15px;
+}
+
+ #weather-popdown{
+  display:none;
+  z-index: 1;
+} 

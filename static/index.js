@@ -1,3 +1,4 @@
+//importing light and dark map styles from separate js arrays in index folder
 import { light_map } from './light_map.js';
 import { dark_map } from './dark_map.js';
 
@@ -22,8 +23,11 @@ async function initMap() {
     styles: light_map
 });
 
+
+//styling the translate button, on click toggles to make translate element visible or invisible
   const translate_button = document.getElementById("translate_button");
   var translate_vis = false;
+
   translate_button.addEventListener('click', function() {
     if (translate_vis == false){
         document.getElementById("google_translate_element").style.display = "block";
@@ -35,37 +39,41 @@ async function initMap() {
     }
   });
 
-   // Requesting user location and adding their marker to map
-   const locationButton = document.createElement("button");
-   locationButton.innerHTML = '<i class="fa-solid fa-location-crosshairs"></i>';
 
-   //locationButton.textContent = "Pan to Current Location";
-   locationButton.classList.add("custom-map-control-button");
-   map.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(locationButton);
-   locationButton.style.marginRight = "15px";
+
+
+//////////////////////CODE FOR USER LOCATION BUTTON///////////////////////////////////
+   const locationButton = document.getElementById("locationButton");//create JS constant for locationButton html element
+   map.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(locationButton); //adding locationButton to bottom right as map control
+   //onclick locationButton gets User coords, drops marker and pans map to that location
    locationButton.addEventListener('click', async () => {
     const userCoords = await getUserLocation();
     map.panTo(userCoords);
   });   
+/////////////////////END OF USER LOCATION BUTTON//////////////////////////////////////
   
+////////////////////USER LOCATION FUNCTION///////////////////////////
+//returns user location or default location as LatLng. Adds a marker to the map too
    function getUserLocation() {
     return new Promise((resolve, reject) => {
+      //attempts to use html geolocate func
       navigator.geolocation.getCurrentPosition(
         (position) => {
           var user_pos = {
             lat: position.coords.latitude,
             lng: position.coords.longitude
           };
+          //converts user position to LatLng object
           var userLatLng = new google.maps.LatLng(user_pos.lat, user_pos.lng);
-          //map.panTo(user_pos);
+          //drops a marker on user's coords
           var marker = new google.maps.Marker({
             position: user_pos,
             map: map
           });
-          
-          resolve(userLatLng);
+          resolve(userLatLng); //returns the user LatLng
         },
         (error) => {
+          //if geolocation fails use default location of UCD
           var user_pos = {
             lat: 53.3065,
             lng: -6.2187
@@ -95,22 +103,27 @@ async function initMap() {
       );
     });
   };
+//////////////END OF USER LOCATION FUNCTION///////////////////////
 
+//////////////CODE FOR MAP SEARCH BOX ///////////////////////////
   // Create the search box and link it to the UI element.
-  const input = document.getElementById("pac-input");
-  const searchBox = new google.maps.places.SearchBox(input);
-  var search_marker;
+  const input = document.getElementById("pac-input"); //get JS constant for the html search input
+  const searchBox = new google.maps.places.SearchBox(input); //convert the html search box to a Google maps search box
+  var search_marker; //initialise the search marker
+
+  //if someone searches in bar...
   searchBox.addListener("places_changed", function() {
     var places = searchBox.getPlaces();  
-    if (places.length == 0) {
+    if (places.length == 0) { //if no places exist
+      alert("No locations match your search query please try again"); //error message
       return;
     }
-    var location = places[0].geometry.location;
-    if (search_marker) {
+    var location = places[0].geometry.location; //takes location as top result
+    if (search_marker) { //changes existing search marker to current location
         search_marker.setPosition(location);
         search_marker.setTitle(places[0].name);
       }
-      // If a marker does not exist, create a new one
+      // If a marker does not exist, create a new one and set it to the current location
       else {
         search_marker = new google.maps.Marker({
           position: location,
@@ -118,41 +131,107 @@ async function initMap() {
           title: places[0].name
         });
       }
+      map.panTo(search_marker.position);
+      map.setZoom(map.getZoom() + 2);
+  });
+
+  //Limit the search box's results to areas visible on the map
+  map.addListener("bounds_changed", () => {
+    searchBox.setBounds(map.getBounds());
   });
 
 
-// var search_nearest_bike =document.getElementById("search-nearest-bike");
+
+//THINK THIS IS REDUNDANT CODE////////////////
+  // // Listen for the event fired when the user selects a prediction and retrieve
+  // // more details for that place.
+  // searchBox.addListener("places_changed", () => {
+  //   const places = searchBox.getPlaces();
+  //   if (places.length == 0) {
+  //     return;
+  //   }
+
+  //   // For each place, get the location.
+  //   const bounds = new google.maps.LatLngBounds();
+  //   places.forEach((place) => {
+  //     if (!place.geometry || !place.geometry.location) {
+  //       console.log("Returned place contains no geometry");
+  //       return;
+  //     }
+
+  //     // Recenter the map to the selected place and zoom in.
+  //     if (place.geometry.viewport) {
+  //       // Only geocodes have viewport.
+  //       bounds.union(place.geometry.viewport);
+  //       map.fitBounds(bounds);
+  //     } else {
+  //       map.setCenter(place.geometry.location);
+  //       map.setZoom(100);
+  //     }
+  //   });
+  // });   
+  /////END OF SUSPECTED REDUNDANT CODE//////////////
+
+  ////////////END OF MAP SEARCH BOX//////////////////////////////////////
+
+
+  //////////////CODE FOR SEARCH'S NEAREST BUTTONS ////////////////////////
+// var search_nearest_bike =document.getElementById("search-nearest-bike"); //attach JS var to the corresponding html button
+    //when button clicked...
 // search_nearest_bike.addEventListener("click", async function () {
 //   if(!search_marker){
-//     alert("Search for a station before clicking target bike")
+//     alert("Search for a station before clicking target bike")//make sure user has searched for a location first
 //   }
 //   else{
-//     var target_coords = search_marker.position;
-//     var sorted_array = sortLocationsByProximity(duplicate_markerArray, target_coords);
-//     var nearest_stations = nearby_stations_with_x(sorted_array, "bikes");
-//     var nearest_bike = await nearest_station(nearest_stations, target_coords, 'WALKING');
-//     map.panTo(nearest_bike.position)
-//     map.setZoom(map.getZoom() + 2);
+//     var target_coords = search_marker.position; 
+//     var sorted_array = sortLocationsByProximity(duplicate_markerArray, target_coords); //take the duplicate marker array and sort by nearest to search target
+//     var nearest_stations = nearby_stations_with_x(sorted_array, "bikes"); //call nearest stations with bikes argument to get shortlist using crow-flies
+//     var nearest_bike = await nearest_station(nearest_stations, target_coords, 'WALKING'); //get precise directions based data from shortlist to find nearest
+//     var nearest_bike_coords = nearest_bike.position  //convert station to lat and lng     
+//show directions between search target and nearest station with bikes
+//     var request = {
+    //   origin: target_coords,
+    //   destination: nearest_bike_coords,
+    //   travelMode: 'WALKING' //walking as assuming doesn't have bike yet
+    // };
+    // directionsService.route(request, function(result, status) {
+    //   if (status == 'OK') {
+    //     directionsRenderer.setDirections(result);
+    //   }
+//});
 //   }
 // });
 
+    //doing the same for stands
 // var search_nearest_stand = document.getElementById("search-nearest-stand");
 // search_nearest_stand.addEventListener("click", async function () {
 //   if(!search_marker){
 //     alert("Search for a station before clicking target stand")
 //   }
 //   else{  
-//   var target_coords = search_marker.position;
+//     var target_coords = search_marker.position;
 //     var sorted_array = sortLocationsByProximity(duplicate_markerArray, target_coords);
 //     var nearest_stations = nearby_stations_with_x(sorted_array, "stands");
-//     var nearest_bike = await nearest_station(nearest_stations, target_coords, 'WALKING');
-//     map.panTo(nearest_bike.position)
-//     map.setZoom(map.getZoom() + 2);
+//     var nearest_stand = await nearest_station(nearest_stations, target_coords, 'BICYCLING');
+//     var nearest_stand_coords = nearest_bike.position  //convert station to lat and lng     
+
+//     var request = {
+    //   origin: target_coords,
+    //   destination: nearest_stand_coords,
+    //   travelMode: 'BICYCLING' //bicycling as assuming they are on bike to drop back to stand
+    // };
+    // directionsService.route(request, function(result, status) {
+    //   if (status == 'OK') {
+    //     directionsRenderer.setDirections(result);
+    //   }
+//});
 //   }
 // });
 
+/////////////END OF SEARCH'S NEAREST BUTTONS ////////////////////////
 
 
+////////////CODE TO OVERLAY BUTTONS ON MAP /////////////////////
   const buttons = document.getElementById("button-div");
   const location_buttons = document.getElementById("location-buttons");
   const locateNearest = document.getElementById("nearest-btn");
@@ -162,43 +241,13 @@ async function initMap() {
   map.controls[google.maps.ControlPosition.TOP_CENTER].push(buttons);
   map.controls[google.maps.ControlPosition.RIGHT_TOP].push(location_buttons);
   map.controls[google.maps.ControlPosition.BOTTOM_RIGHT].push(locateNearest);
-  // Bias the SearchBox results towards current map's viewport.
-  map.addListener("bounds_changed", () => {
-    searchBox.setBounds(map.getBounds());
-  });
+/////////////////END OF MAP OVERLAY CODE ///////////////////////
 
-  // Listen for the event fired when the user selects a prediction and retrieve
-  // more details for that place.
-  searchBox.addListener("places_changed", () => {
-    const places = searchBox.getPlaces();
 
-    if (places.length == 0) {
-      return;
-    }
 
-    // For each place, get the location.
-    const bounds = new google.maps.LatLngBounds();
-
-    places.forEach((place) => {
-      if (!place.geometry || !place.geometry.location) {
-        console.log("Returned place contains no geometry");
-        return;
-      }
-
-      // Recenter the map to the selected place and zoom in.
-      if (place.geometry.viewport) {
-        // Only geocodes have viewport.
-        bounds.union(place.geometry.viewport);
-        map.fitBounds(bounds);
-      } else {
-        map.setCenter(place.geometry.location);
-        map.setZoom(100);
-      }
-    });
-  });   
+///////////GETTING STATION AND WEATHER DATA//////////////
   // Fetch station data and display markers and drop-down options
   await fetchStationData();
-
   // Fetch weather data 
   await fetchWeatherData();
 
@@ -219,136 +268,64 @@ async function initMap() {
     console.log('fetch response', typeof data);
     displayWeather(data);
   }
+  ///////////END OF GETTING DATA ///////////////
 
+
+/////////////MANIPULATING WEATHER DATA FOR HEADER///////////////////
   // Displays the station data on the map as markers and info windows
 function displayWeather(data) {
-    // Get icon of weather
+
+  //accessing html elements
+  var weatherDiv = document.getElementById("weather-info");
+  const weatherPopDown = document.getElementById("weather-popdown");
+
+    // Get icon of weather and display in header
     var weatherIcon = data.weather[0].icon;
-    // Get temperature and convert temperature to Degrees Celcius
+    document.getElementById("weather").innerHTML= "<img src=https://openweathermap.org/img/wn/" + weatherIcon +".png alt='icon' width='55' height='55' style='filter: drop-shadow(0px 0px 0px black) drop-shadow(0px 0px 0px black) drop-shadow(0px 0px 0px black) drop-shadow(0px 0px 8px black);'>"
+
+    // Get temperature and convert temperature to Degrees Celsius and fahrenheit
     var kelvin = data.main.temp;
     var celsius = Math.round((kelvin - 273.15) * 10) / 10;
     var fahrenheit = Math.round((kelvin - 273.15) * 9/5 + 32);
-
     var description = data.weather[0].description;
-    var capitlasieDescription = description.toUpperCase();
+    var capitaliseDescription = description.toUpperCase();
     var humidity = data.main.humidity;
-
-    var weatherDiv = document.getElementById("weather-info");
-    const weatherPopDown = document.getElementById("weather-popdown");
   
-    // Coding wind compass
-    var wind_dir = data.wind.deg - 45;
+    // Coding wind speed
+    //var wind_dir = data.wind.deg - 45; redundant not used
     var windSpeedMph= data.wind.speed;
     var windSpeedKmhr = Math.round(windSpeedMph * 1.60934);
   
-    weatherDiv.innerHTML = `
-      <div id="weather">
-          <img src=https://openweathermap.org/img/wn/${weatherIcon}.png alt='icon' width='55' height='55' style='filter: drop-shadow(0px 0px 0px black) drop-shadow(0px 0px 0px black) drop-shadow(0px 0px 0px black) drop-shadow(0px 0px 8px black);'>
-      </div>
-        `
-    
-    weatherPopDown.style.display = "none";
-
+    //code to display detailed weather info in dropdown on hover
     weatherDiv.addEventListener("mouseover", function() {
       weatherPopDown.style.display = "block";
-      weatherPopDown.innerHTML = `
-      <div class="location">
-      <i class="fa-solid fa-location-dot fa-xl"></i>
-      <h3>DUBLIN</h3>
-    </div>
-    <div class="icon">
-      <img id="test" src=https://openweathermap.org/img/wn/${weatherIcon}.png alt='icon' width='120' height='120''>
-    </div>
-    <div class="temperature">
-      <h2>${celsius}°C</h2>
-      <p>${capitlasieDescription}</p>
-    </div>
-    <div class="windandhumidity">
-      <div class="humidity">
-        <i class="fa-solid fa-water fa-xl"></i>
-        <div>
-          <h4>${humidity}%<br>humidity</h4>
-        </div>
-      </div>
-      <div class="wind">
-        <i class="fa-solid fa-wind fa-xl"></i>
-        <div>
-          <h4>${windSpeedKmhr} KM/h<br>Wind Speed</h4>
-        </div>
-      </div>
-    </div>
-      `
+      document.getElementById("weather-icon").innerHTML = "<img id='test' src=https://openweathermap.org/img/wn/" + weatherIcon + ".png alt='icon' width='120' height='120''>";
+      document.getElementById("temp").innerHTML = celsius + "°C" ;
+      document.getElementById("capDescription").innerHTML = capitaliseDescription;
+      document.getElementById("hum").innerHTML = humidity + "%<br>humidity";
+      document.getElementById("windSpeed").innerHTML = windSpeedKmhr + "KM/h<br>Wind Speed";
+
     }) 
-    
-    // Add event listener for mouseover on weatherDiv
-    weatherDiv.addEventListener("click", function () {
+
+    //On click convert weather units
+     weatherDiv.addEventListener("click", function () {
         // Check the current temperature unit (Celsius or Fahrenheit)
-        if (weatherPopDown.innerHTML.includes("°C")) {
-            weatherPopDown.innerHTML = `
-            <div class="location">
-              <i class="fa-solid fa-location-dot fa-xl"></i>
-              <h3>DUBLIN</h3>
-            </div>
-            <div class="icon">
-              <img id="test" src=https://openweathermap.org/img/wn/${weatherIcon}.png alt='icon' width='120' height='120''>
-            </div>
-            <div class="temperature">
-              <h2>${fahrenheit}°F</h2>
-              <p>${capitlasieDescription}</p>
-            </div>
-            <div class="windandhumidity">
-              <div class="humidity">
-                <i class="fa-solid fa-water fa-xl"></i>
-                <div>
-                  <h4>${humidity}%<br>humidity</h4>
-                </div>
-              </div>
-              <div class="wind">
-                <i class="fa-solid fa-wind fa-xl"></i>
-                <div>
-                  <h4>${windSpeedMph} Mph<br>Wind Speed</h4>
-                </div>
-              </div>
-            </div>
-            `
-        }
-        else {
-            weatherPopDown.innerHTML = `
-            <div class="location">
-            <i class="fa-solid fa-location-dot fa-xl"></i>
-            <h3>DUBLIN</h3>
-          </div>
-          <div class="icon">
-            <img id="test" src=https://openweathermap.org/img/wn/${weatherIcon}.png alt='icon' width='120' height='120''>
-          </div>
-          <div class="temperature">
-            <h2>${celsius}°C</h2>
-            <p>${capitlasieDescription}</p>
-          </div>
-          <div class="windandhumidity">
-            <div class="humidity">
-              <i class="fa-solid fa-water fa-xl"></i>
-              <div>
-                <h4>${humidity}%<br>humidity</h4>
-              </div>
-            </div>
-            <div class="wind">
-              <i class="fa-solid fa-wind fa-xl"></i>
-              <div>
-                <h4>${windSpeedKmhr} KM/h<br>Wind Speed</h4>
-              </div>
-            </div>
-          </div>
-        `
-        }
+         if (weatherPopDown.innerHTML.includes("°C")) {
+          document.getElementById("temp").innerHTML = fahrenheit + "°F" ;
+          document.getElementById("windSpeed").innerHTML = windSpeedMph + "Mph<br>Wind Speed";
+         }else{
+          document.getElementById("temp").innerHTML = celsius + "°C" ;
+          document.getElementById("windSpeed").innerHTML = windSpeedKmhr + "KM/h<br>Wind Speed";
+         }
         });
-      
+        
+        //when mouse not hovering disappear the popdown
         weatherDiv.addEventListener("mouseout", function() {
           weatherPopDown.style.display = "none";
-          weatherPopDown.innerHTML = ""
         });
-
   }
+
+  /////////////END OF MANIPULATING WEATHER DATA/////////////////////////
 
   function displayInputBox(stations) {
     const stationList = [];

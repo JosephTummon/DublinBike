@@ -19,7 +19,37 @@
     </div>
     <div id="google_translate_element"></div>
     <div id="nav-functionality-container">
-        <div id="weather-info"></div>
+        <div id="weather-info">
+          <div id="weather">
+          </div>
+        </div>
+        <div id="weather-popdown">
+          <div class="location">
+            <i class="fa-solid fa-location-dot fa-xl"></i>
+            <h3>DUBLIN</h3>
+          </div>
+          <div id="weather-icon">
+          </div>
+          <div class="temperature">
+            <h2 id="temp"></h2>
+            <p id="capDescription"></p>
+          </div>
+          <div class="windandhumidity">
+            <div class="humidity">
+              <i class="fa-solid fa-water fa-xl"></i>
+                <div>
+                  <h4 id ="hum"></h4>
+                </div>
+            </div>
+            <div class="wind">
+              <i class="fa-solid fa-wind fa-xl"></i>
+              <div>
+                <h4 id ="windSpeed"></h4>
+              </div>
+            </div>
+          </div>
+        </div>
+
         <div class="translate-btn">
           <button id = "translate_button">
             <img id = "translate-black" src="{{ url_for('static', filename='images/google-translate.png') }}" alt="Translate logo">
@@ -62,6 +92,8 @@
     <!--Map-->
     <div id="map">
     </div>
+    <button id="locationButton"><i class="fa-solid fa-location-crosshairs"></i></button>
+
     <div id="main"></div>
     <!-- 
       The `defer` attribute causes the callback to execute after the full HTML
@@ -148,8 +180,7 @@
     <!--End of swapping nums code-->
     <input id="pac-input"class="search"type="text"placeholder="Search...">
 
-    <div id="weather-popdown">
-    </div>
+    
 
     
  
