@@ -62,6 +62,23 @@
           <div id="displayPrediction"></div>
         </div>
 
+      <img id="header-img" rel="icon" src="/static/images/dblogo-removebg-preview.png" width="35" height="35" type="image/x-icon">
+      <div class="logo">
+          <h1><a id="icon-text" class="l" href="http://127.0.0.1:5000/"><span id="db">DB</span>ikes</a></h1>
+      </div>
+      <div class="nav-functionality-container">
+          <div id="weather-info"></div>
+          <div class="translate-btn">
+            <button id = "translate_button"><img src="{{ url_for('static', filename='images/google-translate.png') }}" alt="Translate logo"></button>
+          </div>
+          <div class="dark-mode-btn">
+            <button id = "dark-mode-button">
+              <img src="{{ url_for('static', filename='images/sun-removebg-preview.png') }}" alt="Translate logo" height="37" width="37">
+            </button>
+          </div>
+      </div>
+    </header>
+    <div id="google_translate_element"></div>
     <!--Map-->
     <div id="main">
 
@@ -73,7 +90,7 @@
       and consistent behavior across browsers, consider loading using Promises
       with https://www.npmjs.com/package/@googlemaps/js-api-loader.
       -->
-    <div id="select-service">
+    <!-- <div id="select-service">
       <div id ="select-service-container">
         <div id = "get-directions" class = "get-directions active">
           <h2>Get Directions</h2>
@@ -82,35 +99,45 @@
           <h2>Find Stations</h2>
         </div>
       </div>
-    </div>
+    </div> -->
     <div id="directions">
-      <div id="search-station-container">
-        <div class="search">
-        <button id="clear-directions">Clear</button>
+      <div id="search-station-conatiner">
         <div>
-            <i id="pin" class="fa-solid fa-map-pin" style="color: #00A4D3;"></i>
-            <input type="text" id="start-input" placeholder="Type to search for start destination">
-            <div id="result-box1" class="result-box"></div>
-            <div id="test1"></div>
+          <div class="search">
+          <button id="go">Go</button>
+          <div>
+              <i id="pin" class="fa-solid fa-map-pin" style="color: #00A4D3;"></i>
+              <input type="text" id="start-input" placeholder="Type to search for start destination">
+              <div id="result-box1" class="result-box"></div>
+              <div id="test1"></div>
+          </div>
+          <div>
+              <i id="dest_marker" class="fa-solid fa-location-dot" style="color: #00A4D3;"></i>
+              <input type="text" id="end-input" placeholder="Type to search for end destination">
+              <div id="result-box2" class="result-box"></div>
+              <div id="test1"></div>
+          </div>
         </div>
-        <div>
-            <i id="dest_marker" class="fa-solid fa-location-dot" style="color: #00A4D3;"></i>
-            <input type="text" id="end-input" placeholder="Type to search for end destination">
-            <div id="result-box2" class="result-box"></div>
-            <div id="test1"></div>
+      </div>
+      <div id="dropdown">
+        <div id="dropdown-container">
+          <select id="option">
+            <option value="Smithfield North" selected>Find Station</option>
+          </select>
         </div>
-        <button id="go">Go</button>
-
-        </div>
-    </div>
-    </div>
-    <div id="dropdown">
-      <div id="dropdown-container">
-        <select id="option">
-          <option value="Smithfield North" selected>Find Station</option>
-        </select>
       </div>
     </div>
+  <!--ELEMENTS IN THE MAPS-->
+    <!-- <div id = "search-nearest-btns">
+      <button id="search-nearest-bike">
+        <a>Target</a>
+        <i class="fa-solid fa-bicycle"></i>
+      </button>
+      <button id="search-nearest-stand">
+        <a>Target<br></a>
+        <i class="fa-solid fa-square-parking"></i>
+      </button>
+    </div> -->
     <!--Code for swapping nums on station pins-->
     <div id ="button-div" class="buttons">
       <div id = "btn1" class = "btn active">
@@ -124,19 +151,26 @@
     </div>
 
     <div id = "location-buttons">
-      <button id ="nearest-bike">
-        <a class="button-text">User<br></a>
-        <i class="fa-solid fa-bicycle"></i>
-      </button>
-      <button id ="nearest-stand">
-        <a class="button-text">User<br></a>
-        <i class="fa-solid fa-square-parking"></i>
-      </button>
+      <div id ="nearest-bike">
+        <div class="nearest-bike-div">
+          <i class="fa-solid fa-bicycle fa-xl"></i>
+          <a class="button-text">Nearest <br> Bike</a>
+        </div>
+      </div>
+      <div id ="nearest-stand">
+        <div class="nearest-stand-div">
+          <i class="fa-solid fa-square-parking fa-xl"></i>
+          <a class="button-text">Nearest <br>Space</a>
+        </div>
+      </div>
     </div>
     </div>
 
     <!--End of swapping nums code-->
-    <input id="pac-input"class="search"type="text"placeholder=" Search">
+    <input id="pac-input"class="search"type="text"placeholder="Search...">
+
+    <div id="weather-popdown">
+    </div>
  
     <script
       src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDgYC8VXvS4UG9ApSUhS2v-ByddtHljFls&libraries=places&callback=initMap&v=weekly"
