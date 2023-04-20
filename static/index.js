@@ -442,12 +442,7 @@ function displayWeather(data) {
 
       // Attach listeners to show and hide the info window when the marker is hovered over
       attachInfoWindowListeners(marker, infoWindow);
-      marker.addListener("click", () => {
-        google.charts.load('current', { 'packages': ['corechart'] });
-        drawChart(station.number);
-        document.getElementById("mySidebar").style.width = "650px";
-        document.getElementById("main").style.marginLeft = "650px";
-      });    }
+    }
   }
 
   // Creates a new marker object for the given station and adds it to the map
@@ -587,6 +582,24 @@ function displayDropDown(stations) {
 }
 
 
+document.getElementById("swap").addEventListener("click", () =>{
+  var currentRoute = directionsRenderer.getDirections();
+  if (!currentRoute) {
+    alert("No route has been set yet");
+    return;
+  }
+  var old_origin = currentRoute.request.origin;
+  var old_destination = currentRoute.request.destination;
+  currentRoute.request.origin = old_destination;
+  currentRoute.request.destination = old_origin;
+
+  directionsService.route(currentRoute.request, function(result, status) {
+    if (status == 'OK') {
+      directionsRenderer.setDirections(result);
+    }
+  });
+});
+
   //code for nearest btns/////////////
     //make fresh array
     var duplicate_markerArray=[];
@@ -598,24 +611,46 @@ function displayDropDown(stations) {
 const nearest_bike_btn = document.getElementById("nearest-bike");
 nearest_bike_btn.addEventListener("click", async () => {
     var user_coords = await getUserLocation();
-    console.log("type of "+ typeof(user_coords));
+    //console.log("type of "+ typeof(user_coords));
     var sorted_array = sortLocationsByProximity(duplicate_markerArray, user_coords);
     var nearest_stations = nearby_stations_with_x(sorted_array, "bikes");
     var nearest_bike = await nearest_station(nearest_stations, user_coords, 'WALKING');
-    map.panTo(nearest_bike.position)
-    map.setZoom(map.getZoom() + 2);
+    var nearest_bike_coords = nearest_bike.position;
+    //map.panTo(nearest_bike.position)
+    //map.setZoom(map.getZoom() + 2);
+    //show directions instead
+    var request = {
+      origin: user_coords,
+      destination: nearest_bike_coords,
+      travelMode: 'WALKING' 
+    };
+    directionsService.route(request, function(result, status) {
+      if (status == 'OK') {
+        directionsRenderer.setDirections(result);
+      }
+    });
 });
 
 const nearest_stand_btn = document.getElementById("nearest-stand");
 nearest_stand_btn.addEventListener("click", async () => {
     var user_coords = await getUserLocation();
-        console.log("type of "+ typeof(user_coords));
+        //console.log("type of "+ typeof(user_coords));
         var sorted_array = sortLocationsByProximity(duplicate_markerArray, user_coords);
         var nearest_stations = nearby_stations_with_x(sorted_array, "stands");
-        var nearest_bike = await nearest_station(nearest_stations, user_coords, 'BICYCLING');
-        ;
-        map.panTo(nearest_bike.position)
-        map.setZoom(map.getZoom() + 2);
+        var nearest_stand = await nearest_station(nearest_stations, user_coords, 'BICYCLING');
+        var nearest_stand_coords = nearest_stand.position;
+        //map.panTo(nearest_bike.position)
+        //map.setZoom(map.getZoom() + 2);
+        var request = {
+          origin: user_coords,
+          destination: nearest_stand_coords,
+          travelMode: 'BICYCLING' 
+        };
+        directionsService.route(request, function(result, status) {
+          if (status == 'OK') {
+            directionsRenderer.setDirections(result);
+          }
+        });
 });
 
 function distance_tween_points(latlng1, latlng2) {
@@ -752,12 +787,12 @@ button.addEventListener("click", function() {
     calculateAndDisplayRoute(directionsRenderer, directionsService, markerArray1, stepDisplay, map);
   });
   
-clear_button.addEventListener("click", function() {
-for (let i = 0; i < markerArray1.length; i++) {
-    markerArray1[i].setMap(null);
-    }
-    directionsRenderer.setDirections({routes: []}); // Remove directions line    
-});
+// clear_button.addEventListener("click", function() {
+// for (let i = 0; i < markerArray1.length; i++) {
+//     markerArray1[i].setMap(null);
+//     }
+//     directionsRenderer.setDirections({routes: []}); // Remove directions line    
+// });
 
 
 function calculateAndDisplayRoute(
@@ -832,106 +867,6 @@ function showSteps(directionResult, markerArray1, stepDisplay, map) {
   }
 }
 
-
-function drawChart(number) {
-  const loadingDiv = document.getElementById("loading");
-  loadingDiv.style.display = "block"; // show the loading animation
-  const cacheBuster = Date.now(); // add a cache-busting parameter
-  fetch(`/averages/${number}?cb=${cacheBuster}`)
-    .then(response => response.json())
-    .then(data => {
-      const chosenStationName = data[0].address;
-
-      //changing this to add directions
-      document.getElementById("stationTitle").innerHTML = `<h2>${chosenStationName}</h2><button id ="station-directions">Directions</button>`;
-      var station_directions = document.getElementById("station-directions");
-      station_directions.addEventListener("click", async () => {
-      var target_station_coords;
-      for (let i = 0; i < markerArray.length; i++){
-        if (data[0].address == markerArray[i].title){
-          target_station_coords = markerArray[i].position;
-        }
-      }
-      var user_coords = await getUserLocation();
-      var route = {
-        origin: user_coords,
-        destination: target_station_coords,
-        travelMode: google.maps.TravelMode.WALKING
-      }
-      try {
-        const response = await new Promise((resolve, reject) => {
-          directionsService.route(route, function(response, status) {
-              if (status === 'OK') {
-                  resolve(response);
-              } else {
-                  reject(status);
-              }
-          });
-      });
-      var directionsData = response.routes[0].legs[0]; // Get data about the mapped route
-      if (!directionsData) {
-          window.alert('Directions request failed');
-          return;
-      } else {
-        directionsRenderer.setDirections(response);
-      }
-      } catch (error) {
-            window.alert('Directions request failed due to ' + error);
-            return;
-        }   
-    });
-      
-      
-      const chart_data = new google.visualization.DataTable();
-      chart_data.addColumn("string", "Week_Day_No");
-      chart_data.addColumn("number", "Average Bikes Available");
-      chart_data.addColumn("number", "Average Bike Stands");
-
-      const dayNames = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
-
-      const rows = dayNames.map(dayName => {
-        const matchingData = data.find(obj => obj.day_of_week === dayName);
-        return [dayName, matchingData ? matchingData.Avg_bikes_free : null, matchingData ? matchingData.Avg_bike_stands : null];
-      });
-      chart_data.addRows(rows);
-      const options = {
-        titlePosition: 'none',
-        width: "700",
-        height: "450",
-        chartArea: { 'width': '75%', bottom: 15, 'height': '80%' },
-        legend: { position: "bottom" }
-      };
-      loadingDiv.style.display = "none"; // hide the loading animation 
-
-      const chart = new google.visualization.ColumnChart(document.getElementById("PredictiveChart"));
-      chart.draw(chart_data, options);
-
-      const form = document.querySelector('form');
-      form.addEventListener('submit', (event) => {
-        console.log("Testing");
-        event.preventDefault(); // prevent form submission
-        var datetime = document.getElementById('availabletime').value;
-        console.log(datetime); // log the value of the datetime input field
-        var datetime = new Date(datetime); 
-        const dayOfWeek = datetime.getDay(); // returns 0 for Sunday, 1 for Monday, and so on
-        const hour = datetime.getHours();
-        console.log(dayOfWeek, hour);
-        getPrediction(number, dayOfWeek, hour);
-      });
-    });
-}
-
-function getPrediction(number, dayOfWeek, hour) {
-  fetch(`/predictions/${number}`)
-    .then(response => response.json())
-    .then(data => {
-      document.getElementById("displayPrediction").innerHTML = "Number of available bikes: " + data[dayOfWeek][hour];
-      console.log(data[dayOfWeek][hour]);
-    });
-}
-
-
-
 function attachInstructionText(stepDisplay, marker, text, map) {
   google.maps.event.addListener(marker, "click", () => {
     // Open an info window when the marker is clicked on, containing the text
@@ -945,12 +880,12 @@ function attachInstructionText(stepDisplay, marker, text, map) {
 ////// light/darkmode code /////////
 var is_light = true;
 var is_bikes = true;
-document.getElementById("dark-icon").style.display="none";
+// document.getElementById("dark-icon").style.display="none";
 
 
 const b1= document.getElementById("btn1");
 const b2= document.getElementById("btn2");
-b1.style.backgroundColor = "lightblue";
+b1.style.backgroundColor = "#3897d3";
 b1.style.color = "white";
 b1.style.zIndex = "101";
 b2.style.backgroundColor = "white";
@@ -959,7 +894,7 @@ b2.style.zIndex = "100";
 b1.addEventListener("click", () => {
 is_bikes= true;
 
-b1.style.backgroundColor = "lightblue";
+b1.style.backgroundColor = "#3897d3";
 b1.style.color = "white";
 b1.style.zIndex = "101";
 b2.style.backgroundColor = "white";
@@ -969,7 +904,7 @@ b2.style.zIndex = "100";
 b2.addEventListener("click", () => {
 is_bikes=false;
 
-b2.style.backgroundColor = "lightblue";
+b2.style.backgroundColor = "#3897d3";
 b2.style.color = "white";
 b2.style.textDecorationColor = "white"
 b2.style.zIndex = "101";
@@ -977,6 +912,9 @@ b1.style.backgroundColor = "white";
 b1.style.color = "black";
 b1.style.zIndex = "100";
 })
+
+document.getElementById("translate-white").style.display = "none";
+document.getElementById("dark-icon").style.display = "none";
 
 var dark_mode_button = document.getElementById("dark-mode-button");
 dark_mode_button.addEventListener("click", () => {
@@ -990,21 +928,23 @@ dark_mode_button.addEventListener("click", () => {
     map.set("styles", light_map);
 
 
-    nearest_bike_btn.style.backgroundColor = "lightblue";
-    nearest_stand_btn.style.backgroundColor = "lightblue";
-    search_nearest_bike.style.backgroundColor = "lightblue";
-    search_nearest_stand.style.backgroundColor = "lightblue";
-    search_nearest_div.style.backgroundColor = "white";
-    document.getElementById("select-service").style.backgroundColor="white"
-    document.getElementById("select-service-container").style.color="white";
-    document.getElementById("get-directions").style.color = "black";
-    document.getElementById("find-stations").style.color = "black";
+    nearest_bike_btn.style.backgroundColor = "white";
+    nearest_stand_btn.style.backgroundColor = "white";
+    //search_nearest_bike.style.backgroundColor = "white";
+    //search_nearest_stand.style.backgroundColor = "white";
+    //search_nearest_div.style.backgroundColor = "white";
+    //document.getElementById("select-service").style.backgroundColor="white"
+    //document.getElementById("select-service-container").style.color="white";
+    //document.getElementById("get-directions").style.color = "black";
+    //document.getElementById("find-stations").style.color = "black";
     document.getElementById("directions").style.backgroundColor = "white";
-    document.getElementById("search-station-container").style.backgroundColor = "white";
-    document.getElementById("dark-mode-button").style.backgroundColor = "lightblue";
+    //document.getElementById("search-station-container").style.backgroundColor = "white";
+    document.getElementById("dark-mode-button").style.backgroundColor = "white";
     document.getElementById("header").style.backgroundColor = "white";
     document.getElementById("db").style.color = "lightblue";
     document.getElementById("icon-text").style.color = "black";
+    document.getElementById("weather").style.backgroundColor = "white";
+
     document.getElementById("dark-icon").style.display="none";
     document.getElementById("light-icon").style.display="";
     document.getElementById("button-div").style.backgroundColor = "white";
@@ -1012,17 +952,24 @@ dark_mode_button.addEventListener("click", () => {
     document.getElementById("dropdown").style.backgroundColor = "white";
     document.getElementById("location-buttons").style.backgroundColor = "white";
     //document.getElementById("center-btn").style.color = "black";
-    //document.getElementById("warnings-panel").style.backgroundColor = "white";
+    //document.getElementById("warnings-panel").style.backgroundColor = "white"; 
+    //document.getElementById("compass").style.color = "black";
+    //document.getElementById("speedometer").style.color = "black";
     document.getElementById("pin").style.color = "lightblue";
     document.getElementById("dest_marker").style.color = "lightblue";
-    document.getElementById("weather-info").style.backgroundColor = "lightblue";
+    document.getElementById("weather-info").style.backgroundColor = "white";
     document.getElementById("weather").style.color= "black";
-    document.getElementById("translate_button").style.backgroundColor= "lightblue";
+    document.getElementById("translate_button").style.backgroundColor= "white";
     document.getElementById("pac-input").style.backgroundColor= "white";
     document.getElementById("pac-input").style.color= "black";
+    document.getElementById("nav-functionality-container").style.color= "white";
+    document.getElementById("weather-info").style.marginRightColor= "white";
+    document.getElementById("translate-black").style.display = "";
+    document.getElementById("translate-white").style.display = "none";
+
 
       if (is_bikes == true){
-          b1.style.backgroundColor = "lightblue";
+          b1.style.backgroundColor = "#3897d3";
           b1.style.color = "white";
           b1.style.zIndex = "101";
           b2.style.backgroundColor = "white";
@@ -1030,7 +977,7 @@ dark_mode_button.addEventListener("click", () => {
           b2.style.zIndex = "100";
       }
       else{
-          b2.style.backgroundColor = "lightblue";
+          b2.style.backgroundColor = "#3897d3";
           b2.style.color = "white";
           b2.style.zIndex = "101";
           b1.style.backgroundColor = "white";
@@ -1041,7 +988,7 @@ dark_mode_button.addEventListener("click", () => {
     b1.addEventListener("click", () => {
       is_bikes= true;
 
-      b1.style.backgroundColor = "lightblue";
+      b1.style.backgroundColor = "#3897d3";
       b1.style.color = "white";
       b1.style.zIndex = "101";
       b2.style.backgroundColor = "white";
@@ -1051,7 +998,7 @@ dark_mode_button.addEventListener("click", () => {
     b2.addEventListener("click", () => {
       
       is_bikes = false;
-      b2.style.backgroundColor = "lightblue";
+      b2.style.backgroundColor = "#3897d3";
       b2.style.color = "white";
       b2.style.zIndex = "101";
       b1.style.backgroundColor = "white";
@@ -1064,14 +1011,14 @@ dark_mode_button.addEventListener("click", () => {
     map.set("styles", dark_map);
     nearest_bike_btn.style.backgroundColor = "lightgreen";
     nearest_stand_btn.style.backgroundColor = "lightgreen";
-    search_nearest_bike.style.backgroundColor = "lightgreen";
-    search_nearest_stand.style.backgroundColor = "lightgreen";
-    search_nearest_div.style.backgroundColor = "black";
-    document.getElementById("select-service").style.backgroundColor="black"
-    document.getElementById("select-service-container").style.color="black";
-    document.getElementById("get-directions").style.color = "white";
-    document.getElementById("find-stations").style.color = "white";
-    document.getElementById("dark-mode-button").style.backgroundColor = "lightgreen";
+    //search_nearest_bike.style.backgroundColor = "lightgreen";
+    //search_nearest_stand.style.backgroundColor = "lightgreen";
+    //search_nearest_div.style.backgroundColor = "black";
+    //document.getElementById("select-service").style.backgroundColor="black"
+    //document.getElementById("select-service-container").style.color="black";
+    //document.getElementById("get-directions").style.color = "white";
+    //document.getElementById("find-stations").style.color = "white";
+    document.getElementById("dark-mode-button").style.backgroundColor = "black";
     document.getElementById("light-icon").style.display="none";
     document.getElementById("dark-icon").style.display="";
     document.getElementById("header").style.backgroundColor = "black";
@@ -1081,19 +1028,23 @@ dark_mode_button.addEventListener("click", () => {
     document.getElementById("body").style.backgroundColor = "black";
     document.getElementById("dropdown").style.backgroundColor = "black";
     document.getElementById("location-buttons").style.backgroundColor = "black";
+    document.getElementById("weather").style.backgroundColor = "black";
     //document.getElementById("center-btn").style.color = "white";
     //document.getElementById("warnings-panel").style.backgroundColor = "black";
-    document.getElementById("compass").style.color = "white";
-    document.getElementById("speedometer").style.color = "white";
+    //document.getElementById("compass").style.color = "white";
+    //document.getElementById("speedometer").style.color = "white";
     document.getElementById("pin").style.color = "lightgreen";
     document.getElementById("dest_marker").style.color = "lightgreen";
-    document.getElementById("weather-info").style.backgroundColor = "lightgreen";
+    document.getElementById("weather-info").style.backgroundColor = "black";
     document.getElementById("weather").style.color= "white";
-    document.getElementById("translate_button").style.backgroundColor= "lightgreen";
+    document.getElementById("translate_button").style.backgroundColor= "black";
     document.getElementById("pac-input").style.backgroundColor= "black";
     document.getElementById("pac-input").style.color= "white";
-
-
+    document.getElementById("nav-functionality-container").style.color= "black";
+    document.getElementById("weather-info").style.marginRightColor= "black";
+    document.getElementById("translate-black").style.display = "none";
+    document.getElementById("translate-white").style.display = "";
+ 
     if (is_bikes == true){
       b1.style.backgroundColor = "lightgreen";
       b1.style.color = "white";
@@ -1137,4 +1088,3 @@ dark_mode_button.addEventListener("click", () => {
 }
 
 window.initMap = initMap;
-
