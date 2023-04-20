@@ -593,24 +593,46 @@ function displayDropDown(stations) {
 const nearest_bike_btn = document.getElementById("nearest-bike");
 nearest_bike_btn.addEventListener("click", async () => {
     var user_coords = await getUserLocation();
-    console.log("type of "+ typeof(user_coords));
+    //console.log("type of "+ typeof(user_coords));
     var sorted_array = sortLocationsByProximity(duplicate_markerArray, user_coords);
     var nearest_stations = nearby_stations_with_x(sorted_array, "bikes");
     var nearest_bike = await nearest_station(nearest_stations, user_coords, 'WALKING');
-    map.panTo(nearest_bike.position)
-    map.setZoom(map.getZoom() + 2);
+    var nearest_bike_coords = nearest_bike.position;
+    //map.panTo(nearest_bike.position)
+    //map.setZoom(map.getZoom() + 2);
+    //show directions instead
+    var request = {
+      origin: user_coords,
+      destination: nearest_bike_coords,
+      travelMode: 'WALKING' 
+    };
+    directionsService.route(request, function(result, status) {
+      if (status == 'OK') {
+        directionsRenderer.setDirections(result);
+      }
+    });
 });
 
 const nearest_stand_btn = document.getElementById("nearest-stand");
 nearest_stand_btn.addEventListener("click", async () => {
     var user_coords = await getUserLocation();
-        console.log("type of "+ typeof(user_coords));
+        //console.log("type of "+ typeof(user_coords));
         var sorted_array = sortLocationsByProximity(duplicate_markerArray, user_coords);
         var nearest_stations = nearby_stations_with_x(sorted_array, "stands");
-        var nearest_bike = await nearest_station(nearest_stations, user_coords, 'BICYCLING');
-        ;
-        map.panTo(nearest_bike.position)
-        map.setZoom(map.getZoom() + 2);
+        var nearest_stand = await nearest_station(nearest_stations, user_coords, 'BICYCLING');
+        var nearest_stand_coords = nearest_stand.position;
+        //map.panTo(nearest_bike.position)
+        //map.setZoom(map.getZoom() + 2);
+        var request = {
+          origin: user_coords,
+          destination: nearest_stand_coords,
+          travelMode: 'BICYCLING' 
+        };
+        directionsService.route(request, function(result, status) {
+          if (status == 'OK') {
+            directionsRenderer.setDirections(result);
+          }
+        });
 });
 
 function distance_tween_points(latlng1, latlng2) {
