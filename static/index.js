@@ -845,7 +845,7 @@ var is_bikes = true;
 
 const b1= document.getElementById("btn1");
 const b2= document.getElementById("btn2");
-b1.style.backgroundColor = "lightblue";
+b1.style.backgroundColor = "#3897d3";
 b1.style.color = "white";
 b1.style.zIndex = "101";
 b2.style.backgroundColor = "white";
@@ -854,7 +854,7 @@ b2.style.zIndex = "100";
 b1.addEventListener("click", () => {
 is_bikes= true;
 
-b1.style.backgroundColor = "lightblue";
+b1.style.backgroundColor = "#3897d3";
 b1.style.color = "white";
 b1.style.zIndex = "101";
 b2.style.backgroundColor = "white";
@@ -864,7 +864,7 @@ b2.style.zIndex = "100";
 b2.addEventListener("click", () => {
 is_bikes=false;
 
-b2.style.backgroundColor = "lightblue";
+b2.style.backgroundColor = "#3897d3";
 b2.style.color = "white";
 b2.style.textDecorationColor = "white"
 b2.style.zIndex = "101";
@@ -885,39 +885,47 @@ dark_mode_button.addEventListener("click", () => {
     map.set("styles", light_map);
 
 
-    nearest_bike_btn.style.backgroundColor = "lightblue";
-    nearest_stand_btn.style.backgroundColor = "lightblue";
-    search_nearest_bike.style.backgroundColor = "lightblue";
-    search_nearest_stand.style.backgroundColor = "lightblue";
-    search_nearest_div.style.backgroundColor = "white";
-    document.getElementById("select-service").style.backgroundColor="white"
-    document.getElementById("select-service-container").style.color="white";
-    document.getElementById("get-directions").style.color = "black";
-    document.getElementById("find-stations").style.color = "black";
+    nearest_bike_btn.style.backgroundColor = "white";
+    nearest_stand_btn.style.backgroundColor = "white";
+    //search_nearest_bike.style.backgroundColor = "white";
+    //search_nearest_stand.style.backgroundColor = "white";
+    //search_nearest_div.style.backgroundColor = "white";
+    //document.getElementById("select-service").style.backgroundColor="white"
+    //document.getElementById("select-service-container").style.color="white";
+    //document.getElementById("get-directions").style.color = "black";
+    //document.getElementById("find-stations").style.color = "black";
     document.getElementById("directions").style.backgroundColor = "white";
-    document.getElementById("search-station-container").style.backgroundColor = "white";
+    //document.getElementById("search-station-container").style.backgroundColor = "white";
     document.getElementById("dark-mode-button").style.backgroundColor = "lightblue";
     document.getElementById("header").style.backgroundColor = "white";
     document.getElementById("db").style.color = "lightblue";
     document.getElementById("icon-text").style.color = "black";
-    document.getElementById("dark-icon").style.display="none";
-    document.getElementById("light-icon").style.display="";
+    document.getElementById("weather").style.backgroundColor = "white";
+
+    //document.getElementById("dark-icon").style.display="none";
+    //document.getElementById("light-icon").style.display="";
     document.getElementById("button-div").style.backgroundColor = "white";
     document.getElementById("body").style.backgroundColor = "white";
     document.getElementById("dropdown").style.backgroundColor = "white";
     document.getElementById("location-buttons").style.backgroundColor = "white";
     //document.getElementById("center-btn").style.color = "black";
-    //document.getElementById("warnings-panel").style.backgroundColor = "white";
+    //document.getElementById("warnings-panel").style.backgroundColor = "white"; 
+    //document.getElementById("compass").style.color = "black";
+    //document.getElementById("speedometer").style.color = "black";
     document.getElementById("pin").style.color = "lightblue";
     document.getElementById("dest_marker").style.color = "lightblue";
-    document.getElementById("weather-info").style.backgroundColor = "lightblue";
+    document.getElementById("weather-info").style.backgroundColor = "white";
     document.getElementById("weather").style.color= "black";
     document.getElementById("translate_button").style.backgroundColor= "lightblue";
     document.getElementById("pac-input").style.backgroundColor= "white";
     document.getElementById("pac-input").style.color= "black";
+    document.getElementById("nav-functionality-container").style.color= "white";
+    document.getElementById("weather-info").style.marginRightColor= "white";
+
+
 
       if (is_bikes == true){
-          b1.style.backgroundColor = "lightblue";
+          b1.style.backgroundColor = "#3897d3";
           b1.style.color = "white";
           b1.style.zIndex = "101";
           b2.style.backgroundColor = "white";
@@ -925,7 +933,7 @@ dark_mode_button.addEventListener("click", () => {
           b2.style.zIndex = "100";
       }
       else{
-          b2.style.backgroundColor = "lightblue";
+          b2.style.backgroundColor = "#3897d3";
           b2.style.color = "white";
           b2.style.zIndex = "101";
           b1.style.backgroundColor = "white";
@@ -936,7 +944,7 @@ dark_mode_button.addEventListener("click", () => {
     b1.addEventListener("click", () => {
       is_bikes= true;
 
-      b1.style.backgroundColor = "lightblue";
+      b1.style.backgroundColor = "#3897d3";
       b1.style.color = "white";
       b1.style.zIndex = "101";
       b2.style.backgroundColor = "white";
@@ -946,7 +954,7 @@ dark_mode_button.addEventListener("click", () => {
     b2.addEventListener("click", () => {
       
       is_bikes = false;
-      b2.style.backgroundColor = "lightblue";
+      b2.style.backgroundColor = "#3897d3";
       b2.style.color = "white";
       b2.style.zIndex = "101";
       b1.style.backgroundColor = "white";
@@ -959,16 +967,16 @@ dark_mode_button.addEventListener("click", () => {
     map.set("styles", dark_map);
     nearest_bike_btn.style.backgroundColor = "lightgreen";
     nearest_stand_btn.style.backgroundColor = "lightgreen";
-    search_nearest_bike.style.backgroundColor = "lightgreen";
-    search_nearest_stand.style.backgroundColor = "lightgreen";
-    search_nearest_div.style.backgroundColor = "black";
-    document.getElementById("select-service").style.backgroundColor="black"
-    document.getElementById("select-service-container").style.color="black";
-    document.getElementById("get-directions").style.color = "white";
-    document.getElementById("find-stations").style.color = "white";
+    //search_nearest_bike.style.backgroundColor = "lightgreen";
+    //search_nearest_stand.style.backgroundColor = "lightgreen";
+    //search_nearest_div.style.backgroundColor = "black";
+    //document.getElementById("select-service").style.backgroundColor="black"
+    //document.getElementById("select-service-container").style.color="black";
+    //document.getElementById("get-directions").style.color = "white";
+    //document.getElementById("find-stations").style.color = "white";
     document.getElementById("dark-mode-button").style.backgroundColor = "lightgreen";
-    document.getElementById("light-icon").style.display="none";
-    document.getElementById("dark-icon").style.display="";
+    //document.getElementById("light-icon").style.display="none";
+    //document.getElementById("dark-icon").style.display="";
     document.getElementById("header").style.backgroundColor = "black";
     document.getElementById("db").style.color = "lightgreen";
     document.getElementById("icon-text").style.color = "white";
@@ -976,19 +984,21 @@ dark_mode_button.addEventListener("click", () => {
     document.getElementById("body").style.backgroundColor = "black";
     document.getElementById("dropdown").style.backgroundColor = "black";
     document.getElementById("location-buttons").style.backgroundColor = "black";
+    document.getElementById("weather").style.backgroundColor = "black";
     //document.getElementById("center-btn").style.color = "white";
     //document.getElementById("warnings-panel").style.backgroundColor = "black";
-    document.getElementById("compass").style.color = "white";
-    document.getElementById("speedometer").style.color = "white";
+    //document.getElementById("compass").style.color = "white";
+    //document.getElementById("speedometer").style.color = "white";
     document.getElementById("pin").style.color = "lightgreen";
     document.getElementById("dest_marker").style.color = "lightgreen";
-    document.getElementById("weather-info").style.backgroundColor = "lightgreen";
+    document.getElementById("weather-info").style.backgroundColor = "black";
     document.getElementById("weather").style.color= "white";
-    document.getElementById("translate_button").style.backgroundColor= "lightgreen";
+    document.getElementById("translate_button").style.backgroundColor= "black";
     document.getElementById("pac-input").style.backgroundColor= "black";
     document.getElementById("pac-input").style.color= "white";
-
-
+    document.getElementById("nav-functionality-container").style.color= "black";
+    document.getElementById("weather-info").style.marginRightColor= "black";
+     
     if (is_bikes == true){
       b1.style.backgroundColor = "lightgreen";
       b1.style.color = "white";

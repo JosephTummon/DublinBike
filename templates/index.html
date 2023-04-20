@@ -15,7 +15,7 @@
       <div class="logo">
           <h1><a id="icon-text" class="l" href="http://127.0.0.1:5000/"><span id="db">DB</span>ikes</a></h1>
       </div>
-      <div class="nav-functionality-container">
+      <div id="nav-functionality-container">
           <div id="weather-info"></div>
           <div class="translate-btn">
             <button id = "translate_button"><img src="{{ url_for('static', filename='images/google-translate.png') }}" alt="Translate logo"></button>
@@ -55,13 +55,13 @@
           <div>
               <i id="pin" class="fa-solid fa-map-pin" style="color: #00A4D3;"></i>
               <input type="text" id="start-input" placeholder="Type to search for start destination">
-              <div id="result-box1" class="result-box"></div>
+              <div translate="no" id="result-box1" class="result-box"></div>
               <div id="test1"></div>
           </div>
           <div>
               <i id="dest_marker" class="fa-solid fa-location-dot" style="color: #00A4D3;"></i>
               <input type="text" id="end-input" placeholder="Type to search for end destination">
-              <div id="result-box2" class="result-box"></div>
+              <div translate="no" id="result-box2" class="result-box"></div>
               <div id="test1"></div>
           </div>
         </div>

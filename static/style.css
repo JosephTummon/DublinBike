@@ -92,7 +92,7 @@ header {
   height: 30px;
 }
 
-.nav-functionality-container {
+#nav-functionality-container {
   display: flex;
   background-color: #fff;
 }
@@ -185,7 +185,7 @@ header {
 
 /* -------- */
 #weather-info {
-  margin-right: 5px;
+  /* margin-right: 5px; */
   border-radius: 50px;
   cursor: pointer;
   transition: transform 0.1s ease-in-out;
