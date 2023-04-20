@@ -50,6 +50,131 @@ header {
   height: 50px;
 }
 
+.search {
+  position: relative;
+  width: 300px;
+  /* adjust as per your needs */
+  margin-right: 300px;
+}
+
+.search input[type="text"] {
+  padding-right: 30px;
+  /* adjust as per your icon size */
+  width: 100%;
+  box-sizing: border-box;
+  border: 1px solid #ccc;
+  /* add a border for the search box */
+  border-radius: 5px;
+  /* add border-radius for rounded corners */
+  outline: none;
+  /* remove default outline on focus */
+  height: 35px;
+  border-radius: 20px;
+  padding-left: 7px;
+}
+
+.search .search-icon {
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
+  height: 100%;
+  display: flex;
+  align-items: center;
+  padding: 0 10px;
+  pointer-events: none;
+}
+
+.search .search-icon i {
+  color: #aaa;
+  font-size: 16px;
+}
+
+/* SIDEBAR */
+/* The sidebar menu */
+#mySidebar {
+  height: 100%;
+  /* 100% Full-height */
+  width: 0;
+  /* 0 width - change this with JavaScript */
+  position: fixed;
+  /* Stay in place */
+  z-index: 1;
+  /* Stay on top */
+  top: 0;
+  left: 0;
+  background-color: #ffffff;
+  /* White*/
+  overflow-y: scroll;
+  overflow-x: hidden;
+  /* Disable horizontal scroll */
+  padding-top: 20px;
+  /* Place content 60px from the top */
+  transition: 0.5s;
+  /* 0.5 second transition effect to slide in the sidebar */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#scrollspace {
+  height: 10000px;
+}
+
+#stationTitle, #modelTitle {
+  text-align: center;
+  font-family: "Lucida Console", "Courier New", monospace;
+}
+
+/* The sidebar links */
+.sidebar a {
+  padding: 8px 8px 8px 32px;
+  text-decoration: none;
+  font-size: 25px;
+  color: #818181;
+  display: block;
+  transition: 0.3s;
+}
+
+/* When you mouse over the navigation links, change their color */
+.sidebar a:hover {
+  color: #f1f1f1;
+}
+
+#loading {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: none;
+}
+
+/* Position and style the close button (top right corner) */
+.sidebar .closebtn {
+  position: absolute;
+  top: 0;
+  right: 25px;
+  font-size: 36px;
+  margin-left: 50px;
+}
+
+.openbtn:hover {
+  background-color: #444;
+}
+
+/* Style page content - use this if you want to push the page content to the right when you open the side navigation */
+#main {
+  transition: margin-left .5s;
+  /* If you want a transition effect */
+  padding: 20px;
+}
+
+/* Chaneg the Google Chart */
+
+/* END OF SIDEBAR */
+/* NAVIGATION */
+
+
 .btn{
   border-radius: 50px;
   display: flex;
@@ -92,7 +217,7 @@ header {
   height: 30px;
 }
 
-.nav-functionality-container {
+#nav-functionality-container {
   display: flex;
   background-color: #fff;
 }
@@ -185,11 +310,10 @@ header {
 
 /* -------- */
 #weather-info {
-  margin-right: 5px;
+  /* margin-right: 5px; */
   border-radius: 50px;
   cursor: pointer;
   transition: transform 0.1s ease-in-out;
-
 }
 
 #weather-info:hover {

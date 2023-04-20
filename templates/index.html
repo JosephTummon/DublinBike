@@ -2,6 +2,7 @@
   <head>
     <title>Dublin Bikes</title>
     <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+    <script src="https://www.gstatic.com/charts/loader.js"></script>
     <link rel = "icon" href = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRnlkb-CEy6bhOsWRtUOASzFfh5K2z-HL6JDA&usqp=CAU" type = "image/x-icon"> 
     <script type="module" src="{{ url_for('static', filename='index.js') }}"></script>   
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}"/>
@@ -11,23 +12,89 @@
   <body id = "body">
     <!--Header-->
     <header id="header">
+      <div id = "search-nearest-btns">
+      <button id="search-nearest-bike">
+        <a>Target</a>
+        <i class="fa-solid fa-bicycle"></i>
+      </button>
+      <button id="search-nearest-stand">
+        <a>Target<br></a>
+        <i class="fa-solid fa-square-parking"></i>
+      </button>
+    </div>      
+        <div id="google_translate_element"></div>
+      
+
+
+
+        <div class="logo">
+            <h1><a id="icon-text" class="l" href="http://127.0.0.1:5000/"><span id="db">DB</span>ikes</a></h1>
+        </div>
+        <button id = "dark-mode-button">
+          <img id = "light-icon" src="{{ url_for('static', filename='images/sun.png') }}" alt="Translate logo">
+          <img id = "dark-icon" src="{{ url_for('static', filename='images/moon.png') }}" alt="Translate logo">
+        </button>
+        <button id = "translate_button"><img id = "translate-icon" src="{{ url_for('static', filename='images/google-translate-white.png') }}" alt="Translate logo">
+        </button>
+        <div id="weather-info"></div>
+    </header>
+
+
+        <!-- Side Bar-->
+        <div id="mySidebar" class="sidebar">
+          <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+          <div id="chartContainer">
+            <div id="stationTitle"></div>
+            <div id="PredictiveChart">
+            </div>
+          </div>
+          <div id="loading">
+            <img src="static/Loading.gif" alt="Loading...">
+          </div>
+      
+          <div id="Model">
+            <label id="modelTitle" for="availabletime">Check Station Availability:</label>
+            <form>
+              <input type="datetime-local" id="availabletime" name="availabletime">
+              <input type="submit">
+            </form>
+          </div>
+          <div id="displayPrediction"></div>
+        </div>
+
+      <button id="swap">
+        Swap
+      </button>
       <img id="header-img" rel="icon" src="/static/images/dblogo-removebg-preview.png" width="35" height="35" type="image/x-icon">
       <div class="logo">
           <h1><a id="icon-text" class="l" href="http://127.0.0.1:5000/"><span id="db">DB</span>ikes</a></h1>
       </div>
-      <div class="nav-functionality-container">
+      <div id="google_translate_element"></div>
+      <div id="nav-functionality-container">
           <div id="weather-info"></div>
           <div class="translate-btn">
-            <button id = "translate_button"><img src="{{ url_for('static', filename='images/google-translate.png') }}" alt="Translate logo"></button>
+            <button id = "translate_button">
+              <img id = "translate-black" src="{{ url_for('static', filename='images/google-translate.png') }}" alt="Translate logo">
+              <img id = "translate-white" src="{{ url_for('static', filename='images/google-translate-white.png') }}" alt="Translate logo">
+            </button>
           </div>
           <div class="dark-mode-btn">
             <button id = "dark-mode-button">
-              <img src="{{ url_for('static', filename='images/sun-removebg-preview.png') }}" alt="Translate logo" height="37" width="37">
+              <img id = "light-icon" src="{{ url_for('static', filename='images/sun-removebg-preview.png') }}" alt="Translate logo" height="37" width="37">
+              <img id = "dark-icon" src="{{ url_for('static', filename='images/moon.png') }}" alt="Translate logo" height="37" width="37">
             </button>
           </div>
       </div>
     </header>
     <div id="google_translate_element"></div>
+    <!--Map-->
+    <div id="main">
+
+
+
+
+   
+
     <!--Map-->
     <div id="map">
     </div>
@@ -118,22 +185,35 @@
 
     <div id="weather-popdown">
     </div>
+
+    
  
     <script
       src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDgYC8VXvS4UG9ApSUhS2v-ByddtHljFls&libraries=places&callback=initMap&v=weekly"
       defer
     ></script>
+    <script type="text/javascript">  
+      function googleTranslateElementInit() {  
+          new google.translate.TranslateElement(  
+              {pageLanguage: 'en',},  
+              'google_translate_element'  
+          );  
+      }  
+  </script>  
+
+  <!-- Script code for google translator API -->  
+  <script type="text/javascript"   
+  src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit">  
+  </script> 
+
     <script>
       function closeNav() {
         document.getElementById("mySidebar").style.width = "0";
-        document.getElementById("main").style.display = "0";
+        document.getElementById("main").style.marginLeft = "0";
       }
     </script>
      <!--  -->
 
-<!-- Script code for google translator API -->  
-  <script type="text/javascript"   
-  src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit">  
-  </script> 
+
   </body>
 </html> 
