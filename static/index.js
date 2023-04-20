@@ -582,6 +582,24 @@ function displayDropDown(stations) {
 }
 
 
+document.getElementById("swap").addEventListener("click", () =>{
+  var currentRoute = directionsRenderer.getDirections();
+  if (!currentRoute) {
+    alert("No route has been set yet");
+    return;
+  }
+  var old_origin = currentRoute.request.origin;
+  var old_destination = currentRoute.request.destination;
+  currentRoute.request.origin = old_destination;
+  currentRoute.request.destination = old_origin;
+
+  directionsService.route(currentRoute.request, function(result, status) {
+    if (status == 'OK') {
+      directionsRenderer.setDirections(result);
+    }
+  });
+});
+
   //code for nearest btns/////////////
     //make fresh array
     var duplicate_markerArray=[];
