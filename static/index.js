@@ -22,26 +22,6 @@ async function initMap() {
     styles: light_map
 });
 
-var selectDirectionsBtn = document.getElementById("get-directions");
-var findStations = document.getElementById("find-stations");
-
-const directionsContainer= document.getElementById("directions");
-const dropDown = document.getElementById("dropdown");
-
-selectDirectionsBtn.addEventListener("click", () => {   
-    directionsContainer.style.display = "block";
-    dropDown.style.display = "None";
-    selectDirectionsBtn.classList.add("active");
-    findStations.classList.remove("active");
-});
-
-findStations.addEventListener("click", () => {  
-    directionsContainer.style.display = "None";
-    dropDown.style.display = "Block";
-    selectDirectionsBtn.classList.remove("active"); 
-    findStations.classList.add("active");
-});
-
   const translate_button = document.getElementById("translate_button");
   var translate_vis = false;
   translate_button.addEventListener('click', function() {
@@ -141,35 +121,35 @@ findStations.addEventListener("click", () => {
   });
 
 
-var search_nearest_bike =document.getElementById("search-nearest-bike");
-search_nearest_bike.addEventListener("click", async function () {
-  if(!search_marker){
-    alert("Search for a station before clicking target bike")
-  }
-  else{
-    var target_coords = search_marker.position;
-    var sorted_array = sortLocationsByProximity(duplicate_markerArray, target_coords);
-    var nearest_stations = nearby_stations_with_x(sorted_array, "bikes");
-    var nearest_bike = await nearest_station(nearest_stations, target_coords, 'WALKING');
-    map.panTo(nearest_bike.position)
-    map.setZoom(map.getZoom() + 2);
-  }
-});
+// var search_nearest_bike =document.getElementById("search-nearest-bike");
+// search_nearest_bike.addEventListener("click", async function () {
+//   if(!search_marker){
+//     alert("Search for a station before clicking target bike")
+//   }
+//   else{
+//     var target_coords = search_marker.position;
+//     var sorted_array = sortLocationsByProximity(duplicate_markerArray, target_coords);
+//     var nearest_stations = nearby_stations_with_x(sorted_array, "bikes");
+//     var nearest_bike = await nearest_station(nearest_stations, target_coords, 'WALKING');
+//     map.panTo(nearest_bike.position)
+//     map.setZoom(map.getZoom() + 2);
+//   }
+// });
 
-var search_nearest_stand = document.getElementById("search-nearest-stand");
-search_nearest_stand.addEventListener("click", async function () {
-  if(!search_marker){
-    alert("Search for a station before clicking target stand")
-  }
-  else{  
-  var target_coords = search_marker.position;
-    var sorted_array = sortLocationsByProximity(duplicate_markerArray, target_coords);
-    var nearest_stations = nearby_stations_with_x(sorted_array, "stands");
-    var nearest_bike = await nearest_station(nearest_stations, target_coords, 'WALKING');
-    map.panTo(nearest_bike.position)
-    map.setZoom(map.getZoom() + 2);
-  }
-});
+// var search_nearest_stand = document.getElementById("search-nearest-stand");
+// search_nearest_stand.addEventListener("click", async function () {
+//   if(!search_marker){
+//     alert("Search for a station before clicking target stand")
+//   }
+//   else{  
+//   var target_coords = search_marker.position;
+//     var sorted_array = sortLocationsByProximity(duplicate_markerArray, target_coords);
+//     var nearest_stations = nearby_stations_with_x(sorted_array, "stands");
+//     var nearest_bike = await nearest_station(nearest_stations, target_coords, 'WALKING');
+//     map.panTo(nearest_bike.position)
+//     map.setZoom(map.getZoom() + 2);
+//   }
+// });
 
 
 
