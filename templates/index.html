@@ -9,6 +9,32 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
    
   </head>
+  <header id = "header">
+    <button id="swap">
+      Swap
+    </button>
+    <img id="header-img" rel="icon" src="/static/images/dblogo-removebg-preview.png" width="35" height="35" type="image/x-icon">
+    <div class="logo">
+        <h1><a id="icon-text" class="l" href="http://127.0.0.1:5000/"><span id="db">DB</span>ikes</a></h1>
+    </div>
+    <div id="google_translate_element"></div>
+    <div id="nav-functionality-container">
+        <div id="weather-info"></div>
+        <div class="translate-btn">
+          <button id = "translate_button">
+            <img id = "translate-black" src="{{ url_for('static', filename='images/google-translate.png') }}" alt="Translate logo">
+            <img id = "translate-white" src="{{ url_for('static', filename='images/google-translate-white.png') }}" alt="Translate logo">
+          </button>
+        </div>
+        <div class="dark-mode-btn">
+          <button id = "dark-mode-button">
+            <img id = "light-icon" src="{{ url_for('static', filename='images/sun-removebg-preview.png') }}" alt="Translate logo" height="37" width="37">
+            <img id = "dark-icon" src="{{ url_for('static', filename='images/moon.png') }}" alt="Translate logo" height="37" width="37">
+          </button>
+        </div>
+    </div>
+  </header>
+  <div id="google_translate_element"></div>
   <body id = "body">
 
     <!-- Side Bar-->
@@ -32,32 +58,7 @@
       </div>
       <div id="displayPrediction"></div>
     </div>
-    <header>
-      <button id="swap">
-        Swap
-      </button>
-      <img id="header-img" rel="icon" src="/static/images/dblogo-removebg-preview.png" width="35" height="35" type="image/x-icon">
-      <div class="logo">
-          <h1><a id="icon-text" class="l" href="http://127.0.0.1:5000/"><span id="db">DB</span>ikes</a></h1>
-      </div>
-      <div id="google_translate_element"></div>
-      <div id="nav-functionality-container">
-          <div id="weather-info"></div>
-          <div class="translate-btn">
-            <button id = "translate_button">
-              <img id = "translate-black" src="{{ url_for('static', filename='images/google-translate.png') }}" alt="Translate logo">
-              <img id = "translate-white" src="{{ url_for('static', filename='images/google-translate-white.png') }}" alt="Translate logo">
-            </button>
-          </div>
-          <div class="dark-mode-btn">
-            <button id = "dark-mode-button">
-              <img id = "light-icon" src="{{ url_for('static', filename='images/sun-removebg-preview.png') }}" alt="Translate logo" height="37" width="37">
-              <img id = "dark-icon" src="{{ url_for('static', filename='images/moon.png') }}" alt="Translate logo" height="37" width="37">
-            </button>
-          </div>
-      </div>
-    </header>
-    <div id="google_translate_element"></div>
+    
     <!--Map-->
     <div id="map">
     </div>
