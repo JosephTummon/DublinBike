@@ -745,6 +745,36 @@ function nearby_stations_with_x(array, x){
    return nearest;
 }
 
+const mapSearchBox = document.getElementById("pac-input");
+mapSearchBox.addEventListener('change', function() {
+  searchNearbyStations(mapSearchBox.value);
+});
+
+async function searchNearbyStations(location) {
+  const response = await fetch("/stations");
+  const data = await response.json();
+  console.log('fetch response', typeof data);
+
+  const geocoder = new google.maps.Geocoder();
+  geocoder.geocode({ address: location }, function(results, status) {
+    if (status === "OK") {
+      const latlng = results[0].geometry.location;
+
+      for (let i = 0; i < data.length; i++) {
+        const station = data[i];
+        const stationLatLng = new google.maps.LatLng(station.position.lat, station.position.lng);
+
+        if (google.maps.geometry.spherical.computeDistanceBetween(latlng, stationLatLng) <= 500) {
+          console.log(station);
+        }
+      }
+    } else {
+      console.log("Geocode was not successful for the following reason: " + status);
+    }
+  });
+}
+
+
 
 
 
