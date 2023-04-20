@@ -81,7 +81,7 @@ def update_data():
             time.sleep(60)
         return stations, weather
 
-@app.route("/predictions/<int:number>")
+@app.route("/predictionsold/<int:number>")
 def get_predictions(number):
     try:
         vals = {}
@@ -95,7 +95,76 @@ def get_predictions(number):
     
     except Exception as e:
         print(traceback.format_exc())
-        return "Error in get_stations: " + str(e), 404
+        return "Error in get_predictions: " + str(e), 404
+    
+@app.route("/predictions/<int:number>")
+def get_predict(number):
+    try:
+        WEATHERAPI = "http://api.openweathermap.org/data/2.5/forecast?lat=53.3498&lon=6.2603&appid=d5de0b0a9c3cc6473da7d0005b3798ac"
+        # Need to get Temperature, Wind Speed, Wind direction, Clouds 
+        text = requests.get(WEATHERAPI).text
+        forecast = json.loads(text)['list']
+        predictions = {}
+
+        text = requests.get(JCDEAUXAPI).text
+        stations = json.loads(text)
+        for station in stations:
+            if station['number'] == 42:
+                stand_number = station['bike_stands'] 
+                
+
+        # initialize predictions dictionary for all seven days of the week
+        for i in range(7):
+            predictions[i] = {}
+        
+        for i in forecast:
+            datetime_obj = datetime.fromtimestamp(i['dt'])
+            hour = int(datetime_obj.strftime("%H"))
+            day = int(datetime_obj.weekday())
+
+            for j in range(5):
+                df = pd.DataFrame(columns=["number","temp", "wind_speed","wind_direction","clouds","hour",'weekday_or_weekend_weekday','weekday_or_weekend_weekend'])
+                df.loc[0, "number"] = number
+                df.loc[0, "temp"] = i["main"]["temp"]
+                df.loc[0, "wind_speed"] = i["wind"]["speed"]
+                df.loc[0, "wind_direction"] = i["wind"]["deg"]
+                df.loc[0, "clouds"] = i["clouds"]["all"]
+
+                # Check in case it has gone into the next day
+                if (hour + j) >= 24:
+                    day += 1
+                    if day == 7:
+                        day = 0
+                    hour -= 24
+                df.loc[0, "hour"] = hour + j
+                if day < 5:
+                    df.loc[0, "weekday_or_weekend_weekend"] = 0
+                    df.loc[0, "weekday_or_weekend_weekday"] = 1
+                else:
+                    df.loc[0, "weekday_or_weekend_weekend"] = 1
+                    df.loc[0, "weekday_or_weekend_weekday"] = 0
+                prediction = int(model.predict(df).tolist()[0])
+                predictions[day][hour+j] = prediction
+        for j in range(7):
+            for i in range(24):
+                try:
+                    a = predictions[j][i]
+                except:
+                    df.loc[0, "hour"] = i
+                    day = j
+                    if day < 5:
+                        df.loc[0, "weekday_or_weekend_weekend"] = 0
+                        df.loc[0, "weekday_or_weekend_weekday"] = 1
+                    else:
+                        df.loc[0, "weekday_or_weekend_weekend"] = 1
+                        df.loc[0, "weekday_or_weekend_weekday"] = 0
+                    predictions[j][i] = int(model.predict(df).tolist()[0])
+        predictions[8] = stand_number
+        return predictions
+    
+    except Exception as e:
+        print(traceback.format_exc())
+        return "Error in get_predict: " + str(e), 404
     
 
 @app.route("/averages/<int:number>")
@@ -115,7 +184,7 @@ def get_averages(number):
     
     except Exception as e:
         print(traceback.format_exc())
-        return "Error in get_stations: " + str(e), 404
+        return "Error in get_averages: " + str(e), 404
     
 if __name__ == "__main__":
     # Start a new thread to continuously update the data
