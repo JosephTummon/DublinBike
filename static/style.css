@@ -406,8 +406,8 @@ html, body {
 
 #directions {
   display: flex;
-  justify-content: space-around;
-  border: 1px solid black;
+  flex-wrap: nowrap;
+  margin-top: 10px;
 }
 /* 
 #get-directions:hover {
@@ -420,37 +420,31 @@ html, body {
   color: #38bdf8;
 } */
 
-#get-directions.active {
-  border-bottom: 2px solid #3897d3;
-}
-
-#find-stations.active {
-  border-bottom: 2px solid #3897d3;
-}
-
-#search-station {
-  border: 1px solid black;
-}
-
-#search-station-conatiner {
-  display: flex;
+#search-station-container {
   background-color: #fff;
   text-align: center;
   font-family: "Roboto", "sans-serif";
-}
-
-#search-station-conatiner div {
   margin-top: 15px;
-  margin-right: 35px;
+  margin: 0 auto;
+  height: 100px;
 }
 
 .search {
   display: flex;
+  flex-wrap: nowrap;
   border: 2px solid ghostwhite;
   padding: 0;
   height: 50px;
   border-radius: 15px;
-  padding-left: 10px;
+  width: 700px;
+  margin-left: 60px;
+  margin-top: 17px;
+  height: 43px;
+}
+
+.search i {
+  margin-top: 12px;
+  margin-right: 4px;
 }
 
 .search:hover {
@@ -460,8 +454,7 @@ html, body {
 #go {
   border: none;
   background-color: ghostwhite;
-  height: 50px;
-  width: 50px;
+  height: 43px;
   color: #18181b;
   text-decoration: none;
   font-size: 16px;
@@ -483,8 +476,8 @@ html, body {
 }
 
 #start-input, #end-input {
-  height: 50px;
-  width: 300px;
+  height: 43px;
+  width: 325px;
   background: transparent;
   border: 0;
   outline: 0;
@@ -521,26 +514,26 @@ html, body {
   background-color: #fff;
   text-align: center;
   font-family: "Roboto", "sans-serif";
-  background-color: #fff;
-  height: 150px;
+  background-color: #fff; 
+  margin-top: 10px;
+  padding-right: 95px;
+  width: 500px;
 }
 
 #dropdown-container {
   padding: 5px;
   text-align: center;
-  line-height: 30px;
-  padding-left: 10px;
+  border-left: 2px solid #00a4d3;
 }
 
 #option {
   border: 2px solid ghostwhite;
   padding: 0;
-  height: 45px;
-  width: 300px;
   border-radius: 15px;
   font-family: "Roboto", "sans-serif";
   font-size: 13px;
-  height: 50px;
+  height: 49px;
+  width: 400px;
 }
 
 #option:hover {
@@ -558,13 +551,6 @@ html, body {
 }
 
 /*End of added code*/
-
-#search-station-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 10vh; /* or whatever height you want */
-}
 
 /*styling the location button */
 .custom-map-control-button {
