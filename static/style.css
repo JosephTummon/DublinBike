@@ -543,7 +543,7 @@ button.gm-ui-hover-effect {
 
 #go {
   border: none;
-  background-color: ghostwhite;
+  background-color: lightblue;
   height: 50px;
   width: 50px;
   color: #18181b;
@@ -615,7 +615,7 @@ button.gm-ui-hover-effect {
   line-height: 30px;
   width: 400px;
   padding-right: 40px;
-  border-left: 2px solid #00a4d3;
+  border-left: 2px solid lightblue;
 }
 
 #option {
@@ -695,13 +695,12 @@ button.gm-ui-hover-effect {
   border-width: 0px;
   color:white;
   cursor: pointer;
-  background-color: white;
+  background-color: lightblue;
   color: #18181b;
   transition: transform 0.1s ease-in-out;
 }
 
 #nearest-bike:hover {
-  background-color: #3897d3;
   color: white;
 }
 
@@ -738,13 +737,13 @@ button.gm-ui-hover-effect {
   border-width: 0px;
   color:white;
   cursor: pointer;
-  background-color: white;
+  background-color: lightblue;
   color: #18181b;
   transition: transform 0.1s ease-in-out;
 }
 
 #nearest-stand:hover {
-  background-color: #3897d3;
+
   color: white;
 }
 

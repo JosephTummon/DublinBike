@@ -1000,6 +1000,7 @@ dark_mode_button.addEventListener("click", () => {
     //search_nearest_div.style.backgroundColor = "white";
     document.querySelectorAll(".BlueGreenBackgroundColor").forEach(element => element.style.backgroundColor = "lightblue");
 
+    document.getElementById("dropdown-container").style.borderLeft="2px solid lightblue";
     document.getElementById("icon-text").style.color="black";
     document.getElementById("dark-icon").style.display="none";
     document.getElementById("light-icon").style.display="";
@@ -1054,6 +1055,7 @@ dark_mode_button.addEventListener("click", () => {
     //search_nearest_stand.style.backgroundColor = "lightgreen";
     //search_nearest_div.style.backgroundColor = "black";
 
+    document.getElementById("dropdown-container").style.borderLeft="2px solid lightgreen";
     document.getElementById("icon-text").style.color="white";
     document.getElementById("light-icon").style.display="none";
     document.getElementById("dark-icon").style.display="";
