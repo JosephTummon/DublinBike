@@ -233,12 +233,14 @@ async function initMap() {
 
 ////////////CODE TO OVERLAY BUTTONS ON MAP /////////////////////
   const buttons = document.getElementById("button-div");
+  const route_buttons = document.getElementById("location-buttons1");
   const location_buttons = document.getElementById("location-buttons");
   const locateNearest = document.getElementById("nearest-btn");
   const search_nearest_div = document.getElementById("search-nearest-btns");
   map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
   map.controls[google.maps.ControlPosition.LEFT_TOP].push(search_nearest_div);
   map.controls[google.maps.ControlPosition.TOP_CENTER].push(buttons);
+  map.controls[google.maps.ControlPosition.BOTTOM_CENTER].push(route_buttons);
   map.controls[google.maps.ControlPosition.RIGHT_TOP].push(location_buttons);
   map.controls[google.maps.ControlPosition.BOTTOM_RIGHT].push(locateNearest);
 /////////////////END OF MAP OVERLAY CODE ///////////////////////

@@ -720,6 +720,8 @@ button.gm-ui-hover-effect {
   width: 190px;
 }
 
+
+
 #nearest-bike {
   display: flex;
   top: 20px;
@@ -734,6 +736,8 @@ button.gm-ui-hover-effect {
   color: #18181b;
   transition: transform 0.1s ease-in-out;
 }
+
+
 
 #nearest-bike:hover {
   background-color: #3897d3;
@@ -804,6 +808,105 @@ button.gm-ui-hover-effect {
 }
 
 
+/*COPY FOR CLEAR SWAP BUTTONS*/
+#location-buttons1{
+  border-radius: 35px;
+  margin-right: 40px;
+  margin-top: 15px;
+  display: flex;
+  justify-content: space-between;
+  width: 100px;
+  margin-bottom: 20px;
+}
+
+
+
+#nearest-bike1 {
+  display: flex;
+  top: 20px;
+  background-color: #3897d3;
+  border-radius: 35px;
+  height:50px;
+  width:90px;
+  border-width: 0px;
+  color:white;
+  cursor: pointer;
+  background-color: white;
+  color: #18181b;
+  transition: transform 0.1s ease-in-out;
+  border-left: 10px;
+}
+
+
+
+#nearest-bike1:hover {
+  background-color: #3897d3;
+  color: white;
+}
+
+#nearest-bike1:active {
+  font-size: 10px;
+  transform: translateY(4px);
+}
+
+#nearest-bike1 .nearest-bike-div1 {
+  display: flex;
+  padding-top: 7px;
+  padding-left: 10px;
+}
+
+.nearest-bike-div1 i {
+  margin-top: 15px;
+  margin-right: 0px;
+}
+
+.nearest-bike-div1 a {
+  margin-top: 7px;
+}
+
+
+
+#nearest-stand1{
+  display: flex;
+  top: 20px;
+  border-radius: 35px;
+  height:50px;
+  width:90px;
+  border-width: 0px;
+  color:white;
+  cursor: pointer;
+  background-color: white;
+  color: #18181b;
+  transition: transform 0.1s ease-in-out;
+}
+
+#nearest-stand1:hover {
+  background-color: #3897d3;
+  color: white;
+}
+
+#nearest-stand1:active {
+  font-size: 10px;
+  transform: translateY(4px);
+}
+
+#nearest-stand1 .nearest-stand-div1 {
+  display: flex;
+  padding-top: 7px;
+  padding-left: 15px;
+}
+
+.nearest-stand-div1 i {
+  margin-top: 17px;
+  margin-right: 7px;
+}
+
+.nearest-stand-div1 a {
+  margin-top: 7px;
+}
+
+/*END OF COPY*/
+
 /* Nearest Bike/Parking from Search*/
 
 #search-nearest-bike{
@@ -835,20 +938,7 @@ button.gm-ui-hover-effect {
   margin-top: 10px;
 }
 
-#clear-directions {
-  border: none;
-  background-color: ghostwhite;
-  height: 50px;
-  width: 50px;
-  color: #18181b;
-  text-decoration: none;
-  font-size: 16px;
-  font-weight: 400;
-  cursor: pointer;
-  border-bottom-left-radius: 15px;
-  border-top-left-radius: 15px;
-  transition: background-color .1s ease-in, transform .1s ease-in;
-}
+
 
 
 #locationButton{
@@ -859,3 +949,4 @@ button.gm-ui-hover-effect {
   display:none;
   z-index: 1;
 } 
+
