@@ -873,6 +873,9 @@ b1.style.color = "black";
 b1.style.zIndex = "100";
 })
 
+document.getElementById("translate-white").style.display = "none";
+document.getElementById("dark-icon").style.display = "none";
+
 var dark_mode_button = document.getElementById("dark-mode-button");
 dark_mode_button.addEventListener("click", () => {
   if(is_light == true){
@@ -896,14 +899,14 @@ dark_mode_button.addEventListener("click", () => {
     //document.getElementById("find-stations").style.color = "black";
     document.getElementById("directions").style.backgroundColor = "white";
     //document.getElementById("search-station-container").style.backgroundColor = "white";
-    document.getElementById("dark-mode-button").style.backgroundColor = "lightblue";
+    document.getElementById("dark-mode-button").style.backgroundColor = "white";
     document.getElementById("header").style.backgroundColor = "white";
     document.getElementById("db").style.color = "lightblue";
     document.getElementById("icon-text").style.color = "black";
     document.getElementById("weather").style.backgroundColor = "white";
 
-    //document.getElementById("dark-icon").style.display="none";
-    //document.getElementById("light-icon").style.display="";
+    document.getElementById("dark-icon").style.display="none";
+    document.getElementById("light-icon").style.display="";
     document.getElementById("button-div").style.backgroundColor = "white";
     document.getElementById("body").style.backgroundColor = "white";
     document.getElementById("dropdown").style.backgroundColor = "white";
@@ -916,12 +919,13 @@ dark_mode_button.addEventListener("click", () => {
     document.getElementById("dest_marker").style.color = "lightblue";
     document.getElementById("weather-info").style.backgroundColor = "white";
     document.getElementById("weather").style.color= "black";
-    document.getElementById("translate_button").style.backgroundColor= "lightblue";
+    document.getElementById("translate_button").style.backgroundColor= "white";
     document.getElementById("pac-input").style.backgroundColor= "white";
     document.getElementById("pac-input").style.color= "black";
     document.getElementById("nav-functionality-container").style.color= "white";
     document.getElementById("weather-info").style.marginRightColor= "white";
-
+    document.getElementById("translate-black").style.display = "";
+    document.getElementById("translate-white").style.display = "none";
 
 
       if (is_bikes == true){
@@ -974,9 +978,9 @@ dark_mode_button.addEventListener("click", () => {
     //document.getElementById("select-service-container").style.color="black";
     //document.getElementById("get-directions").style.color = "white";
     //document.getElementById("find-stations").style.color = "white";
-    document.getElementById("dark-mode-button").style.backgroundColor = "lightgreen";
-    //document.getElementById("light-icon").style.display="none";
-    //document.getElementById("dark-icon").style.display="";
+    document.getElementById("dark-mode-button").style.backgroundColor = "black";
+    document.getElementById("light-icon").style.display="none";
+    document.getElementById("dark-icon").style.display="";
     document.getElementById("header").style.backgroundColor = "black";
     document.getElementById("db").style.color = "lightgreen";
     document.getElementById("icon-text").style.color = "white";
@@ -998,7 +1002,9 @@ dark_mode_button.addEventListener("click", () => {
     document.getElementById("pac-input").style.color= "white";
     document.getElementById("nav-functionality-container").style.color= "black";
     document.getElementById("weather-info").style.marginRightColor= "black";
-     
+    document.getElementById("translate-black").style.display = "none";
+    document.getElementById("translate-white").style.display = "";
+ 
     if (is_bikes == true){
       b1.style.backgroundColor = "lightgreen";
       b1.style.color = "white";

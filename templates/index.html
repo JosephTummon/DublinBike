@@ -18,11 +18,15 @@
       <div id="nav-functionality-container">
           <div id="weather-info"></div>
           <div class="translate-btn">
-            <button id = "translate_button"><img src="{{ url_for('static', filename='images/google-translate.png') }}" alt="Translate logo"></button>
+            <button id = "translate_button">
+              <img id = "translate-black" src="{{ url_for('static', filename='images/google-translate.png') }}" alt="Translate logo">
+              <img id = "translate-white" src="{{ url_for('static', filename='images/google-translate-white.png') }}" alt="Translate logo">
+            </button>
           </div>
           <div class="dark-mode-btn">
             <button id = "dark-mode-button">
-              <img src="{{ url_for('static', filename='images/sun-removebg-preview.png') }}" alt="Translate logo" height="37" width="37">
+              <img id = "light-icon" src="{{ url_for('static', filename='images/sun-removebg-preview.png') }}" alt="Translate logo" height="37" width="37">
+              <img id = "dark-icon" src="{{ url_for('static', filename='images/moon.png') }}" alt="Translate logo" height="37" width="37">
             </button>
           </div>
       </div>
