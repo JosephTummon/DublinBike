@@ -843,6 +843,7 @@ function drawChart(number) {
       chart_data.addRows(rows);
       const options = {
         titlePosition: 'none',
+        hAxis: {title: 'Week_Day_No'},
         width: "700",
         height: "450",
         chartArea: { 'width': '75%', bottom: 15, 'height': '80%' },

@@ -139,6 +139,7 @@ def get_predict(number):
                     df.loc[0, "weekday_or_weekend_weekday"] = 0
                 prediction = int(model.predict(df).tolist()[0])
                 predictions[day][hour+j] = prediction
+
         return predictions
     
     except Exception as e:
