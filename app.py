@@ -109,7 +109,7 @@ def get_predict(number):
         text = requests.get(JCDEAUXAPI).text
         stations = json.loads(text)
         for station in stations:
-            if station['number'] == 42:
+            if station['number'] == number:
                 stand_number = station['bike_stands'] 
                 
 

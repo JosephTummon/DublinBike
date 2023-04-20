@@ -952,11 +952,29 @@ function drawChart(number) {
       chart_data.addRows(rows);
       const options = {
         titlePosition: 'none',
-        hAxis: {title: 'Week_Day_No'},
+        hAxis: {
+          title: 'Week Day',
+          textStyle: {
+            color: '#000000'
+          },
+          titleTextStyle: {
+            color: '#000000'
+          }
+        },
+        vAxis: {
+          title: 'Number of Bikes',
+          textStyle: {
+            color: '#000000'
+          },
+          titleTextStyle: {
+            color: '#000000'
+          }
+        },
         width: "700",
         height: "450",
         chartArea: { 'width': '75%', bottom: 15, 'height': '80%' },
-        legend: { position: "bottom" }
+        legend: { position: "bottom" },
+        colors: ['#3897d3', '#9bc3ca']
       };
       loadingDiv.style.display = "none"; // hide the loading animation 
 
