@@ -105,7 +105,14 @@ def get_predict(number):
         text = requests.get(WEATHERAPI).text
         forecast = json.loads(text)['list']
         predictions = {}
-        
+
+        text = requests.get(JCDEAUXAPI).text
+        stations = json.loads(text)
+        for station in stations:
+            if station['number'] == 42:
+                stand_number = station['bike_stands'] 
+                
+
         # initialize predictions dictionary for all seven days of the week
         for i in range(7):
             predictions[i] = {}
@@ -129,7 +136,6 @@ def get_predict(number):
                     if day == 7:
                         day = 0
                     hour -= 24
-
                 df.loc[0, "hour"] = hour + j
                 if day < 5:
                     df.loc[0, "weekday_or_weekend_weekend"] = 0
@@ -139,7 +145,21 @@ def get_predict(number):
                     df.loc[0, "weekday_or_weekend_weekday"] = 0
                 prediction = int(model.predict(df).tolist()[0])
                 predictions[day][hour+j] = prediction
-
+        for j in range(7):
+            for i in range(24):
+                try:
+                    a = predictions[j][i]
+                except:
+                    df.loc[0, "hour"] = i
+                    day = j
+                    if day < 5:
+                        df.loc[0, "weekday_or_weekend_weekend"] = 0
+                        df.loc[0, "weekday_or_weekend_weekday"] = 1
+                    else:
+                        df.loc[0, "weekday_or_weekend_weekend"] = 1
+                        df.loc[0, "weekday_or_weekend_weekday"] = 0
+                    predictions[j][i] = int(model.predict(df).tolist()[0])
+        predictions[8] = stand_number
         return predictions
     
     except Exception as e:

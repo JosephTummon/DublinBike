@@ -873,7 +873,9 @@ function getPrediction(number, dayOfWeek, hour) {
   fetch(`/predictions/${number}`)
     .then(response => response.json())
     .then(data => {
-      document.getElementById("displayPrediction").innerHTML = "Number of available bikes: " + data[dayOfWeek][hour];
+      document.getElementById("displayPrediction").innerHTML = "<p> Number of available bikes: " + data[dayOfWeek][hour] + "</p>";
+      var stands = data[8] - data[dayOfWeek][hour];
+      document.getElementById("displayPrediction").innerHTML += "<p> Number of available stands:" + stands + "</p>";
       console.log(data[dayOfWeek][hour]);
     });
 }
