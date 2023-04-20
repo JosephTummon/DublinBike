@@ -24,7 +24,7 @@ async function initMap() {
 });
 
 
-//styling the translate button, on click toggles to make translate element visible or invisible
+//////////////////////TRANSLATE VISIBILITY BUTTON///////////////////////////////
   const translate_button = document.getElementById("translate_button");
   var translate_vis = false;
 
@@ -38,7 +38,7 @@ async function initMap() {
         translate_vis = false;
     }
   });
-
+/////////////////////END OF TRANSLATE VISIBILITY//////////////////////////////
 
 
 
@@ -324,17 +324,19 @@ function displayWeather(data) {
           weatherPopDown.style.display = "none";
         });
   }
-
   /////////////END OF MANIPULATING WEATHER DATA/////////////////////////
 
+
+
+  /////////////STATION TO STATION DIRECTIONS///////////////////////////BILL COMMENT THIS SECTION & EXPLAIN
   function displayInputBox(stations) {
     const stationList = [];
     const start = document.getElementById("start-input");
     const end = document.getElementById("end-input");
 
-    // Create and append options to dropdown
+    // Create and append stations options to dropdown
     stations.forEach(station => {
-        stationList.push(station.name);
+        stationList.push(station.name); //make a list of station names
     });
 
     start.onkeyup = function() {
@@ -401,15 +403,17 @@ function displayWeather(data) {
         }
     };
 }
-  // ***** CODE FOR ADDING MARKERS AND INFO-WIDOW*****
+///////////////////////END OF STATION TO STATION DIRECTIONS///////////////////////////////
 
+
+//////////////////////ADD MARKERS AND INFO WINDOWS TO MAP////////////////////////////////
   // Displays the station data on the map as markers and info windows
   function addMarkers(stations) {
     // Create arrays to store the markers and info windows
     const infoWindowArray = [];
     // Loop through each station and create a marker and info window for it
     for (const station of stations) {
-      // Create a new marker for the station
+      // Create a new marker for each station
       var marker = createMarker(station);
       markerArray.push(marker);
 
@@ -419,7 +423,7 @@ function displayWeather(data) {
 
       // Attach listeners to show and hide the info window when the marker is hovered over
       attachInfoWindowListeners(marker, infoWindow);
-      marker.addListener("click", () => {
+      marker.addListener("click", () => {  //when marker is clicked opens sidebar infowindow
         google.charts.load('current', { 'packages': ['corechart'] });
         drawChart(station.number);
         document.getElementById("mySidebar").style.width = "650px";
@@ -434,7 +438,7 @@ function displayWeather(data) {
     var marker = new google.maps.Marker({
       position: myLatlng,
       map: map,
-      icon: {
+      icon: { //style icon as plain white circle for aesthetics and avoid confusion with user markers
         url: 'data:image/svg+xml;charset=UTF-8,' +
           encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"><circle cx="16" cy="16" r="16" stroke="#000000" stroke-width="1" fill="#FFFFFF"/></svg>'),
         scaledSize: new google.maps.Size(32, 32),
@@ -446,32 +450,33 @@ function displayWeather(data) {
       free_stands: station.available_bike_stands,
       
     });  
-    marker.setLabel(station.available_bikes.toString());
+    marker.setLabel(station.available_bikes.toString()); //display num of available bikes on marker icon
     
-    
+
+
+    ///////////////////////////CODE TO MAKE BIKES->STANDS TOGGLE//////////////// 
     //Toggle code to change num on station pin
     const toggleButton1 = document.getElementById("btn1");
     toggleButton1.addEventListener("click", () => {    
-        marker.setLabel(station.available_bikes.toString());});
+        marker.setLabel(station.available_bikes.toString());
+        btn1.classList.add("active");
+        btn2.classList.remove("active");
+      });
     const toggleButton2 = document.getElementById("btn2");
     toggleButton2.addEventListener("click", () => {    
-        marker.setLabel(station.available_bike_stands.toString());});
-    
-    toggleButton1.addEventListener("click", () => {
-      btn1.classList.add("active");
-      btn2.classList.remove("active");
-    });
-    
-    toggleButton2.addEventListener("click", () => {
-      btn1.classList.remove("active");
-      btn2.classList.add("active");
-    });
-    return marker;
+        marker.setLabel(station.available_bike_stands.toString());
+        btn1.classList.remove("active");
+        btn2.classList.add("active");
+      });
+    //////////////////////////END OF BIKES->STANDS TOGGLE////////////////////////
+      return marker;
   }
+      ////////////////////////////END OF MARKERS///////////////////////////////////
 
-  // Creates a new info window object for the given station
+      ////////////////////////////INFO WINDOWS DETAILS//////////////////////////////
+  // Creates a new info window object for the given station, called when creating each marker 
   function createInfoWindow(station) {
-    // Variable to change height of all bars
+    // Variable to change height of all bars in sidebar chart
     const height = 5;
     const height1 = station.prediction0 * height;
     const height2 = station.prediction1 * height;
@@ -481,6 +486,7 @@ function displayWeather(data) {
     const height6 = station.prediction5 * height;
     const height7 = station.prediction6 * height;
     const height8 = station.prediction7 * height;
+    //hover info windows information
     const contentString = `
       <div class="info-window">
         <h1>${station.address}</h1>
@@ -520,6 +526,10 @@ function displayWeather(data) {
     });
   }
 
+  /////////////////////////END OF INFO WINDOW CODE/////////////////////
+
+
+  /////////////////////////CODE FOR FIND STATION DROPDOWN////////////////////////////
   var markers = []; // Array to store markers
 
   // Function to display drop down for stations
@@ -536,6 +546,7 @@ function displayDropDown(stations) {
   
     // Add event listener for change event on dropdown
     dropdown.addEventListener("change", function() {
+    //remove old marker off map
     markers.forEach(marker => {
         marker.setMap(null);
         });
@@ -563,26 +574,31 @@ function displayDropDown(stations) {
       }
     });
 }
+/////////////////////END OF FIND STATION DROPDOWN CODE/////////////////////////
 
-
+/////////////////////SWAP ORIGIN-DESTINATION BUTTON/////////////////////////
 document.getElementById("swap").addEventListener("click", () =>{
-  var currentRoute = directionsRenderer.getDirections();
-  if (!currentRoute) {
+
+  var currentRoute = directionsRenderer.getDirections(); //get var of current directions
+  if (!currentRoute) { //in case clicked before directions generated
     alert("No route has been set yet");
     return;
   }
+  //swap values
   var old_origin = currentRoute.request.origin;
   var old_destination = currentRoute.request.destination;
   currentRoute.request.origin = old_destination;
   currentRoute.request.destination = old_origin;
 
+  //update directions with new route with new values
   directionsService.route(currentRoute.request, function(result, status) {
     if (status == 'OK') {
       directionsRenderer.setDirections(result);
+    } else {
+      alert("There was an error swapping directions");
     }
   });
 
-  
     // get the values of the two input boxes
     var input1 = document.getElementById('start-input');
     var input2 = document.getElementById('end-input');
@@ -590,33 +606,33 @@ document.getElementById("swap").addEventListener("click", () =>{
       var old_dest_input = input1.value;
       var old_orig_input = input2.value;
     
-      // swap the values
+      // swap the input box values
       input1.value = old_orig_input;
       input2.value = old_dest_input;
     }
     
-  
 });
 
-  //code for nearest btns/////////////
-    //make fresh array
-    var duplicate_markerArray=[];
-    for (let i = 0; i < markerArray.length; i++){
-    duplicate_markerArray.push(markerArray[i]);
-    }
+/////////////////////END OF SWAP ORIGIN-DESTINATION BUTTON/////////////////////////
 
 
+///////////////////CODE FOR USER-NEAREST BUTTONS///////////////////////////
+  //make fresh array copy to protect original
+  var duplicate_markerArray=[];
+  for (let i = 0; i < markerArray.length; i++){
+  duplicate_markerArray.push(markerArray[i]);
+  }
+
+//when user bike button clicked...
 const nearest_bike_btn = document.getElementById("nearest-bike");
 nearest_bike_btn.addEventListener("click", async () => {
-    var user_coords = await getUserLocation();
-    //console.log("type of "+ typeof(user_coords));
-    var sorted_array = sortLocationsByProximity(duplicate_markerArray, user_coords);
-    var nearest_stations = nearby_stations_with_x(sorted_array, "bikes");
-    var nearest_bike = await nearest_station(nearest_stations, user_coords, 'WALKING');
-    var nearest_bike_coords = nearest_bike.position;
-    //map.panTo(nearest_bike.position)
-    //map.setZoom(map.getZoom() + 2);
-    //show directions instead
+    var user_coords = await getUserLocation(); //get user latlng
+    var sorted_array = sortLocationsByProximity(duplicate_markerArray, user_coords);//sort array by proximity to user as crow flies
+    var nearest_stations = nearby_stations_with_x(sorted_array, "bikes");//get shortlist of nearest stations WITH BIKES
+    var nearest_bike = await nearest_station(nearest_stations, user_coords, 'WALKING'); //call directions api on each station to find true closest
+    var nearest_bike_coords = nearest_bike.position; //extract station latlng
+  
+    //show directions 
     var request = {
       origin: user_coords,
       destination: nearest_bike_coords,
@@ -629,16 +645,14 @@ nearest_bike_btn.addEventListener("click", async () => {
     });
 });
 
+//repeat method for stands
 const nearest_stand_btn = document.getElementById("nearest-stand");
 nearest_stand_btn.addEventListener("click", async () => {
     var user_coords = await getUserLocation();
-        //console.log("type of "+ typeof(user_coords));
         var sorted_array = sortLocationsByProximity(duplicate_markerArray, user_coords);
         var nearest_stations = nearby_stations_with_x(sorted_array, "stands");
         var nearest_stand = await nearest_station(nearest_stations, user_coords, 'BICYCLING');
         var nearest_stand_coords = nearest_stand.position;
-        //map.panTo(nearest_bike.position)
-        //map.setZoom(map.getZoom() + 2);
         var request = {
           origin: user_coords,
           destination: nearest_stand_coords,
@@ -651,9 +665,10 @@ nearest_stand_btn.addEventListener("click", async () => {
         });
 });
 
+//calculating the distance between markers using Haversine equation
 function distance_tween_points(latlng1, latlng2) {
     var R = 6371; // Radius of the earth in km
-    var dLat = (latlng2.lat() - latlng1.lat()) * Math.PI / 180; // deg2rad below
+    var dLat = (latlng2.lat() - latlng1.lat()) * Math.PI / 180; 
     var dLon = (latlng2.lng() - latlng1.lng()) * Math.PI / 180;
     var a =
       Math.sin(dLat / 2) * Math.sin(dLat / 2) +
@@ -666,7 +681,7 @@ function distance_tween_points(latlng1, latlng2) {
   }
   
   
-
+  //sorting based on proximity
   function sortLocationsByProximity(locations, userPos) {
     locations.sort(function(a, b) {
       var distA = distance_tween_points(a.position, userPos);
@@ -676,15 +691,11 @@ function distance_tween_points(latlng1, latlng2) {
     return locations;
   }
   
-  
-
 // Instantiate a directions service.
 const directionsService = new google.maps.DirectionsService();  
 // Create a renderer for directions and bind it to the map.
 const directionsRenderer = new google.maps.DirectionsRenderer({ map: map });
 
-
-  
 
 //func takes array of locssorted by proximity to user 
 //makes new subset array of locations with bikes
@@ -724,7 +735,7 @@ function nearby_stations_with_x(array, x){
 
 
 
-
+//checks shortlist to see which is closest by road not as crow flies
 async function nearest_station(array, lat_lng, mode){
     var nearest_station;
     var min_dist = Infinity;
@@ -765,47 +776,31 @@ async function nearest_station(array, lat_lng, mode){
     return nearest_station;
 }
 
+////////////////////USER-NEAREST BUTTONS////////////////////////
 
+////////////////////CODE FOR STATION-STATION DIRECTIONS///////////////////
 
-
-
-  //***** CODE FOR DIRECTIONS *****
-  let markerArray1 = []
-
-  // Instantiate an info window to hold step text.
-  const stepDisplay = new google.maps.InfoWindow();
-
-  
-const button = document.getElementById("go");
+//get go and clear buttons from html doc
+const go_button = document.getElementById("go");
 const clear_button = document.getElementById("clear-directions");
 
 // Add event listener to the button element
-button.addEventListener("click", function() {
+go_button.addEventListener("click", function() {
     // Call the calculateAndDisplayRoute function when the button is clicked
-    calculateAndDisplayRoute(directionsRenderer, directionsService, markerArray1, stepDisplay, map);
+    calculateAndDisplayRoute(directionsRenderer, directionsService, map);
   });
-  
-// clear_button.addEventListener("click", function() {
-// for (let i = 0; i < markerArray1.length; i++) {
-//     markerArray1[i].setMap(null);
-//     }
-//     directionsRenderer.setDirections({routes: []}); // Remove directions line    
-// });
 
-
-function calculateAndDisplayRoute(
-  directionsRenderer,
-  directionsService,
-  markerArray1,
-  stepDisplay,
-  map
-) {
-  // First, remove any existing markers from the map.
-  for (let i = 0; i < markerArray1.length; i++) {
-    markerArray1[i].setMap(null);
+//clear on-map directions service
+clear_button.addEventListener("click", function() {
+  var currentRoute = directionsRenderer.getDirections(); //get var of current directions
+  if (!currentRoute) { //in case clicked before directions generated
+    alert("No route has been set yet");
+    return;
   }
+     directionsRenderer.setDirections({routes: []}); // Remove directions line    
+ }); 
 
-
+function calculateAndDisplayRoute(directionsRenderer,directionsService, map) {
   // Retrieve the start and end locations and create a DirectionsRequest using
   // WALKING directions.
   directionsService
@@ -815,57 +810,17 @@ function calculateAndDisplayRoute(
       travelMode: google.maps.TravelMode.BICYCLING,
     })
     .then((result) => {
-      // Route the directions and pass the response to a function to create
-      // markers for each step.
-    //   document.getElementById("warnings-panel").innerHTML =
-    //     "<b>" + result.routes[0].warnings + "</b>";
+      // Route the directions and pass the response to a function to create markers for each step.
       directionsRenderer.setDirections(result);
-      showSteps(result, markerArray1, stepDisplay, map);
     })
     .catch((e) => {
       window.alert("Enter a valid Address");
     });
 }
-
-// const arrowIcon = {
-//     path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW, // arrow shape
-//     strokeColor: '#000000', // arrow color
-//     strokeWeight: 2, // arrow stroke weight
-//     fillColor: '#FFFFFF', // fill color
-//     fillOpacity: 1, // fill opacity
-//     scale: 5, // arrow size
-//     rotation: 0 // initial rotation angle
-//   };
-
-function showSteps(directionResult, markerArray1, stepDisplay, map) {
-  // For each step, place a marker, and add the text to the marker's infowindow.
-  // Also attach the marker to an array so we can keep track of it and remove it
-  // when calculating new routes.
-  const myRoute = directionResult.routes[0].legs[0];
-
-  for (let i = 0; i < myRoute.steps.length; i++) {
-    const marker = (markerArray1[i] =
-      markerArray1[i] || new google.maps.Marker());
-    marker.setMap(map);
-
-    // marker.setIcon(arrowIcon);
-
-    // const stepDirection = myRoute.steps[i].heading; // direction of the step in degrees
-    // console.log(stepDirection);
-    // marker.getIcon().setRotation(stepDirection); 
+///////////////END OF STATION-STATION DIRECTIONS//////////////
 
 
-    marker.setPosition(myRoute.steps[i].start_location);
-    attachInstructionText(
-      stepDisplay,
-      marker,
-      myRoute.steps[i].instructions,
-      map
-    );
-  }
-}
-
-
+//////////////CODE TO DRAW CHART/PREDICTION IN INFO WINDOW//////////////JOE
 function drawChart(number) {
   const loadingDiv = document.getElementById("loading");
   loadingDiv.style.display = "block"; // show the loading animation
@@ -874,18 +829,18 @@ function drawChart(number) {
     .then(response => response.json())
     .then(data => {
       const chosenStationName = data[0].address;
-
-      //changing this to add directions
       document.getElementById("stationTitle").innerHTML = `<h2>${chosenStationName}</h2><button id ="station-directions">Directions</button>`;
+
+      ////////////////////////////USER-STATION DIRECTIONS////////////////////
       var station_directions = document.getElementById("station-directions");
       station_directions.addEventListener("click", async () => {
-      var target_station_coords;
+      var target_station_coords; //null
       for (let i = 0; i < markerArray.length; i++){
-        if (data[0].address == markerArray[i].title){
-          target_station_coords = markerArray[i].position;
+        if (chosenStationName == markerArray[i].title){//if clicked marker in marker array
+          target_station_coords = markerArray[i].position;//set target coords as its latlng
         }
       }
-      var user_coords = await getUserLocation();
+      var user_coords = await getUserLocation(); //get user latlng
       var route = {
         origin: user_coords,
         destination: target_station_coords,
@@ -901,11 +856,12 @@ function drawChart(number) {
               }
           });
       });
+
       var directionsData = response.routes[0].legs[0]; // Get data about the mapped route
-      if (!directionsData) {
+      if (!directionsData) {//error handle
           window.alert('Directions request failed');
           return;
-      } else {
+      } else {//successful and show directions
         directionsRenderer.setDirections(response);
       }
       } catch (error) {
@@ -913,6 +869,7 @@ function drawChart(number) {
             return;
         }   
     });
+    //////////////////////////END OF USER-STATION DIRECTIONS/////////////////////////////
       
       
       const chart_data = new google.visualization.DataTable();
@@ -983,25 +940,17 @@ function getPrediction(number, dayOfWeek, hour) {
       console.log(data[dayOfWeek][hour]);
     });
 }
+///////////////END OF CHART/PREDICTION///////////////////////
 
 
-
-function attachInstructionText(stepDisplay, marker, text, map) {
-  google.maps.event.addListener(marker, "click", () => {
-    // Open an info window when the marker is clicked on, containing the text
-    // of the step.
-    stepDisplay.setContent(text);
-    stepDisplay.open(map, marker);
-  });
-}
 
   
-////// light/darkmode code /////////
-var is_light = true;
-var is_bikes = true;
-// document.getElementById("dark-icon").style.display="none";
+//////////////////// LIGHT/DARKMODE CODE//////////////// /////////
+var is_light = true; //track light and dark mode
+var is_bikes = true; //track which of toggle buttons is active
 
 
+//toggle button code
 const b1= document.getElementById("btn1");
 const b2= document.getElementById("btn2");
 b1.style.backgroundColor = "#3897d3";
@@ -1012,7 +961,6 @@ b2.style.color = "black";
 b2.style.zIndex = "100";
 b1.addEventListener("click", () => {
 is_bikes= true;
-
 b1.style.backgroundColor = "#3897d3";
 b1.style.color = "white";
 b1.style.zIndex = "101";
@@ -1022,7 +970,6 @@ b2.style.zIndex = "100";
 })
 b2.addEventListener("click", () => {
 is_bikes=false;
-
 b2.style.backgroundColor = "#3897d3";
 b2.style.color = "white";
 b2.style.textDecorationColor = "white"
@@ -1045,48 +992,22 @@ dark_mode_button.addEventListener("click", () => {
   if (is_light == true){
     //light mode styling
     map.set("styles", light_map);
-
-
-    nearest_bike_btn.style.backgroundColor = "white";
-    nearest_stand_btn.style.backgroundColor = "white";
+    document.querySelectorAll(".WhiteBlackColor").forEach(element => element.style.color = "white");
+    document.querySelectorAll(".BlueGreenColor").forEach(element => element.style.color = "lightblue");
+    document.querySelectorAll(".WhiteBlackBackgroundColor").forEach(element => element.style.backgroundColor = "white");
     //search_nearest_bike.style.backgroundColor = "white";
     //search_nearest_stand.style.backgroundColor = "white";
     //search_nearest_div.style.backgroundColor = "white";
-    //document.getElementById("select-service").style.backgroundColor="white"
-    //document.getElementById("select-service-container").style.color="white";
-    //document.getElementById("get-directions").style.color = "black";
-    //document.getElementById("find-stations").style.color = "black";
-    document.getElementById("directions").style.backgroundColor = "white";
-    //document.getElementById("search-station-container").style.backgroundColor = "white";
-    document.getElementById("dark-mode-button").style.backgroundColor = "white";
-    document.getElementById("header").style.backgroundColor = "white";
-    document.getElementById("db").style.color = "lightblue";
-    document.getElementById("icon-text").style.color = "black";
-    document.getElementById("weather").style.backgroundColor = "white";
+    document.querySelectorAll(".BlueGreenBackgroundColor").forEach(element => element.style.backgroundColor = "lightblue");
 
+    document.getElementById("icon-text").style.color="black";
     document.getElementById("dark-icon").style.display="none";
     document.getElementById("light-icon").style.display="";
-    document.getElementById("button-div").style.backgroundColor = "white";
-    document.getElementById("body").style.backgroundColor = "white";
-    document.getElementById("dropdown").style.backgroundColor = "white";
-    document.getElementById("location-buttons").style.backgroundColor = "white";
-    //document.getElementById("center-btn").style.color = "black";
-    //document.getElementById("warnings-panel").style.backgroundColor = "white"; 
-    //document.getElementById("compass").style.color = "black";
-    //document.getElementById("speedometer").style.color = "black";
-    document.getElementById("pin").style.color = "lightblue";
-    document.getElementById("dest_marker").style.color = "lightblue";
-    document.getElementById("weather-info").style.backgroundColor = "white";
-    document.getElementById("weather").style.color= "black";
-    document.getElementById("translate_button").style.backgroundColor= "white";
-    document.getElementById("pac-input").style.backgroundColor= "white";
-    document.getElementById("pac-input").style.color= "black";
-    document.getElementById("nav-functionality-container").style.color= "white";
     document.getElementById("weather-info").style.marginRightColor= "white";
     document.getElementById("translate-black").style.display = "";
     document.getElementById("translate-white").style.display = "none";
 
-
+    //availability toggle buttons
       if (is_bikes == true){
           b1.style.backgroundColor = "#3897d3";
           b1.style.color = "white";
@@ -1103,10 +1024,8 @@ dark_mode_button.addEventListener("click", () => {
           b1.style.color = "black";
           b1.style.zIndex = "100";
       }
-      
     b1.addEventListener("click", () => {
       is_bikes= true;
-
       b1.style.backgroundColor = "#3897d3";
       b1.style.color = "white";
       b1.style.zIndex = "101";
@@ -1115,7 +1034,6 @@ dark_mode_button.addEventListener("click", () => {
       b2.style.zIndex = "100";
     })
     b2.addEventListener("click", () => {
-      
       is_bikes = false;
       b2.style.backgroundColor = "#3897d3";
       b2.style.color = "white";
@@ -1126,44 +1044,24 @@ dark_mode_button.addEventListener("click", () => {
     })
 
   }else{
-    //darkmode styling
+    //darkmode styling  
     map.set("styles", dark_map);
-    nearest_bike_btn.style.backgroundColor = "lightgreen";
-    nearest_stand_btn.style.backgroundColor = "lightgreen";
+    document.querySelectorAll(".WhiteBlackColor").forEach(element => element.style.color = "black");
+    document.querySelectorAll(".BlueGreenColor").forEach(element => element.style.color = "lightgreen");
+    document.querySelectorAll(".WhiteBlackBackgroundColor").forEach(element => element.style.backgroundColor = "black");
+    document.querySelectorAll(".BlueGreenBackgroundColor").forEach(element => element.style.backgroundColor = "lightgreen");    
     //search_nearest_bike.style.backgroundColor = "lightgreen";
     //search_nearest_stand.style.backgroundColor = "lightgreen";
     //search_nearest_div.style.backgroundColor = "black";
-    //document.getElementById("select-service").style.backgroundColor="black"
-    //document.getElementById("select-service-container").style.color="black";
-    //document.getElementById("get-directions").style.color = "white";
-    //document.getElementById("find-stations").style.color = "white";
-    document.getElementById("dark-mode-button").style.backgroundColor = "black";
+
+    document.getElementById("icon-text").style.color="white";
     document.getElementById("light-icon").style.display="none";
     document.getElementById("dark-icon").style.display="";
-    document.getElementById("header").style.backgroundColor = "black";
-    document.getElementById("db").style.color = "lightgreen";
-    document.getElementById("icon-text").style.color = "white";
-    document.getElementById("button-div").style.backgroundColor = "black";
-    document.getElementById("body").style.backgroundColor = "black";
-    document.getElementById("dropdown").style.backgroundColor = "black";
-    document.getElementById("location-buttons").style.backgroundColor = "black";
-    document.getElementById("weather").style.backgroundColor = "black";
-    //document.getElementById("center-btn").style.color = "white";
-    //document.getElementById("warnings-panel").style.backgroundColor = "black";
-    //document.getElementById("compass").style.color = "white";
-    //document.getElementById("speedometer").style.color = "white";
-    document.getElementById("pin").style.color = "lightgreen";
-    document.getElementById("dest_marker").style.color = "lightgreen";
-    document.getElementById("weather-info").style.backgroundColor = "black";
-    document.getElementById("weather").style.color= "white";
-    document.getElementById("translate_button").style.backgroundColor= "black";
-    document.getElementById("pac-input").style.backgroundColor= "black";
-    document.getElementById("pac-input").style.color= "white";
-    document.getElementById("nav-functionality-container").style.color= "black";
     document.getElementById("weather-info").style.marginRightColor= "black";
     document.getElementById("translate-black").style.display = "none";
     document.getElementById("translate-white").style.display = "";
  
+        //availability toggle buttons
     if (is_bikes == true){
       b1.style.backgroundColor = "lightgreen";
       b1.style.color = "white";
@@ -1179,8 +1077,6 @@ dark_mode_button.addEventListener("click", () => {
       b1.style.color = "white";
       b1.style.zIndex = "100";
     }
-      
-   
     b1.addEventListener("click", () => {
       is_bikes=true;
       b1.style.backgroundColor = "lightgreen";
@@ -1203,7 +1099,7 @@ dark_mode_button.addEventListener("click", () => {
     })
   }
 });
-//////end of dark-mode code/////////////
+/////////////////////////END OF DARK MODE/////////////////////////////
 }
 
 window.initMap = initMap;
