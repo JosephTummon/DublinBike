@@ -167,7 +167,7 @@ header {
 #main {
   transition: margin-left .5s;
   /* If you want a transition effect */
-  padding: 20px;
+  height: 1px;
 }
 
 /* Chaneg the Google Chart */
@@ -508,36 +508,6 @@ button.gm-ui-hover-effect {
 }
 
 
-/* #select-service {
-  background-color: #fff;
-}
-
-#select-service-container {
-  display: flex;
-  font-size: 13px;
-  color: #333;
-  padding: 3px;
-  justify-content: space-around;
-  width: 400px;
-  font-family: "Roboto", "sans-serif";
-  padding-top: 10px;
-} */
-
-#directions {
-  display: flex;
-  margin-left: 110px;
-  padding-bottom: 15px;
-}
-/* 
-#get-directions:hover {
-  cursor: pointer;
-  color: #38bdf8;
-}
-#find-stations:hover {
-  cursor: pointer;
-  color: #38bdf8;
-} */
-
 #get-directions.active {
   border-bottom: 2px solid #3897d3;
 }
@@ -546,19 +516,11 @@ button.gm-ui-hover-effect {
   border-bottom: 2px solid #3897d3;
 }
 
-#search-station {
-  border: 1px solid black;
-}
-
-#search-station-conatiner {
+.container {
   display: flex;
-  background-color: #fff;
-  text-align: center;
-  font-family: "Roboto", "sans-serif";
-}
-
-#search-station-conatiner div {
-  margin-top: 15px;
+  justify-content: space-around;
+  margin: 10px auto;
+  width: 1100px;
 }
 
 .search {
@@ -568,7 +530,7 @@ button.gm-ui-hover-effect {
   height: 50px;
   border-radius: 15px;
   width: 700px;
-  margin-right: 100px;
+  margin-right: 50px;
 }
 
 .search i {
@@ -605,6 +567,7 @@ button.gm-ui-hover-effect {
 }
 
 #start-input, #end-input {
+  font-family: "Roboto", "sans-serif";
   height: 50px;
   width: 350px;
   background: transparent;
@@ -639,6 +602,7 @@ button.gm-ui-hover-effect {
   background-color: white;
 }
 
+
 #dropdown {
   background-color: #fff;
   text-align: center;
@@ -647,7 +611,6 @@ button.gm-ui-hover-effect {
 }
 
 #dropdown-container {
-  padding: 5px;
   text-align: center;
   line-height: 30px;
   width: 400px;
@@ -658,12 +621,14 @@ button.gm-ui-hover-effect {
 #option {
   border: 2px solid ghostwhite;
   padding: 0;
-  height: 45px;
+  height: 55px;
   width: 300px;
   border-radius: 15px;
   font-family: "Roboto", "sans-serif";
-  font-size: 13px;
-  height: 50px;
+  font-size: 18px;
+  color: #333;
+  font-weight: 200;
+  background: transparent;
 }
 
 #option:hover {
