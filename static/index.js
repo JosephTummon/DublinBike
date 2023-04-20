@@ -1,4 +1,3 @@
-
 import { light_map } from './light_map.js';
 import { dark_map } from './dark_map.js';
 
@@ -21,26 +20,6 @@ async function initMap() {
     mapTypeControl: false, //removes satellite button
     fullscreenControl: false, // removes full screen toggle
     styles: light_map
-});
-
-var selectDirectionsBtn = document.getElementById("get-directions");
-var findStations = document.getElementById("find-stations");
-
-const directionsContainer= document.getElementById("directions");
-const dropDown = document.getElementById("dropdown");
-
-selectDirectionsBtn.addEventListener("click", () => {   
-    directionsContainer.style.display = "block";
-    dropDown.style.display = "None";
-    selectDirectionsBtn.classList.add("active");
-    findStations.classList.remove("active");
-});
-
-findStations.addEventListener("click", () => {  
-    directionsContainer.style.display = "None";
-    dropDown.style.display = "Block";
-    selectDirectionsBtn.classList.remove("active"); 
-    findStations.classList.add("active");
 });
 
   const translate_button = document.getElementById("translate_button");
@@ -142,35 +121,35 @@ findStations.addEventListener("click", () => {
   });
 
 
-var search_nearest_bike =document.getElementById("search-nearest-bike");
-search_nearest_bike.addEventListener("click", async function () {
-  if(!search_marker){
-    alert("Search for a station before clicking target bike")
-  }
-  else{
-    var target_coords = search_marker.position;
-    var sorted_array = sortLocationsByProximity(duplicate_markerArray, target_coords);
-    var nearest_stations = nearby_stations_with_x(sorted_array, "bikes");
-    var nearest_bike = await nearest_station(nearest_stations, target_coords, 'WALKING');
-    map.panTo(nearest_bike.position)
-    map.setZoom(map.getZoom() + 2);
-  }
-});
+// var search_nearest_bike =document.getElementById("search-nearest-bike");
+// search_nearest_bike.addEventListener("click", async function () {
+//   if(!search_marker){
+//     alert("Search for a station before clicking target bike")
+//   }
+//   else{
+//     var target_coords = search_marker.position;
+//     var sorted_array = sortLocationsByProximity(duplicate_markerArray, target_coords);
+//     var nearest_stations = nearby_stations_with_x(sorted_array, "bikes");
+//     var nearest_bike = await nearest_station(nearest_stations, target_coords, 'WALKING');
+//     map.panTo(nearest_bike.position)
+//     map.setZoom(map.getZoom() + 2);
+//   }
+// });
 
-var search_nearest_stand = document.getElementById("search-nearest-stand");
-search_nearest_stand.addEventListener("click", async function () {
-  if(!search_marker){
-    alert("Search for a station before clicking target stand")
-  }
-  else{  
-  var target_coords = search_marker.position;
-    var sorted_array = sortLocationsByProximity(duplicate_markerArray, target_coords);
-    var nearest_stations = nearby_stations_with_x(sorted_array, "stands");
-    var nearest_bike = await nearest_station(nearest_stations, target_coords, 'WALKING');
-    map.panTo(nearest_bike.position)
-    map.setZoom(map.getZoom() + 2);
-  }
-});
+// var search_nearest_stand = document.getElementById("search-nearest-stand");
+// search_nearest_stand.addEventListener("click", async function () {
+//   if(!search_marker){
+//     alert("Search for a station before clicking target stand")
+//   }
+//   else{  
+//   var target_coords = search_marker.position;
+//     var sorted_array = sortLocationsByProximity(duplicate_markerArray, target_coords);
+//     var nearest_stations = nearby_stations_with_x(sorted_array, "stands");
+//     var nearest_bike = await nearest_station(nearest_stations, target_coords, 'WALKING');
+//     map.panTo(nearest_bike.position)
+//     map.setZoom(map.getZoom() + 2);
+//   }
+// });
 
 
 
@@ -180,7 +159,7 @@ search_nearest_stand.addEventListener("click", async function () {
   const search_nearest_div = document.getElementById("search-nearest-btns");
   map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
   map.controls[google.maps.ControlPosition.LEFT_TOP].push(search_nearest_div);
-  map.controls[google.maps.ControlPosition.TOP_RIGHT].push(buttons);
+  map.controls[google.maps.ControlPosition.TOP_CENTER].push(buttons);
   map.controls[google.maps.ControlPosition.RIGHT_TOP].push(location_buttons);
   map.controls[google.maps.ControlPosition.BOTTOM_RIGHT].push(locateNearest);
   // Bias the SearchBox results towards current map's viewport.
@@ -249,52 +228,126 @@ function displayWeather(data) {
     var kelvin = data.main.temp;
     var celsius = Math.round((kelvin - 273.15) * 10) / 10;
     var fahrenheit = Math.round((kelvin - 273.15) * 9/5 + 32);
+
+    var description = data.weather[0].description;
+    var capitlasieDescription = description.toUpperCase();
+    var humidity = data.main.humidity;
+
     var weatherDiv = document.getElementById("weather-info");
+    const weatherPopDown = document.getElementById("weather-popdown");
   
     // Coding wind compass
     var wind_dir = data.wind.deg - 45;
-    var wind_speed = data.wind.speed;
-    var windSpeedKmhr = Math.round(wind_speed * 0.621371192);
+    var windSpeedMph= data.wind.speed;
+    var windSpeedKmhr = Math.round(windSpeedMph * 1.60934);
   
     weatherDiv.innerHTML = `
-      <div id="test">
-        <div id="weather">
-            <img src=https://openweathermap.org/img/wn/${weatherIcon}.png alt='icon' width='42' height='40'><h2 id='temperature'>${celsius}°C</h2>
-        </div>
-        <div id="wind">
-            <i id='compass' class='fa-solid fa-location-arrow fa-lg'></i><h2 id="speedometer">${wind_speed} km/h</h2>
-        </div>
-      <div>
+      <div id="weather">
+          <img src=https://openweathermap.org/img/wn/${weatherIcon}.png alt='icon' width='55' height='55' style='filter: drop-shadow(0px 0px 0px black) drop-shadow(0px 0px 0px black) drop-shadow(0px 0px 0px black) drop-shadow(0px 0px 8px black);'>
+      </div>
         `
+    
+    weatherPopDown.style.display = "none";
+
+    weatherDiv.addEventListener("mouseover", function() {
+      weatherPopDown.style.display = "block";
+      weatherPopDown.innerHTML = `
+      <div class="location">
+      <i class="fa-solid fa-location-dot fa-xl"></i>
+      <h3>DUBLIN</h3>
+    </div>
+    <div class="icon">
+      <img id="test" src=https://openweathermap.org/img/wn/${weatherIcon}.png alt='icon' width='120' height='120''>
+    </div>
+    <div class="temperature">
+      <h2>${celsius}°C</h2>
+      <p>${capitlasieDescription}</p>
+    </div>
+    <div class="windandhumidity">
+      <div class="humidity">
+        <i class="fa-solid fa-water fa-xl"></i>
+        <div>
+          <h4>${humidity}%<br>humidity</h4>
+        </div>
+      </div>
+      <div class="wind">
+        <i class="fa-solid fa-wind fa-xl"></i>
+        <div>
+          <h4>${windSpeedKmhr} KM/h<br>Wind Speed</h4>
+        </div>
+      </div>
+    </div>
+      `
+    }) 
     
     // Add event listener for mouseover on weatherDiv
     weatherDiv.addEventListener("click", function () {
         // Check the current temperature unit (Celsius or Fahrenheit)
-        if (weatherDiv.innerHTML.includes("°C")) {
-            weatherDiv.innerHTML = `
-        <div id="test">
-            <div id="weather">
-                <img src=https://openweathermap.org/img/wn/${weatherIcon}.png alt='icon' width='42' height='40'><h2 id='temperature'>${fahrenheit}°F</h2>
+        if (weatherPopDown.innerHTML.includes("°C")) {
+            weatherPopDown.innerHTML = `
+            <div class="location">
+              <i class="fa-solid fa-location-dot fa-xl"></i>
+              <h3>DUBLIN</h3>
             </div>
-            <div id="wind">
-                <i id='compass' class='fa-solid fa-location-arrow fa-lg'></i><h2 id="speedometer">${windSpeedKmhr} mph</h2>
+            <div class="icon">
+              <img id="test" src=https://openweathermap.org/img/wn/${weatherIcon}.png alt='icon' width='120' height='120''>
             </div>
-        <div>
+            <div class="temperature">
+              <h2>${fahrenheit}°F</h2>
+              <p>${capitlasieDescription}</p>
+            </div>
+            <div class="windandhumidity">
+              <div class="humidity">
+                <i class="fa-solid fa-water fa-xl"></i>
+                <div>
+                  <h4>${humidity}%<br>humidity</h4>
+                </div>
+              </div>
+              <div class="wind">
+                <i class="fa-solid fa-wind fa-xl"></i>
+                <div>
+                  <h4>${windSpeedMph} Mph<br>Wind Speed</h4>
+                </div>
+              </div>
+            </div>
             `
         }
         else {
-            weatherDiv.innerHTML = `
-      <div id="test">
-        <div id="weather">
-            <img src=https://openweathermap.org/img/wn/${weatherIcon}.png alt='icon' width='42' height='40'><h2 id='temperature'>${celsius}°C</h2>
-        </div>
-        <div id="wind">
-            <i id='compass' class='fa-solid fa-location-arrow fa-lg'></i><h2 id="speedometer">${wind_speed} km/h</h2>
-        </div>
-      <div>
+            weatherPopDown.innerHTML = `
+            <div class="location">
+            <i class="fa-solid fa-location-dot fa-xl"></i>
+            <h3>DUBLIN</h3>
+          </div>
+          <div class="icon">
+            <img id="test" src=https://openweathermap.org/img/wn/${weatherIcon}.png alt='icon' width='120' height='120''>
+          </div>
+          <div class="temperature">
+            <h2>${celsius}°C</h2>
+            <p>${capitlasieDescription}</p>
+          </div>
+          <div class="windandhumidity">
+            <div class="humidity">
+              <i class="fa-solid fa-water fa-xl"></i>
+              <div>
+                <h4>${humidity}%<br>humidity</h4>
+              </div>
+            </div>
+            <div class="wind">
+              <i class="fa-solid fa-wind fa-xl"></i>
+              <div>
+                <h4>${windSpeedKmhr} KM/h<br>Wind Speed</h4>
+              </div>
+            </div>
+          </div>
         `
         }
         });
+      
+        weatherDiv.addEventListener("mouseout", function() {
+          weatherPopDown.style.display = "none";
+          weatherPopDown.innerHTML = ""
+        });
+
   }
 
   function displayInputBox(stations) {
@@ -699,12 +752,12 @@ button.addEventListener("click", function() {
     calculateAndDisplayRoute(directionsRenderer, directionsService, markerArray1, stepDisplay, map);
   });
   
-clear_button.addEventListener("click", function() {
-for (let i = 0; i < markerArray1.length; i++) {
-    markerArray1[i].setMap(null);
-    }
-    directionsRenderer.setDirections({routes: []}); // Remove directions line    
-});
+// clear_button.addEventListener("click", function() {
+// for (let i = 0; i < markerArray1.length; i++) {
+//     markerArray1[i].setMap(null);
+//     }
+//     directionsRenderer.setDirections({routes: []}); // Remove directions line    
+// });
 
 
 function calculateAndDisplayRoute(
@@ -892,8 +945,7 @@ function attachInstructionText(stepDisplay, marker, text, map) {
 ////// light/darkmode code /////////
 var is_light = true;
 var is_bikes = true;
-document.getElementById("weather-info").style.backgroundColor = "lightblue";
-document.getElementById("dark-icon").style.display="none";
+// document.getElementById("dark-icon").style.display="none";
 
 
 const b1= document.getElementById("btn1");

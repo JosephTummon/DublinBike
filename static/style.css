@@ -1,18 +1,23 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
+
 body {
   background-color: #fff;
+  font-family: 'Montserrat', sans-serif;
 }
 
 /* HEADER */
+#header-img {
+  background-color: none;
+}
 header {
   max-width: 1200px;
   width: 100%;
   display: flex;
   flex-wrap: wrap;
+  justify-content: space-around;
   margin: auto;
-  justify-content: space-between;
   align-items: center;
-  height: 80px;
-  background-color: ghostwhite;
+  height: 90px;
 }
 
 .logo {
@@ -23,7 +28,7 @@ header {
   list-style-type: none;
   text-decoration: none;
   color: black;
-  font-size: 35px;
+  font-size: 38px;
 }
 
 .l {
@@ -33,7 +38,7 @@ header {
 }
 
 #db {
-  color: lightblue;
+  color: #3897d3;
 }
 
 /* NAVIGATION */
@@ -42,6 +47,7 @@ header {
 #button-div {
   margin-top: 15px;
   margin-right: 25px;
+  height: 50px;
 }
 
 .search {
@@ -178,7 +184,6 @@ header {
   text-align: center;
   padding: 10px;
   width: 110px;
-  height: 50px;
   cursor: pointer;
 }
 
@@ -192,27 +197,121 @@ header {
 .btn:hover {
   background-color: #cbd5e1;
   color: #38bdf8;
+  height: 30px;
 }
 
 .btn:active {
   font-size: 18px;
+  height: 50px;
 } 
 
 #btn1.active {
   color:white;
-  z-index: 101;
-  background-color: lightblue;
+  background-color: #3897d3;
+  height: 30px;
 }
 
 #btn2.active {
   color:white;
-  z-index: 101;
-  background-color: lightblue;
+  background-color: #3897d3;
+  height: 30px;
 }
 
+.nav-functionality-container {
+  display: flex;
+  background-color: #fff;
+}
+
+/* DROP DOWN */
+
+#weather-popdown {
+  background-color: #fff;
+  position: absolute;
+  right: 18%;
+  top: 11%;
+  width: 250px;
+  border-radius: 15px;
+  border-bottom: 11px solid #FFFFFF;
+  border-left: 11px solid transparent;
+  border-right: 11px solid transparent;
+}
+
+.location {
+  display: flex;
+}
+
+.location i {
+  margin-top: 30px;
+  margin-left: 15px;
+}
+
+.location h3 {
+  margin-left: 10px;
+  font-size: 20px;
+  color:#3897d3;
+}
+
+.icon {
+  width: 100%;
+}
+
+.icon img {
+  padding-left: 70px;
+}
+
+.temperature {
+  text-align: center;
+}
+
+.temperature h2 {
+  font-weight: bolder;
+  color:#3897d3;
+}
+
+.windandhumidity {
+  display: flex;
+  justify-content: space-around;
+  padding-bottom: 10px;
+  background-color: #fff;
+}
+
+.windandhumidity i {
+  margin-top: 30px;
+}
+
+.humidity {
+  display: flex;
+}
+
+.wind {
+  display: flex;
+}
+
+.windandhumidity h4 {
+  font-size: 12px;
+  margin-bottom: 5px;
+  padding-left: 3px;
+  color:#3897d3;
+}
+
+#weather-popdown:after {
+  position: absolute;
+  right: 2%;
+  margin-left: -20px;
+  top: -14px;
+  width: 0;
+  height: 0;
+  content:'';
+  border-left: 20px solid transparent;
+  border-right: 20px solid transparent;
+  border-bottom: 20px solid #fff;
+}
+
+
+/* -------- */
 #weather-info {
+  margin-right: 5px;
   border-radius: 50px;
-  position: relative;
   cursor: pointer;
   transition: transform 0.1s ease-in-out;
   
@@ -220,7 +319,6 @@ header {
 
 #weather-info:hover {
   background-color: lightblue;
-  color: #38bdf8;
 }
 
 
@@ -230,34 +328,27 @@ header {
 }
 
 #additional-info {
-  border: 1px solid black;
   border-radius: 50px;
   font-size: 13px;
   background-color: white;
   color: black;
 }
 
-#test {
-  display: flex;
-}
-
 #weather {
   display: flex;
   flex-direction: column;
   align-items: center;
-  border-radius: 50px;
   width: 70px;
-  margin-bottom: 5px;
+  height: 100%;
 }
 
 #weather img {
-  margin-bottom: 0px;
+  padding-top: 4px;
 }
 
 #weather h2 {
   margin: 0 auto;
   font-size: 13px;
-  color: white;
 } 
 
 #wind {
@@ -274,13 +365,11 @@ header {
   transform: translate(-50%, -50%);
   transform: rotate(-45deg);
   margin-bottom: 16px;
-  color: white;
 }
 
 #speedometer {
   margin: 0 auto;
   font-size: 13px;
-  color: white;
 }
 
 
@@ -299,6 +388,42 @@ header {
 /* Always set the map height explicitly to define the size of
 the div
 * element that contains the map. */
+
+/* Translate */
+
+
+#google_translate_element {
+  position: fixed;
+  top: 18px;
+  left: 20%;
+  display: none;
+}
+
+#translate_button{
+  background-color: #fff;
+  height:70px;
+  width: 70px;
+  cursor: pointer;
+  border: none;
+}
+
+#translate_button img {
+  width: 35px;
+  height: 35px;
+  border: none;
+}
+
+/* Dark Mode */
+
+#dark-mode-button{
+  height: 100%;
+  width: 65px;
+  cursor: pointer;
+  background-color: #fff;
+  border: none;
+}
+
+
 #map {
     height: 665px;
     width: 100%;
@@ -311,7 +436,6 @@ the div
   height: 45px;
   width: 325px;
   border-radius: 35px;
-  padding-left: 7px;
   margin-top: 20px;
   margin-left: 25px;
   margin-bottom: 0px;
@@ -336,12 +460,11 @@ the div
   margin: 0 auto;
   border-radius: 40px;
   background-color: white;
-  border: 1px solid black;
   cursor: pointer;
   width: 50px;
   height: 50px;
+  transition: transform 0.1s ease-in-out;
 }
-
 
 
 #nearest-btn:hover {
@@ -388,10 +511,10 @@ html, body {
   height: 100%;
   margin: 0;
   padding: 0;
-  background-color: ghostwhite;
+  background-color: #fff;
 }
 
-#select-service {
+/* #select-service {
   background-color: #fff;
 }
 
@@ -405,8 +528,14 @@ html, body {
   font-family: "Roboto", "sans-serif";
   background-color: #fff;
   padding-top: 10px;
-}
+} */
 
+#directions {
+  display: flex;
+  justify-content: space-around;
+  border: 1px solid black;
+}
+/* 
 #get-directions:hover {
   cursor: pointer;
   color: #38bdf8;
@@ -415,7 +544,7 @@ html, body {
 #find-stations:hover {
   cursor: pointer;
   color: #38bdf8;
-}
+} */
 
 #get-directions.active {
   border-bottom: 2px solid #3897d3;
@@ -434,16 +563,20 @@ html, body {
   background-color: #fff;
   text-align: center;
   font-family: "Roboto", "sans-serif";
-  height: 150px;
+}
+
+#search-station-conatiner div {
+  margin-top: 15px;
+  margin-right: 35px;
 }
 
 .search {
   display: flex;
-  margin: 50px auto;
   border: 2px solid ghostwhite;
   padding: 0;
   height: 50px;
   border-radius: 15px;
+  padding-left: 10px;
 }
 
 .search:hover {
@@ -460,8 +593,8 @@ html, body {
   font-size: 16px;
   font-weight: 400;
   cursor: pointer;
-  border-bottom-right-radius: 15px;
-  border-top-right-radius: 15px;
+  border-bottom-left-radius: 15px;
+  border-top-left-radius: 15px;
   transition: background-color .1s ease-in, transform .1s ease-in;
 }
   
@@ -516,7 +649,6 @@ html, body {
   font-family: "Roboto", "sans-serif";
   background-color: #fff;
   height: 150px;
-  display: none;
 }
 
 #dropdown-container {
@@ -524,7 +656,6 @@ html, body {
   text-align: center;
   line-height: 30px;
   padding-left: 10px;
-  margin: 0 auto;
 }
 
 #option {
@@ -533,7 +664,6 @@ html, body {
   height: 45px;
   width: 300px;
   border-radius: 15px;
-  margin: 50px auto;
   font-family: "Roboto", "sans-serif";
   font-size: 13px;
   height: 50px;
@@ -553,33 +683,13 @@ html, body {
   border-radius: 2px;
 }
 
-
-
 /*End of added code*/
-
-
-
-#dark-mode-button{
-  background-color: lightblue;
-  top: 20px;
-  background-color: lightblue;
-  border-radius: 35px;
-  height:65px;
-  width:65px;
-  border-width: 0px;
-  cursor: pointer;
-}
-
 
 #search-station-container {
   display: flex;
   justify-content: center;
   align-items: center;
   height: 10vh; /* or whatever height you want */
-}
-
-.search {
-  text-align: center;
 }
 
 /*styling the location button */
@@ -602,7 +712,7 @@ html, body {
 }
 
 .custom-map-control-button:focus {
-  border-color: #4d90fe;
+  border-color: #3897d3;
 }
 
 .custom-map-control-button > i {
@@ -611,80 +721,118 @@ html, body {
   line-height: 32px;
 }
 
-
-
-#google_translate_element {
-  position: fixed;
-			top: 0;
-			left: 0;
-      display: none;
-}
-
-#translate_button{
-  top: 20px;
-  background-color: lightblue;
+#location-buttons{
   border-radius: 35px;
-  height:65px;
-  width:65px;
-  border-width: 0px;
-  cursor: pointer;
-
-}
-button img {
-  width:40px;
-  height:40px;
-  color: white;
-  
+  margin-right: 40px;
+  margin-top: 15px;
+  display: flex;
+  justify-content: space-between;
+  width: 190px;
 }
 
-#nearest-bike{
+#nearest-bike {
+  display: flex;
   top: 20px;
-  background-color: lightblue;
+  background-color: #3897d3;
   border-radius: 35px;
-  height:65px;
-  width:65px;
+  height:50px;
+  width:90px;
   border-width: 0px;
   color:white;
   cursor: pointer;
+  background-color: white;
+  color: #18181b;
+  transition: transform 0.1s ease-in-out;
+}
 
+#nearest-bike:hover {
+  background-color: #3897d3;
+  color: white;
+}
+
+#nearest-bike:active {
+  font-size: 10px;
+  transform: translateY(4px);
+}
+
+#nearest-bike .nearest-bike-div {
+  display: flex;
+  padding-top: 7px;
+  padding-left: 10px;
+}
+
+.nearest-bike-div i {
+  margin-top: 18px;
+  margin-right: 8px;
+}
+
+.nearest-bike-div a {
+  margin-top: 7px;
+}
+
+#nb-logo {
+  padding-top: 10px;
 }
 
 #nearest-stand{
+  display: flex;
   top: 20px;
-  background-color: lightblue;
   border-radius: 35px;
-  height:65px;
-  width:65px;
+  height:50px;
+  width:90px;
   border-width: 0px;
   color:white;
   cursor: pointer;
-
-}
-
-#location-buttons{
   background-color: white;
-  border-radius: 35px;
-  margin-right: 25px;
-  margin-top: 10px;
+  color: #18181b;
+  transition: transform 0.1s ease-in-out;
 }
+
+#nearest-stand:hover {
+  background-color: #3897d3;
+  color: white;
+}
+
+#nearest-stand:active {
+  font-size: 10px;
+  transform: translateY(4px);
+}
+
+#nearest-stand .nearest-stand-div {
+  display: flex;
+  padding-top: 7px;
+  padding-left: 15px;
+}
+
+.nearest-stand-div i {
+  margin-top: 17px;
+  margin-right: 7px;
+}
+
+.nearest-stand-div a {
+  margin-top: 7px;
+}
+
+
+/* Nearest Bike/Parking from Search*/
 
 #search-nearest-bike{
   top: 20px;
-  background-color: lightblue;
+  background-color: #3897d3;
   border-radius: 35px;
-  height:65px;
-  width:65px;
+  height:50px;
+  width:70px;
   border-width: 0px;
   color:white;
   cursor: pointer;
 }
 
 #search-nearest-stand{
-top: 20px;
-  background-color: lightblue;
+  top: 20px;
+  background-color: #3897d3;
   border-radius: 35px;
-  height:65px;
-  width:65px;
+  height:50px;
+  width:70px;
   border-width: 0px;
   color:white;
   cursor: pointer;
