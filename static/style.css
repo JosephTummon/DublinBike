@@ -3,6 +3,7 @@
 body {
   background-color: #fff;
   font-family: 'Montserrat', sans-serif;
+  margin: 0;
 }
 
 /* HEADER */
@@ -505,13 +506,7 @@ button.gm-ui-hover-effect {
 .parked p {
   padding-left: 5px;
 }
-/* Optional: Makes the sample page fill the window. */
-html, body {
-  height: 100%;
-  margin: 0;
-  padding: 0;
-  background-color: #fff;
-}
+
 
 /* #select-service {
   background-color: #fff;
@@ -530,45 +525,49 @@ html, body {
 
 #directions {
   display: flex;
-  flex-wrap: nowrap;
-  margin-top: 10px;
+  justify-content: space-around;
 }
 /* 
 #get-directions:hover {
   cursor: pointer;
   color: #38bdf8;
 }
-
 #find-stations:hover {
   cursor: pointer;
   color: #38bdf8;
 } */
 
-#search-station-container {
+#get-directions.active {
+  border-bottom: 2px solid #3897d3;
+}
+
+#find-stations.active {
+  border-bottom: 2px solid #3897d3;
+}
+
+#search-station {
+  border: 1px solid black;
+}
+
+#search-station-conatiner {
+  display: flex;
   background-color: #fff;
   text-align: center;
   font-family: "Roboto", "sans-serif";
+}
+
+#search-station-conatiner div {
   margin-top: 15px;
-  margin: 0 auto;
-  height: 100px;
+  margin-right: 35px;
 }
 
 .search {
   display: flex;
-  flex-wrap: nowrap;
   border: 2px solid ghostwhite;
   padding: 0;
   height: 50px;
   border-radius: 15px;
   width: 700px;
-  margin-left: 60px;
-  margin-top: 17px;
-  height: 43px;
-}
-
-.search i {
-  margin-top: 12px;
-  margin-right: 4px;
 }
 
 .search:hover {
@@ -578,7 +577,8 @@ html, body {
 #go {
   border: none;
   background-color: ghostwhite;
-  height: 43px;
+  height: 50px;
+  width: 50px;
   color: #18181b;
   text-decoration: none;
   font-size: 16px;
@@ -600,8 +600,8 @@ html, body {
 }
 
 #start-input, #end-input {
-  height: 43px;
-  width: 325px;
+  height: 50px;
+  width: 300px;
   background: transparent;
   border: 0;
   outline: 0;
@@ -638,26 +638,26 @@ html, body {
   background-color: #fff;
   text-align: center;
   font-family: "Roboto", "sans-serif";
-  background-color: #fff; 
-  margin-top: 10px;
-  padding-right: 95px;
-  width: 500px;
+  background-color: #fff;
 }
 
 #dropdown-container {
   padding: 5px;
   text-align: center;
-  border-left: 2px solid #00a4d3;
+  line-height: 30px;
+  padding-left: 10px;
+  margin-right: 100px;
 }
 
 #option {
   border: 2px solid ghostwhite;
   padding: 0;
+  height: 45px;
+  width: 300px;
   border-radius: 15px;
   font-family: "Roboto", "sans-serif";
   font-size: 13px;
-  height: 49px;
-  width: 400px;
+  height: 50px;
 }
 
 #option:hover {

@@ -10,58 +10,29 @@
    
   </head>
   <body id = "body">
-    <!--Header-->
-    <header id="header">
-      <div id = "search-nearest-btns">
-      <button id="search-nearest-bike">
-        <a>Target</a>
-        <i class="fa-solid fa-bicycle"></i>
-      </button>
-      <button id="search-nearest-stand">
-        <a>Target<br></a>
-        <i class="fa-solid fa-square-parking"></i>
-      </button>
-    </div>      
-        <div id="google_translate_element"></div>
-      
 
-
-
-        <div class="logo">
-            <h1><a id="icon-text" class="l" href="http://127.0.0.1:5000/"><span id="db">DB</span>ikes</a></h1>
+    <!-- Side Bar-->
+    <div id="mySidebar" class="sidebar">
+      <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+      <div id="chartContainer">
+        <div id="stationTitle"></div>
+        <div id="PredictiveChart">
         </div>
-        <button id = "dark-mode-button">
-          <img id = "light-icon" src="{{ url_for('static', filename='images/sun.png') }}" alt="Translate logo">
-          <img id = "dark-icon" src="{{ url_for('static', filename='images/moon.png') }}" alt="Translate logo">
-        </button>
-        <button id = "translate_button"><img id = "translate-icon" src="{{ url_for('static', filename='images/google-translate-white.png') }}" alt="Translate logo">
-        </button>
-        <div id="weather-info"></div>
-    </header>
-
-
-        <!-- Side Bar-->
-        <div id="mySidebar" class="sidebar">
-          <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-          <div id="chartContainer">
-            <div id="stationTitle"></div>
-            <div id="PredictiveChart">
-            </div>
-          </div>
-          <div id="loading">
-            <img src="static/Loading.gif" alt="Loading...">
-          </div>
-      
-          <div id="Model">
-            <label id="modelTitle" for="availabletime">Check Station Availability:</label>
-            <form>
-              <input type="datetime-local" id="availabletime" name="availabletime">
-              <input type="submit">
-            </form>
-          </div>
-          <div id="displayPrediction"></div>
-        </div>
-
+      </div>
+      <div id="loading">
+        <img src="static/Loading.gif" alt="Loading...">
+      </div>
+  
+      <div id="Model">
+        <label id="modelTitle" for="availabletime">Check Station Availability:</label>
+        <form>
+          <input type="datetime-local" id="availabletime" name="availabletime">
+          <input type="submit">
+        </form>
+      </div>
+      <div id="displayPrediction"></div>
+    </div>
+    <header>
       <button id="swap">
         Swap
       </button>
@@ -88,16 +59,9 @@
     </header>
     <div id="google_translate_element"></div>
     <!--Map-->
-    <div id="main">
-
-
-
-
-   
-
-    <!--Map-->
     <div id="map">
     </div>
+    <div id="main"></div>
     <!-- 
       The `defer` attribute causes the callback to execute after the full HTML
       document has been parsed. For non-blocking uses, avoiding race conditions,
