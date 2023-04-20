@@ -442,7 +442,13 @@ function displayWeather(data) {
 
       // Attach listeners to show and hide the info window when the marker is hovered over
       attachInfoWindowListeners(marker, infoWindow);
-    }
+      marker.addListener("click", () => {
+        google.charts.load('current', { 'packages': ['corechart'] });
+        drawChart(station.number);
+        document.getElementById("mySidebar").style.width = "650px";
+        document.getElementById("main").style.marginLeft = "650px";
+      });   
+     }
   }
 
   // Creates a new marker object for the given station and adds it to the map
