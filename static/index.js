@@ -747,12 +747,12 @@ button.addEventListener("click", function() {
     calculateAndDisplayRoute(directionsRenderer, directionsService, markerArray1, stepDisplay, map);
   });
   
-clear_button.addEventListener("click", function() {
-for (let i = 0; i < markerArray1.length; i++) {
-    markerArray1[i].setMap(null);
-    }
-    directionsRenderer.setDirections({routes: []}); // Remove directions line    
-});
+// clear_button.addEventListener("click", function() {
+// for (let i = 0; i < markerArray1.length; i++) {
+//     markerArray1[i].setMap(null);
+//     }
+//     directionsRenderer.setDirections({routes: []}); // Remove directions line    
+// });
 
 
 function calculateAndDisplayRoute(
@@ -840,7 +840,7 @@ function attachInstructionText(stepDisplay, marker, text, map) {
 ////// light/darkmode code /////////
 var is_light = true;
 var is_bikes = true;
-document.getElementById("dark-icon").style.display="none";
+// document.getElementById("dark-icon").style.display="none";
 
 
 const b1= document.getElementById("btn1");

@@ -122,15 +122,13 @@
       src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDgYC8VXvS4UG9ApSUhS2v-ByddtHljFls&libraries=places&callback=initMap&v=weekly"
       defer
     ></script>
-     <!--  --> 
-     <script type="text/javascript">  
-      function googleTranslateElementInit() {  
-          new google.translate.TranslateElement(  
-              {pageLanguage: 'en',},  
-              'google_translate_element'  
-          );  
-      }  
-  </script>  
+    <script>
+      function closeNav() {
+        document.getElementById("mySidebar").style.width = "0";
+        document.getElementById("main").style.display = "0";
+      }
+    </script>
+     <!--  -->
 
 <!-- Script code for google translator API -->  
   <script type="text/javascript"   
