@@ -525,7 +525,8 @@ button.gm-ui-hover-effect {
 
 #directions {
   display: flex;
-  justify-content: space-around;
+  margin-left: 110px;
+  padding-bottom: 15px;
 }
 /* 
 #get-directions:hover {
@@ -558,7 +559,6 @@ button.gm-ui-hover-effect {
 
 #search-station-conatiner div {
   margin-top: 15px;
-  margin-right: 35px;
 }
 
 .search {
@@ -568,6 +568,11 @@ button.gm-ui-hover-effect {
   height: 50px;
   border-radius: 15px;
   width: 700px;
+  margin-right: 100px;
+}
+
+.search i {
+  margin-top: 14px;
 }
 
 .search:hover {
@@ -601,7 +606,7 @@ button.gm-ui-hover-effect {
 
 #start-input, #end-input {
   height: 50px;
-  width: 300px;
+  width: 350px;
   background: transparent;
   border: 0;
   outline: 0;
@@ -645,8 +650,9 @@ button.gm-ui-hover-effect {
   padding: 5px;
   text-align: center;
   line-height: 30px;
-  padding-left: 10px;
-  margin-right: 100px;
+  width: 400px;
+  padding-right: 40px;
+  border-left: 2px solid #00a4d3;
 }
 
 #option {
