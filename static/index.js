@@ -604,6 +604,21 @@ document.getElementById("swap").addEventListener("click", () =>{
       directionsRenderer.setDirections(result);
     }
   });
+
+  
+    // get the values of the two input boxes
+    var input1 = document.getElementById('start-input');
+    var input2 = document.getElementById('end-input');
+    if (input1.value != null && input2.value !==null){
+      var old_dest_input = input1.value;
+      var old_orig_input = input2.value;
+    
+      // swap the values
+      input1.value = old_orig_input;
+      input2.value = old_dest_input;
+    }
+    
+  
 });
 
   //code for nearest btns/////////////
