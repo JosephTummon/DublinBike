@@ -197,6 +197,8 @@ dark_mode_button.addEventListener("click", () => {
     document.getElementById("availabletime").style.color = "black";
     document.getElementById("datetime-submit-button").style.backgroundColor = "#38bdf8";
     document.getElementById("datetime-submit-button").style.color = "white";
+    document.getElementById("displayPrediction").style.backgroundColor ="white";
+
     }
     //availability toggle buttons
       if (is_bikes == true){
@@ -267,6 +269,8 @@ dark_mode_button.addEventListener("click", () => {
     document.getElementById("availabletime").style.color = "lightgreen";
     document.getElementById("datetime-submit-button").style.backgroundColor = "lightgreen";
     document.getElementById("datetime-submit-button").style.color = "black";
+    document.getElementById("displayPrediction").style.backgroundColor ="lightgreen";
+
     }
         //availability toggle buttons
     if (is_bikes == true){
@@ -346,6 +350,8 @@ var sidebarOpened = false;
     document.getElementById("availabletime").style.color = "lightgreen";
     document.getElementById("datetime-submit-button").style.backgroundColor = "lightgreen";
     document.getElementById("datetime-submit-button").style.color = "black";
+    document.getElementById("displayPrediction").style.backgroundColor ="lightgreen";
+
     }
     if(is_light ==true){
       document.getElementById("mySidebar").style.backgroundColor = "white";
@@ -358,7 +364,7 @@ var sidebarOpened = false;
     document.getElementById("availabletime").style.color = "black";
     document.getElementById("datetime-submit-button").style.backgroundColor = "#38bdf8";
     document.getElementById("datetime-submit-button").style.color = "white";
-    
+    document.getElementById("displayPrediction").style.backgroundColor ="white";
     
     }
       });   
