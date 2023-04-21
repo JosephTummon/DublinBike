@@ -172,8 +172,8 @@ dark_mode_button.addEventListener("click", () => {
     document.querySelectorAll(".WhiteBlackColor").forEach(element => element.style.color = "white");
     document.querySelectorAll(".BlueGreenColor").forEach(element => element.style.color = "lightblue");
     document.querySelectorAll(".WhiteBlackBackgroundColor").forEach(element => element.style.backgroundColor = "white");
-    search_nearest_bike.style.backgroundColor = "white";
-    search_nearest_stand.style.backgroundColor = "white";
+    search_nearest_bike.style.backgroundColor = "lightblue";
+    search_nearest_stand.style.backgroundColor = "lightblue";
     search_nearest_div.style.backgroundColor = "white";
     document.querySelectorAll(".BlueGreenBackgroundColor").forEach(element => element.style.backgroundColor = "lightblue");
     document.getElementById("dropdown-container").style.borderLeft="2px solid lightblue";
@@ -335,6 +335,8 @@ var sidebarOpened = false;
         document.getElementById("mySidebar").style.borderWidth = "1.5px";
         document.getElementById("main").style.marginLeft = "600px";
         document.getElementById("mySidebar").style.backgroundColor = "black";
+
+    if (is_light == false){    
     document.getElementById("mySidebar").style.borderColor = "lightgreen";
     document.getElementById("PredictiveChart").style.backgroundColor = "black";
     document.getElementById("stationTitle").style.color = "white";
@@ -344,6 +346,21 @@ var sidebarOpened = false;
     document.getElementById("availabletime").style.color = "lightgreen";
     document.getElementById("datetime-submit-button").style.backgroundColor = "lightgreen";
     document.getElementById("datetime-submit-button").style.color = "black";
+    }
+    if(is_light ==true){
+      document.getElementById("mySidebar").style.backgroundColor = "white";
+    document.getElementById("mySidebar").style.borderColor = "#38bdf8";
+    document.getElementById("PredictiveChart").style.backgroundColor = "white";
+    document.getElementById("stationTitle").style.color = "black";
+    document.getElementById("station-directions").style.backgroundColor = "white";
+    document.getElementById("station-directions-button").style.color = "#3897d3";
+    document.getElementById("availabletime").style.backgroundColor = "white";
+    document.getElementById("availabletime").style.color = "black";
+    document.getElementById("datetime-submit-button").style.backgroundColor = "#38bdf8";
+    document.getElementById("datetime-submit-button").style.color = "white";
+    
+    
+    }
       });   
      }
   }
