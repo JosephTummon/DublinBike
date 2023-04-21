@@ -81,21 +81,6 @@ def update_data():
             time.sleep(60)
         return stations, weather
 
-@app.route("/predictionsold/<int:number>")
-def get_predictions(number):
-    try:
-        vals = {}
-        for i in range(7):
-            vals[str(i)] = {}
-            for j in range(24):
-                prediction = model.predict([[number, i, j]]).tolist()[0]
-                name = "station" + str(number) + str(i) + str(j)
-                vals[str(i)][str(j)] = prediction
-        return jsonify(vals)
-    
-    except Exception as e:
-        print(traceback.format_exc())
-        return "Error in get_predictions: " + str(e), 404
     
 @app.route("/predictions/<int:number>")
 def get_predict(number):
