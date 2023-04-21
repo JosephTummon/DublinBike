@@ -9,117 +9,100 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
    
   </head>
-  <header id = "header">
-    <button id="swap">
-      Swap
-    </button>
+  <header id = "header" class = "WhiteBlackBackgroundColor">
     <img id="header-img" rel="icon" src="/static/images/dblogo-removebg-preview.png" width="35" height="35" type="image/x-icon">
     <div class="logo">
-        <h1><a id="icon-text" class="l" href="http://127.0.0.1:5000/"><span id="db">DB</span>ikes</a></h1>
+        <h1><a id="icon-text" class="l" href="http://127.0.0.1:5000/"><span id="db" class = "BlueGreenColor">DB</span>ikes</a></h1>
     </div>
     <div id="google_translate_element"></div>
-    <div id="nav-functionality-container">
-        <div id="weather-info"></div>
+    <div id="nav-functionality-container" class="WhiteBlackColor">
+        <div id="weather-info" class="WhiteBlackBackgroundColor">
+          <div id="weather" class="WhiteBlackColor WhiteBlackBackgroundColor">
+          </div>
+        </div>
+        <div id="weather-popdown">
+          <div class="location">
+            <i class="fa-solid fa-location-dot fa-xl"></i>
+            <h3>DUBLIN</h3>
+          </div>
+          <div id="weather-icon">
+          </div>
+          <div class="temperature">
+            <h2 id="temp"></h2>
+            <p id="capDescription"></p>
+          </div>
+          <div class="windandhumidity">
+            <div class="humidity">
+              <i class="fa-solid fa-water fa-xl"></i>
+                <div>
+                  <h4 id ="hum"></h4>
+                </div>
+            </div>
+            <div class="wind">
+              <i class="fa-solid fa-wind fa-xl"></i>
+              <div>
+                <h4 id ="windSpeed"></h4>
+              </div>
+            </div>
+          </div>
+        </div>
         <div class="translate-btn">
-          <button id = "translate_button">
+          <button id = "translate_button" class="WhiteBlackBackgroundColor">
             <img id = "translate-black" src="{{ url_for('static', filename='images/google-translate.png') }}" alt="Translate logo">
             <img id = "translate-white" src="{{ url_for('static', filename='images/google-translate-white.png') }}" alt="Translate logo">
           </button>
         </div>
         <div class="dark-mode-btn">
-          <button id = "dark-mode-button">
+          <button id = "dark-mode-button" class = "WhiteBlackBackgroundColor">
             <img id = "light-icon" src="{{ url_for('static', filename='images/sun-removebg-preview.png') }}" alt="Translate logo" height="37" width="37">
             <img id = "dark-icon" src="{{ url_for('static', filename='images/moon.png') }}" alt="Translate logo" height="37" width="37">
           </button>
         </div>
     </div>
   </header>
-  <div id="google_translate_element"></div>
-  <body id = "body">
+  <body id = "body" class = "WhiteBlackBackgroundColor">
 
     <!-- Side Bar-->
     <div id="mySidebar" class="sidebar">
       <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-      <div id="chartContainer">
-        <div id="stationTitle"></div>
-        <div id="PredictiveChart">
+      <div id="stationTitle">
+        <div id="titlecontainer">
+          <h2 id="station-title"></h2>
+          <button id ="station-directions"><i id="station-directions-button" class="fa-solid fa-map-pin fa-2x"></i></button>
         </div>
       </div>
+      <div id="PredictiveChart"></div>
       <div id="loading">
-        <img src="static/Loading.gif" alt="Loading...">
+        <img id = "loadingGif" src="static/images/loading.gif" alt="Loading...">
       </div>
   
       <div id="Model">
         <label id="modelTitle" for="availabletime">Check Station Availability:</label>
         <form>
           <input type="datetime-local" id="availabletime" name="availabletime">
-          <input type="submit">
+          <input id="datetime-submit-button" type="submit" class="myButton" value="Submit">
         </form>
       </div>
       <div id="displayPrediction"></div>
     </div>
     
     <!--Map-->
-    <div id="map">
-    </div>
-    <div id="main"></div>
-    <!-- 
-      The `defer` attribute causes the callback to execute after the full HTML
-      document has been parsed. For non-blocking uses, avoiding race conditions,
-      and consistent behavior across browsers, consider loading using Promises
-      with https://www.npmjs.com/package/@googlemaps/js-api-loader.
-      -->
-    <!-- <div id="select-service">
-      <div id ="select-service-container">
-        <div id = "get-directions" class = "get-directions active">
-          <h2>Get Directions</h2>
-        </div>
-        <div id = "find-stations">
-          <h2>Find Stations</h2>
-        </div>
-      </div>
-    </div> -->
-    <div id="directions">
-      <div id="search-station-container">
-        <div>
-          <div class="search">
-            <button id="go">Go</button>
-            <div><i id="pin" class="fa-solid fa-map-pin" style="color: #00A4D3;"></i></div>
-            <div>
-                <input type="text" id="start-input" placeholder="Type to search for start destination">
-                <div id="result-box1" class="result-box"></div>
-                <div id="test1"></div>
-            </div>
-            <div><i id="dest_marker" class="fa-solid fa-location-dot" style="color: #00A4D3;"></i></div>
-            <div>
-                <input type="text" id="end-input" placeholder="Type to search for end destination">
-                <div id="result-box2" class="result-box"></div>
-                <div id="test1"></div>
-            </div>
+    <div id="map"></div>
+    <div id="main"> </div>
+
+    <input id="pac-input"class="search WhiteBlackBackgroundColor"type="text"placeholder="Search...">
+           <div id = "search-nearest-btns">
+            <button id="search-nearest-bike">
+              <a>Target</a>
+              <i class="fa-solid fa-bicycle"></i>
+            </button>
+            <button id="search-nearest-stand">
+              <a>Target<br></a>
+              <i class="fa-solid fa-square-parking"></i>
+            </button>
           </div>
-        </div>
-      </div>
-      <div id="dropdown">
-        <div id="dropdown-container">
-          <select id="option">
-            <option value="Smithfield North" selected>Find Station</option>
-          </select>
-        </div>
-      </div>
-    </div>
-  <!--ELEMENTS IN THE MAPS-->
-    <!-- <div id = "search-nearest-btns">
-      <button id="search-nearest-bike">
-        <a>Target</a>
-        <i class="fa-solid fa-bicycle"></i>
-      </button>
-      <button id="search-nearest-stand">
-        <a>Target<br></a>
-        <i class="fa-solid fa-square-parking"></i>
-      </button>
-    </div> -->
-    <!--Code for swapping nums on station pins-->
-    <div id ="button-div" class="buttons">
+
+    <div id ="button-div" class="buttons WhiteBlackBackgroundColor">
       <div id = "btn1" class = "btn active">
         <i class="fa-solid fa-bicycle"></i>
         <a class="button-text" >Available<br>Bikes</a>
@@ -131,28 +114,64 @@
     </div>
 
     <div id = "location-buttons">
-      <div id ="nearest-bike">
-        <div class="nearest-div">
+      <div id ="nearest-bike" class = "BlueGreenBackgroundColor">
+        <div class="nearest-bike-div">
           <i class="fa-solid fa-bicycle fa-xl"></i>
           <a class="button-text">Nearest <br> Bike</a>
         </div>
       </div>
-      <div id ="nearest-stand">
-        <div class="nearest-div">
+      <div id ="nearest-stand" class ="BlueGreenBackgroundColor">
+        <div class="nearest-stand-div">
           <i class="fa-solid fa-square-parking fa-xl"></i>
           <a class="button-text">Nearest <br>Space</a>
         </div>
       </div>
     </div>
 
-    <!--End of swapping nums code-->
-    <input id="pac-input"class="search"type="text"placeholder="Search...">
-
-    <div id="weather-popdown">
+    <div id = "location-buttons1">
+      <div id ="nearest-bike1"  class = "BlueGreenBackgroundColor">
+        <div class="nearest-bike-div1" id ="swap">
+          <i class="fa-solid fa-rotate"></i>        
+        </div>
+      </div>
+      <div id ="nearest-stand1" class = "BlueGreenBackgroundColor">
+        <div class="nearest-stand-div1" id="clear-directions">
+          <i class="fa-regular fa-trash-can"></i>        
+        </div>
+      </div>
     </div>
 
+    <button id="locationButton"><i class="fa-solid fa-location-crosshairs"></i></button>
     
- 
+    <div class="container"> <!--Footer tools-->
+      <div class="search">
+        <button id="go" class = "BlueGreenBackgroundColor">Go</button>
+        <div><i id="pin" class="fa-solid fa-map-pin BlueGreenColor" style="color: #00A4D3;"></i></div>
+        <div>
+            <input type="text" id="start-input" placeholder="Type to search for start destination">
+            <div id="result-box1" class="result-box"></div>
+            <div id="test1"></div>
+        </div>
+        <div><i id="dest_marker" class="fa-solid fa-location-dot BlueGreenColor" style="color: #00A4D3;"></i></div>
+        <div>
+            <input type="text" id="end-input" placeholder="Type to search for end destination">
+            <div id="result-box2" class="result-box"></div>
+            <div id="test1"></div>
+        </div>
+      </div>
+      <div id="dropdown" class="WhiteBlackBackgroundColor">
+        <div id="dropdown-container">
+          <select id="option">
+            <option value="Smithfield North" selected>Find Station</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+  
+    
+
+    
     <script
       src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDgYC8VXvS4UG9ApSUhS2v-ByddtHljFls&libraries=places&callback=initMap&v=weekly"
       defer
@@ -175,6 +194,7 @@
       function closeNav() {
         document.getElementById("mySidebar").style.width = "0";
         document.getElementById("main").style.marginLeft = "0";
+        document.getElementById("mySidebar").style.borderWidth = "0px";
       }
     </script>
      <!--  -->

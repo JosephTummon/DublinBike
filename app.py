@@ -58,7 +58,7 @@ def get_weather():
         weather = json.loads(text)
         # Extract the necessary values from the JSON object
         vals = (weather["weather"][0]["main"], weather["weather"][0]["description"], weather["main"]["temp"], weather["visibility"], weather["wind"]["speed"], weather["wind"]["deg"], weather["clouds"]["all"], datetime.timestamp(datetime.now()))
-        print('#found {} Availability {}'.format(len(vals), vals))
+        #print('#found {} Availability {}'.format(len(vals), vals))
         return weather
     except Exception as e:
         print(traceback.format_exc())
@@ -71,7 +71,7 @@ def update_data():
             # Call the get_stations function and update the stations variable
             stations = get_stations()
             weather = get_weather()
-            print("Data updated at {}".format(datetime.now()))
+            # print("Data updated at {}".format(datetime.now()))
             # Sleep for 30 seconds before calling the function again
             time.sleep(60)
         except Exception as e:
@@ -81,21 +81,6 @@ def update_data():
             time.sleep(60)
         return stations, weather
 
-@app.route("/predictionsold/<int:number>")
-def get_predictions(number):
-    try:
-        vals = {}
-        for i in range(7):
-            vals[str(i)] = {}
-            for j in range(24):
-                prediction = model.predict([[number, i, j]]).tolist()[0]
-                name = "station" + str(number) + str(i) + str(j)
-                vals[str(i)][str(j)] = prediction
-        return jsonify(vals)
-    
-    except Exception as e:
-        print(traceback.format_exc())
-        return "Error in get_predictions: " + str(e), 404
     
 @app.route("/predictions/<int:number>")
 def get_predict(number):
@@ -109,7 +94,7 @@ def get_predict(number):
         text = requests.get(JCDEAUXAPI).text
         stations = json.loads(text)
         for station in stations:
-            if station['number'] == 42:
+            if station['number'] == number:
                 stand_number = station['bike_stands'] 
                 
 
@@ -122,6 +107,7 @@ def get_predict(number):
             hour = int(datetime_obj.strftime("%H"))
             day = int(datetime_obj.weekday())
 
+            # Weather API only forecasts every 5 hours, so need to fill in any gap
             for j in range(5):
                 df = pd.DataFrame(columns=["number","temp", "wind_speed","wind_direction","clouds","hour",'weekday_or_weekend_weekday','weekday_or_weekend_weekend'])
                 df.loc[0, "number"] = number
@@ -129,6 +115,10 @@ def get_predict(number):
                 df.loc[0, "wind_speed"] = i["wind"]["speed"]
                 df.loc[0, "wind_direction"] = i["wind"]["deg"]
                 df.loc[0, "clouds"] = i["clouds"]["all"]
+                # Need variables to show with bike stand predictions
+                temp = i["main"]["temp"]
+                description = i["weather"][0]["description"]
+                icon = i["weather"][0]["icon"]
 
                 # Check in case it has gone into the next day
                 if (hour + j) >= 24:
@@ -137,28 +127,33 @@ def get_predict(number):
                         day = 0
                     hour -= 24
                 df.loc[0, "hour"] = hour + j
+                # Model takes weekday or weekend instead  of which day of the week it is
                 if day < 5:
                     df.loc[0, "weekday_or_weekend_weekend"] = 0
                     df.loc[0, "weekday_or_weekend_weekday"] = 1
                 else:
                     df.loc[0, "weekday_or_weekend_weekend"] = 1
                     df.loc[0, "weekday_or_weekend_weekday"] = 0
+                # Make prediction and add it and forecast to dictionary
                 prediction = int(model.predict(df).tolist()[0])
-                predictions[day][hour+j] = prediction
-        for j in range(7):
-            for i in range(24):
-                try:
-                    a = predictions[j][i]
-                except:
-                    df.loc[0, "hour"] = i
-                    day = j
-                    if day < 5:
-                        df.loc[0, "weekday_or_weekend_weekend"] = 0
-                        df.loc[0, "weekday_or_weekend_weekday"] = 1
-                    else:
-                        df.loc[0, "weekday_or_weekend_weekend"] = 1
-                        df.loc[0, "weekday_or_weekend_weekday"] = 0
-                    predictions[j][i] = int(model.predict(df).tolist()[0])
+                predictions[day][hour+j] = [prediction, temp, description, icon]
+        
+            # Forecast only predicts for 5 days at a time, if a position in dictionary is empty, will fill with most recent weather data.
+            for j in range(24):
+                for i in range(7):
+                    try:
+                        a = predictions[i][j]
+                    except:
+                        df.loc[0, "hour"] = j
+                        day = i
+                        if day < 5:
+                            df.loc[0, "weekday_or_weekend_weekend"] = 0
+                            df.loc[0, "weekday_or_weekend_weekday"] = 1
+                        else:
+                            df.loc[0, "weekday_or_weekend_weekend"] = 1
+                            df.loc[0, "weekday_or_weekend_weekday"] = 0
+                        predictions[i][j] = [int(model.predict(df).tolist()[0]), temp, description, icon]
+        # Will add stand number at end of dictionary so can get available stands as well
         predictions[8] = stand_number
         return predictions
     
