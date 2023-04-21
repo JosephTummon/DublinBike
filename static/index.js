@@ -310,6 +310,7 @@ dark_mode_button.addEventListener("click", () => {
 
 //////////////////////ADD MARKERS AND INFO WINDOWS TO MAP////////////////////////////////
 var sidebarOpened = false;
+
   // Displays the station data on the map as markers and info windows
   function addMarkers(stations) {
     // Create arrays to store the markers and info windows
@@ -333,6 +334,16 @@ var sidebarOpened = false;
         document.getElementById("mySidebar").style.width = "600px";
         document.getElementById("mySidebar").style.borderWidth = "1.5px";
         document.getElementById("main").style.marginLeft = "600px";
+        document.getElementById("mySidebar").style.backgroundColor = "black";
+    document.getElementById("mySidebar").style.borderColor = "lightgreen";
+    document.getElementById("PredictiveChart").style.backgroundColor = "black";
+    document.getElementById("stationTitle").style.color = "white";
+    document.getElementById("station-directions").style.backgroundColor = "lightgreen";
+    document.getElementById("station-directions-button").style.color = "black";
+    document.getElementById("availabletime").style.backgroundColor = "black";
+    document.getElementById("availabletime").style.color = "lightgreen";
+    document.getElementById("datetime-submit-button").style.backgroundColor = "lightgreen";
+    document.getElementById("datetime-submit-button").style.color = "black";
       });   
      }
   }
