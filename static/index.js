@@ -1086,7 +1086,7 @@ function getPrediction(number, dayOfWeek, hour) {
     .then(data => {
       var weatherIcon = data[dayOfWeek][hour][3];
       var stands = data[8] - data[dayOfWeek][hour][0];
-      var predictionHTML = `<div class='predictionIcon'><i class="fa-solid fa-bicycle fa-3x" style="color: #3897d3;"></i><p>Bikes:${data[dayOfWeek][hour][0]}</p></div>
+      var predictionHTML = `<div class='predictionIcon'><i class="fa-solid fa-bicycle fa-3x" style="color: #3897d3;"></i><p>Bikes: ${data[dayOfWeek][hour][0]}</p></div>
                             <div class='predictionIcon'><i class="fa-solid fa-square-parking fa-3x" style="color: #3897d3;"></i><p>Stands: ${stands}</p></div>
                             <div class='predictionIcon'><img id='side-weather-icon' src=https://openweathermap.org/img/wn/${weatherIcon}.png alt='icon' style='filter: drop-shadow(0px 0px 0px black) drop-shadow(0px 0px 0px black)
                             drop-shadow(0px 0px 0px black) drop-shadow(0px 0px 8px rgba(0, 0, 0, 0.1))'>
