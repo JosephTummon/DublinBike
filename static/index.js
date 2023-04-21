@@ -187,6 +187,7 @@ dark_mode_button.addEventListener("click", () => {
     
     // Light mode for sidebar
     document.getElementById("mySidebar").style.backgroundColor = "white";
+    document.getElementById("mySidebar").style.borderColor = "#38bdf8";
     document.getElementById("PredictiveChart").style.backgroundColor = "white";
     document.getElementById("stationTitle").style.color = "black";
     document.getElementById("station-directions").style.backgroundColor = "white";
@@ -253,6 +254,7 @@ dark_mode_button.addEventListener("click", () => {
 
     //darkmode for sidebar
     document.getElementById("mySidebar").style.backgroundColor = "black";
+    document.getElementById("mySidebar").style.borderColor = "lightgreen";
     document.getElementById("PredictiveChart").style.backgroundColor = "black";
     document.getElementById("stationTitle").style.color = "white";
     document.getElementById("station-directions").style.backgroundColor = "lightgreen";
@@ -260,7 +262,7 @@ dark_mode_button.addEventListener("click", () => {
     document.getElementById("availabletime").style.backgroundColor = "black";
     document.getElementById("availabletime").style.color = "lightgreen";
     document.getElementById("datetime-submit-button").style.backgroundColor = "lightgreen";
-    document.getElementById("datetime-submit-button").style.color = "black";
+    document.getElementById("datetime-submit-button").style.color = "#black";
  
         //availability toggle buttons
     if (is_bikes == true){
