@@ -184,6 +184,17 @@ dark_mode_button.addEventListener("click", () => {
     document.getElementById("weather-info").style.marginRightColor= "white";
     document.getElementById("translate-black").style.display = "";
     document.getElementById("translate-white").style.display = "none";
+    
+    // Light mode for sidebar
+    document.getElementById("mySidebar").style.backgroundColor = "white";
+    document.getElementById("PredictiveChart").style.backgroundColor = "white";
+    document.getElementById("stationTitle").style.color = "black";
+    document.getElementById("station-directions").style.backgroundColor = "white";
+    document.getElementById("station-directions-button").style.color = "#3897d3";
+    document.getElementById("availabletime").style.backgroundColor = "white";
+    document.getElementById("availabletime").style.color = "black";
+    document.getElementById("datetime-submit-button").style.backgroundColor = "#38bdf8";
+    document.getElementById("datetime-submit-button").style.color = "white";
 
     //availability toggle buttons
       if (is_bikes == true){
@@ -239,6 +250,17 @@ dark_mode_button.addEventListener("click", () => {
     document.getElementById("weather-info").style.marginRightColor= "black";
     document.getElementById("translate-black").style.display = "none";
     document.getElementById("translate-white").style.display = "";
+
+    //darkmode for sidebar
+    document.getElementById("mySidebar").style.backgroundColor = "black";
+    document.getElementById("PredictiveChart").style.backgroundColor = "black";
+    document.getElementById("stationTitle").style.color = "white";
+    document.getElementById("station-directions").style.backgroundColor = "lightgreen";
+    document.getElementById("station-directions-button").style.color = "black";
+    document.getElementById("availabletime").style.backgroundColor = "black";
+    document.getElementById("availabletime").style.color = "lightgreen";
+    document.getElementById("datetime-submit-button").style.backgroundColor = "lightgreen";
+    document.getElementById("datetime-submit-button").style.color = "black";
  
         //availability toggle buttons
     if (is_bikes == true){
@@ -974,7 +996,7 @@ function drawChart(number) {
     .then(response => response.json())
     .then(data => {
       const chosenStationName = data[0].address;
-      document.getElementById("stationTitle").innerHTML = `<div id="title-container"><h2 id="station-title">${chosenStationName}</h2><button id ="station-directions"><i class="fa-solid fa-map-pin fa-2x"></i></button></div>`;
+      document.getElementById("stationTitle").innerHTML = `<div id="title-container"><h2 id="station-title">${chosenStationName}</h2><button id ="station-directions"><i id="station-directions-button" class="fa-solid fa-map-pin fa-2x"></i></button></div>`;
 
       ////////////////////////////USER-STATION DIRECTIONS////////////////////
       var station_directions = document.getElementById("station-directions");

@@ -95,13 +95,15 @@ header {
 /*Title and directions*/
 #title-container {
   display: flex;
-  flex-direction: right;
+  flex-direction: row;
   align-items: center;
 }
 #station-title {
   margin-right: 20px;
+  flex: 1;
 }
 #station-directions {
+  flex: 1;
   background-color: white;
   border: none;
   font-size: 15px;
