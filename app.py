@@ -122,6 +122,7 @@ def get_predict(number):
             hour = int(datetime_obj.strftime("%H"))
             day = int(datetime_obj.weekday())
 
+            # Weather API only forecasts every 5 hours, so need to fill in any gap
             for j in range(5):
                 df = pd.DataFrame(columns=["number","temp", "wind_speed","wind_direction","clouds","hour",'weekday_or_weekend_weekday','weekday_or_weekend_weekend'])
                 df.loc[0, "number"] = number
@@ -129,6 +130,7 @@ def get_predict(number):
                 df.loc[0, "wind_speed"] = i["wind"]["speed"]
                 df.loc[0, "wind_direction"] = i["wind"]["deg"]
                 df.loc[0, "clouds"] = i["clouds"]["all"]
+                # Need variables to show with bike stand predictions
                 temp = i["main"]["temp"]
                 description = i["weather"][0]["description"]
                 icon = i["weather"][0]["icon"]
@@ -140,27 +142,31 @@ def get_predict(number):
                         day = 0
                     hour -= 24
                 df.loc[0, "hour"] = hour + j
+                # Model takes weekday or weekend instead  of which day of the week it is
                 if day < 5:
                     df.loc[0, "weekday_or_weekend_weekend"] = 0
                     df.loc[0, "weekday_or_weekend_weekday"] = 1
                 else:
                     df.loc[0, "weekday_or_weekend_weekend"] = 1
                     df.loc[0, "weekday_or_weekend_weekday"] = 0
+                # Make prediction and add it and forecast to dictionary
                 prediction = int(model.predict(df).tolist()[0])
                 predictions[day][hour+j] = [prediction, temp, description, icon]
-            for i in range(24):
-                try:
-                    a = predictions[j][i]
-                except:
-                    df.loc[0, "hour"] = i
-                    day = j
-                    if day < 5:
-                        df.loc[0, "weekday_or_weekend_weekend"] = 0
-                        df.loc[0, "weekday_or_weekend_weekday"] = 1
-                    else:
-                        df.loc[0, "weekday_or_weekend_weekend"] = 1
-                        df.loc[0, "weekday_or_weekend_weekday"] = 0
-                    predictions[j][i] = [int(model.predict(df).tolist()[0]), temp, description, icon]
+            
+            for j in range(24):
+                for i in range(7):
+                    try:
+                        a = predictions[i][j]
+                    except:
+                        df.loc[0, "hour"] = j
+                        day = i
+                        if day < 5:
+                            df.loc[0, "weekday_or_weekend_weekend"] = 0
+                            df.loc[0, "weekday_or_weekend_weekday"] = 1
+                        else:
+                            df.loc[0, "weekday_or_weekend_weekend"] = 1
+                            df.loc[0, "weekday_or_weekend_weekday"] = 0
+                        predictions[i][j] = [int(model.predict(df).tolist()[0]), temp, description, icon]
         predictions[8] = stand_number
         return predictions
     
