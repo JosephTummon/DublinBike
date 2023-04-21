@@ -183,6 +183,7 @@ dark_mode_button.addEventListener("click", () => {
     document.getElementById("weather-info").style.marginRightColor= "white";
     document.getElementById("translate-black").style.display = "";
     document.getElementById("translate-white").style.display = "none";
+    document.getElementById("loadingGif").src = "static/images/loading.gif"
     
     if(sidebarOpened == true){
     // Light mode for sidebar
