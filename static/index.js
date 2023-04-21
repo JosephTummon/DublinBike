@@ -918,12 +918,15 @@ go_button.addEventListener("click", function() {
 //clear on-map directions service
 clear_button.addEventListener("click", function() {
   var currentRoute = directionsRenderer.getDirections(); //get var of current directions
-  if (!currentRoute && !searchBox) { //in case clicked before directions generated
+  if (!currentRoute && !searchBox &&!search_marker) { //in case clicked before directions generated
     alert("No route has been set yet");
     return;
   }
-    search_marker.setMap(null);
-     directionsRenderer.setDirections({routes: []}); // Remove directions line    
+  if (search_marker){search_marker.setMap(null);}
+  markers.forEach(marker => {
+    marker.setMap(null);
+  });
+  directionsRenderer.setDirections({routes: []}); // Remove directions line    
  }); 
 
 function calculateAndDisplayRoute(directionsRenderer,directionsService, map) {
