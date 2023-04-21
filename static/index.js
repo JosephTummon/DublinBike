@@ -422,6 +422,8 @@ var sidebarOpened = false;
   // Create the search box and link it to the UI element.
   const input = document.getElementById("pac-input"); //get JS constant for the html search input
   const searchBox = new google.maps.places.SearchBox(input); //convert the html search box to a Google maps search box
+  searchBox.setBounds(map.getBounds());
+
   var search_marker; //initialise the search marker
 
   //if someone searches in bar...
