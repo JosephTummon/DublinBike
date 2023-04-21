@@ -906,8 +906,27 @@ button.gm-ui-hover-effect {
 
 
 #locationButton{
-  margin-right: 15px;
+  margin-right: 10px;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 2px;
+  box-shadow: 0 1px 4px -1px rgba(0,0,0,.3);
+  padding: 6px;
+  cursor: pointer;
+  z-index: 1;
+  width: 40px;
+  height: 40px;
+  justify-content: center;
+  align-items: center;
 }
+#locationButton i {
+  font-family: "Font Awesome 5 Free";
+  font-weight: 900;
+  font-size: 20px;
+}
+
+
+
 
  #weather-popdown{
   display:none;
