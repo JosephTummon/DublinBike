@@ -49,6 +49,7 @@ async function initMap() {
   }
   ///////////END OF GETTING DATA ///////////////
 
+  
   /////////////MANIPULATING WEATHER DATA FOR HEADER///////////////////
   // Displays the station data on the map as markers and info windows
 function displayWeather(data) {
@@ -104,6 +105,7 @@ function displayWeather(data) {
   }
   /////////////END OF MANIPULATING WEATHER DATA/////////////////////////
 
+  
 //////////////////////TRANSLATE VISIBILITY BUTTON///////////////////////////////
   const translate_button = document.getElementById("translate_button");
   var translate_vis = false;
@@ -120,10 +122,10 @@ function displayWeather(data) {
   });
 /////////////////////END OF TRANSLATE VISIBILITY//////////////////////////////
 
+
 //////////////////// LIGHT/DARKMODE CODE//////////////// /////////
 var is_light = true; //track light and dark mode
 var is_bikes = true; //track which of toggle buttons is active
-
 
 //toggle button code
 const b1= document.getElementById("btn1");
@@ -323,9 +325,6 @@ dark_mode_button.addEventListener("click", () => {
       
     });  
     marker.setLabel(station.available_bikes.toString()); //display num of available bikes on marker icon
-    
-
-
     ///////////////////////////CODE TO MAKE BIKES->STANDS TOGGLE//////////////// 
     //Toggle code to change num on station pin
     const toggleButton1 = document.getElementById("btn1");
@@ -343,8 +342,7 @@ dark_mode_button.addEventListener("click", () => {
     //////////////////////////END OF BIKES->STANDS TOGGLE////////////////////////
       return marker;
   }
-      ////////////////////////////END OF MARKERS///////////////////////////////////
-
+      ////////////////////////////END OF MARKERS////////////////////////////////////
       ////////////////////////////INFO WINDOWS DETAILS//////////////////////////////
   // Creates a new info window object for the given station, called when creating each marker 
   function createInfoWindow(station) {
@@ -435,8 +433,6 @@ dark_mode_button.addEventListener("click", () => {
     searchBox.setBounds(map.getBounds());
   });
 
-
-
 //THINK THIS IS REDUNDANT CODE////////////////
   // // Listen for the event fired when the user selects a prediction and retrieve
   // // more details for that place.
@@ -468,6 +464,7 @@ dark_mode_button.addEventListener("click", () => {
   /////END OF SUSPECTED REDUNDANT CODE//////////////
 
   ////////////END OF MAP SEARCH BOX//////////////////////////////////////
+
 
   //////////////CODE FOR SEARCH'S NEAREST BUTTONS ////////////////////////
 // var search_nearest_bike =document.getElementById("search-nearest-bike"); //attach JS var to the corresponding html button
@@ -523,6 +520,7 @@ dark_mode_button.addEventListener("click", () => {
 // });
 
 /////////////END OF SEARCH'S NEAREST BUTTONS ////////////////////////
+
 
 ///////////////////CODE FOR USER-NEAREST BUTTONS///////////////////////////
   //make fresh array copy to protect original
@@ -695,7 +693,6 @@ document.getElementById("nearest-bike1").addEventListener("click", () =>{
   currentRoute.request.origin = old_destination;
   currentRoute.request.destination = old_origin;
 
-
   //update directions with new route with new values
   try {
     directionsService.route(currentRoute.request, function(result, status) {
@@ -721,15 +718,9 @@ document.getElementById("nearest-bike1").addEventListener("click", () =>{
       // swap the input box values
       input1.value = old_orig_input;
       input2.value = old_dest_input;
-    }
-
-
-    
+    }   
 });
-
 /////////////////////END OF SWAP ORIGIN-DESTINATION BUTTON/////////////////////////
-
-
 
 
 //////////////////////CODE FOR USER LOCATION BUTTON///////////////////////////////////
@@ -740,7 +731,6 @@ document.getElementById("nearest-bike1").addEventListener("click", () =>{
     map.panTo(userCoords);
   });   
 /////////////////////END OF USER LOCATION BUTTON//////////////////////////////////////
-  
 ////////////////////USER LOCATION FUNCTION///////////////////////////
 //returns user location or default location as LatLng. Adds a marker to the map too
    function getUserLocation() {
@@ -794,8 +784,6 @@ document.getElementById("nearest-bike1").addEventListener("click", () =>{
   };
 //////////////END OF USER LOCATION FUNCTION///////////////////////
 
-
-
   
 ////////////CODE TO OVERLAY BUTTONS ON MAP /////////////////////
   const buttons = document.getElementById("button-div");
@@ -810,10 +798,10 @@ document.getElementById("nearest-bike1").addEventListener("click", () =>{
   map.controls[google.maps.ControlPosition.RIGHT_TOP].push(location_buttons);
   map.controls[google.maps.ControlPosition.BOTTOM_RIGHT].push(locateNearest);
   map.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(locationButton); //adding locationButton to bottom right as map control
-
 /////////////////END OF MAP OVERLAY CODE ///////////////////////
 
-  /////////////STATION TO STATION DIRECTIONS BOX///////////////////////////BILL COMMENT THIS SECTION & EXPLAIN
+
+/////////////STATION TO STATION DIRECTIONS BOX///////////////////////////BILL COMMENT THIS SECTION & EXPLAIN
   function displayInputBox(stations) {
     const stationList = [];
     const start = document.getElementById("start-input");
@@ -889,7 +877,6 @@ document.getElementById("nearest-bike1").addEventListener("click", () =>{
     };
 }
 ///////////////////////END OF STATION TO STATION DIRECTIONS BOX///////////////////////////////
-
 ////////////////////CODE FOR STATION-STATION DIRECTIONS///////////////////
 
 //get go and clear buttons from html doc
@@ -932,7 +919,7 @@ function calculateAndDisplayRoute(directionsRenderer,directionsService, map) {
 ///////////////END OF STATION-STATION DIRECTIONS//////////////
 
 
-  /////////////////////////CODE FOR FIND STATION DROPDOWN////////////////////////////
+/////////////////////////CODE FOR FIND STATION DROPDOWN////////////////////////////
   var markers = []; // Array to store markers
 
   // Function to display drop down for stations
@@ -978,6 +965,7 @@ function displayDropDown(stations) {
     });
 }
 /////////////////////END OF FIND STATION DROPDOWN CODE/////////////////////////
+
 
 //////////////CODE TO DRAW CHART/PREDICTION IN SIDEBAR//////////////JOE
 function drawChart(number) {
@@ -1030,14 +1018,11 @@ function drawChart(number) {
     });
     //////////////////////////END OF USER-STATION DIRECTIONS/////////////////////////////
       
-      
       const chart_data = new google.visualization.DataTable();
       chart_data.addColumn("string", "Week_Day_No");
       chart_data.addColumn("number", "Average Bikes Available");
       chart_data.addColumn("number", "Average Bike Stands");
-
       const dayNames = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
-
       const rows = dayNames.map(dayName => {
         const matchingData = data.find(obj => obj.day_of_week === dayName);
         return [dayName, matchingData ? matchingData.Avg_bikes_free : null, matchingData ? matchingData.Avg_bike_stands : null];
@@ -1100,10 +1085,6 @@ function getPrediction(number, dayOfWeek, hour) {
     });
 }
 ///////////////END OF CHART/PREDICTION///////////////////////
-
-
-
-  
 }
 
 window.initMap = initMap;
