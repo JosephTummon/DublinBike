@@ -58,7 +58,7 @@ def get_weather():
         weather = json.loads(text)
         # Extract the necessary values from the JSON object
         vals = (weather["weather"][0]["main"], weather["weather"][0]["description"], weather["main"]["temp"], weather["visibility"], weather["wind"]["speed"], weather["wind"]["deg"], weather["clouds"]["all"], datetime.timestamp(datetime.now()))
-        print('#found {} Availability {}'.format(len(vals), vals))
+        #print('#found {} Availability {}'.format(len(vals), vals))
         return weather
     except Exception as e:
         print(traceback.format_exc())
@@ -71,7 +71,7 @@ def update_data():
             # Call the get_stations function and update the stations variable
             stations = get_stations()
             weather = get_weather()
-            print("Data updated at {}".format(datetime.now()))
+            # print("Data updated at {}".format(datetime.now()))
             # Sleep for 30 seconds before calling the function again
             time.sleep(60)
         except Exception as e:
