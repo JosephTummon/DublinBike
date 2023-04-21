@@ -751,9 +751,12 @@ mapSearchBox.addEventListener('change', function() {
 });
 
 async function searchNearbyStations(location) {
+  document.getElementById('station-info').innerHTML='';
   const response = await fetch("/stations");
   const data = await response.json();
   console.log('fetch response', typeof data);
+
+  var stationElem = document.getElementById("station-info");
 
   const geocoder = new google.maps.Geocoder();
   geocoder.geocode({ address: location }, function(results, status) {
@@ -763,14 +766,41 @@ async function searchNearbyStations(location) {
       for (let i = 0; i < data.length; i++) {
         const station = data[i];
         const stationLatLng = new google.maps.LatLng(station.position.lat, station.position.lng);
+        const name = station.address;
+        const availableBikes = station.available_bikes;
+        const available_bike_stands = station.available_bike_stands;
 
         if (google.maps.geometry.spherical.computeDistanceBetween(latlng, stationLatLng) <= 500) {
           console.log(station);
+          // Create an HTML element to display the name and address of the station
+          stationElem.innerHTML += `
+          <div id="el">
+            <h3>${name}</h3>
+            <div class="station-data">
+              <div class="available-bikes">
+                  <p>${availableBikes}</p>
+                  <h2><i class="fa-solid fa-bicycle"></i></h2>
+              </div>
+              <div class="parked">
+                  <p>${available_bike_stands}</p>
+                  <h2><i class="fa-solid fa-square-parking"></i></h2>
+              </div>
+            </div>
+          <div>
+      `
+          // Add an event listener to the station element
+          stationElem.addEventListener('click', function() {
+          // Center the map on the coordinates of the station
+          map.setCenter(place.geometry.location);
+          map.setZoom(18);
+          document.getElementById('station-info').innerHTML='';
+        });
         }
       }
     } else {
-      console.log("Geocode was not successful for the following reason: " + status);
+      stationElem.innerHTML = `<p>No Bike Stations in this area :(</p>`;
     }
+
   });
 }
 
