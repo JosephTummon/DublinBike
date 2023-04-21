@@ -474,8 +474,8 @@ the div
 
 #google_translate_element {
   position: fixed;
-  top: 18px;
-  left: 20%;
+  top: 0px;
+  left: 0px;
   display: none;
 }
 
