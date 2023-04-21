@@ -799,6 +799,13 @@ button.gm-ui-hover-effect {
   padding-left: 10px;
 }
 
+.nearest-bike1 i {
+  margin: 0 auto;
+}
+
+.nearest-stand-div1 i {
+  margin: 0 auto;
+}
 .nearest-bike-div i {
   margin-top: 18px;
   margin-right: 8px;
@@ -952,8 +959,9 @@ button.gm-ui-hover-effect {
 }
 
 .nearest-bike-div1 i {
-  margin-top: 15px;
+  margin-top: 17px;
   margin-right: 0px;
+  margin-left: 7px;
 }
 
 .nearest-bike-div1 a {
