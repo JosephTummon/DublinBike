@@ -7,6 +7,7 @@ let map;
 let autocomplete;
 let infoWindow;
 var markerArray = [];
+const localStation = document.getElementById("search-nearest-btns");
  
 // Initialize and add the map
 async function initMap() {
@@ -489,6 +490,7 @@ var sidebarOpened = false;
       }
       map.panTo(search_marker.position);
       map.setZoom(map.getZoom() + 2);
+      localStation.style.display = "flex";
   });
 
   //Limit the search box's results to areas visible on the map
@@ -538,7 +540,7 @@ search_nearest_stand.addEventListener("click", async function () {
     var sorted_array = sortLocationsByProximity(duplicate_markerArray, target_coords);
     var nearest_stations = nearby_stations_with_x(sorted_array, "stands");
     var nearest_stand = await nearest_station(nearest_stations, target_coords, 'BICYCLING');
-    var nearest_stand_coords = nearest_bike.position  //convert station to lat and lng     
+    var nearest_stand_coords = nearest_stand.position  //convert station to lat and lng     
 
     var request = {
       origin: target_coords,
