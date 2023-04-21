@@ -4,7 +4,6 @@
     <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
     <script src="https://www.gstatic.com/charts/loader.js"></script>
     <link rel = "icon" href = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRnlkb-CEy6bhOsWRtUOASzFfh5K2z-HL6JDA&usqp=CAU" type = "image/x-icon"> 
-    <script type="module" src="{{ url_for('static', filename='index.js') }}"></script>   
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
    
@@ -73,7 +72,8 @@
       </div>
       <div id="PredictiveChart"></div>
       <div id="loading">
-        <img id = "loadingGif" src="static/images/loading.gif" alt="Loading...">
+        
+        <img id = "loadingGif" src="{{url_for('static', filename='images/loading.gif') }}" alt="Loading...">
       </div>
   
       <div id="Model">
@@ -196,6 +196,8 @@
         document.getElementById("mySidebar").style.borderWidth = "0px";
       }
     </script>
+        <script type="module" src="{{ url_for('static', filename='index.js') }}"></script>   
+
      <!--  -->
 
 
