@@ -347,16 +347,6 @@ dark_mode_button.addEventListener("click", () => {
       ////////////////////////////INFO WINDOWS DETAILS//////////////////////////////
   // Creates a new info window object for the given station, called when creating each marker 
   function createInfoWindow(station) {
-    // Variable to change height of all bars in sidebar chart
-    const height = 5;
-    const height1 = station.prediction0 * height;
-    const height2 = station.prediction1 * height;
-    const height3 = station.prediction2 * height;
-    const height4 = station.prediction3 * height;
-    const height5 = station.prediction4 * height;
-    const height6 = station.prediction5 * height;
-    const height7 = station.prediction6 * height;
-    const height8 = station.prediction7 * height;
     //hover info windows information
     const contentString = `
       <div class="info-window">
@@ -1074,31 +1064,34 @@ function drawChart(number) {
 
       const form = document.querySelector('form');
       form.addEventListener('submit', (event) => {
-        console.log("Testing");
         event.preventDefault(); // prevent form submission
         var datetime = document.getElementById('availabletime').value;
-        console.log(datetime); // log the value of the datetime input field
         var datetime = new Date(datetime); 
         const dayOfWeek = datetime.getDay(); // returns 0 for Sunday, 1 for Monday, and so on
         const hour = datetime.getHours();
-        console.log(dayOfWeek, hour);
-        getPrediction(number, dayOfWeek, hour);
+        getPrediction(number, dayOfWeek, hour, datetime);
       });
     });
 }
 
-function getPrediction(number, dayOfWeek, hour) {
+function getPrediction(number, dayOfWeek, hour, datetime) {
   fetch(`/predictions/${number}`)
     .then(response => response.json())
     .then(data => {
+      var now = new Date;
+      // Handle error if somebody enters a date or time in the past
+      if (now > datetime) {
+        alert("Please enter a date or time in the future to make a prediction.");
+      }
       var weatherIcon = data[dayOfWeek][hour][3];
       var stands = data[8] - data[dayOfWeek][hour][0];
+      var temp = Math.round((data[dayOfWeek][hour][1] - 273.15) * 10) / 10;
       var predictionHTML = `<div class='predictionIcon'><i class="fa-solid fa-bicycle fa-3x" style="color: #3897d3;"></i><p>Bikes: ${data[dayOfWeek][hour][0]}</p></div>
                             <div class='predictionIcon'><i class="fa-solid fa-square-parking fa-3x" style="color: #3897d3;"></i><p>Stands: ${stands}</p></div>
                             <div class='predictionIcon'><img id='side-weather-icon' src=https://openweathermap.org/img/wn/${weatherIcon}.png alt='icon' style='filter: drop-shadow(0px 0px 0px black) drop-shadow(0px 0px 0px black)
                             drop-shadow(0px 0px 0px black) drop-shadow(0px 0px 8px rgba(0, 0, 0, 0.1))'>
                                                           <p> ${data[dayOfWeek][hour][2]}</p></div>
-                            <div class='predictionIcon'><i class="fa-solid fa-temperature-three-quarters fa-3x" style="color: #3897d3;"></i><p> ${data[dayOfWeek][hour][1]}</p></div>`;
+                            <div class='predictionIcon'><i class="fa-solid fa-temperature-three-quarters fa-3x" style="color: #3897d3;"></i><p> ${temp}&#8451;</p></div>`;
                             
       document.getElementById('displayPrediction').innerHTML = predictionHTML;
       const element = document.getElementById("side-weather-icon");

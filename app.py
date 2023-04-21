@@ -152,7 +152,8 @@ def get_predict(number):
                 # Make prediction and add it and forecast to dictionary
                 prediction = int(model.predict(df).tolist()[0])
                 predictions[day][hour+j] = [prediction, temp, description, icon]
-            
+        
+            # Forecast only predicts for 5 days at a time, if a position in dictionary is empty, will fill with most recent weather data.
             for j in range(24):
                 for i in range(7):
                     try:
@@ -167,6 +168,7 @@ def get_predict(number):
                             df.loc[0, "weekday_or_weekend_weekend"] = 1
                             df.loc[0, "weekday_or_weekend_weekday"] = 0
                         predictions[i][j] = [int(model.predict(df).tolist()[0]), temp, description, icon]
+        # Will add stand number at end of dictionary so can get available stands as well
         predictions[8] = stand_number
         return predictions
     
