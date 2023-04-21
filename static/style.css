@@ -332,11 +332,11 @@ header {
   color:#3897d3;
 }
 
-.icon {
+#weather-icon {
   width: 100%;
 }
 
-.icon img {
+#weather-icon img {
   padding-left: 70px;
 }
 
