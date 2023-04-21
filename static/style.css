@@ -91,7 +91,7 @@ header {
   font-size: 16px;
 }
 
-/* SIDEBAR */
+/* SIDEBAR */bar
 /*Title and directions*/
 #title-container {
   display: flex;
@@ -149,7 +149,7 @@ header {
   border-color: #106474;
   border-style: solid;
   border-radius: 7px;
-  border-width: 1.5px;
+  border-width: 0px;
   font-family: 'Montserrat', sans-serif;
 }
 #PredictiveChart {

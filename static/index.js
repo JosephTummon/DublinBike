@@ -301,6 +301,7 @@ dark_mode_button.addEventListener("click", () => {
         google.charts.load('current', { 'packages': ['corechart'] });
         drawChart(station.number);
         document.getElementById("mySidebar").style.width = "600px";
+        document.getElementById("mySidebar").style.borderWidth = "1.5px";
         document.getElementById("main").style.marginLeft = "600px";
       });   
      }
