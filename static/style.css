@@ -440,6 +440,7 @@ the div
   margin-left: 25px;
   margin-bottom: 0px;
   position: relative;
+  padding-left: 3px;
 }
 
 #pac-input:hover {
