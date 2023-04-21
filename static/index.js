@@ -461,35 +461,6 @@ var sidebarOpened = false;
     searchBox.setBounds(map.getBounds());
   });
 
-/// THINK THIS IS REDUNDANT CODE////////////////
-  // Listen for the event fired when the user selects a prediction and retrieve
-  // more details for that place.
-  searchBox.addListener("places_changed", () => {
-    const places = searchBox.getPlaces();
-    if (places.length == 0) {
-      return;
-    }
-
-    // For each place, get the location.
-    const bounds = new google.maps.LatLngBounds();
-    places.forEach((place) => {
-      if (!place.geometry || !place.geometry.location) {
-        console.log("Returned place contains no geometry");
-        return;
-      }
-
-      // Recenter the map to the selected place and zoom in.
-      if (place.geometry.viewport) {
-        // Only geocodes have viewport.
-        bounds.union(place.geometry.viewport);
-        map.fitBounds(bounds);
-      } else {
-        map.setCenter(place.geometry.location);
-        map.setZoom(100);
-      }
-    });
-  });   
-  /////END OF SUSPECTED REDUNDANT CODE//////////////
 
   ////////////END OF MAP SEARCH BOX//////////////////////////////////////
 
