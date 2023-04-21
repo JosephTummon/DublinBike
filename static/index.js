@@ -172,9 +172,9 @@ dark_mode_button.addEventListener("click", () => {
     document.querySelectorAll(".WhiteBlackColor").forEach(element => element.style.color = "white");
     document.querySelectorAll(".BlueGreenColor").forEach(element => element.style.color = "lightblue");
     document.querySelectorAll(".WhiteBlackBackgroundColor").forEach(element => element.style.backgroundColor = "white");
-    //search_nearest_bike.style.backgroundColor = "white";
-    //search_nearest_stand.style.backgroundColor = "white";
-    //search_nearest_div.style.backgroundColor = "white";
+    search_nearest_bike.style.backgroundColor = "white";
+    search_nearest_stand.style.backgroundColor = "white";
+    search_nearest_div.style.backgroundColor = "white";
     document.querySelectorAll(".BlueGreenBackgroundColor").forEach(element => element.style.backgroundColor = "lightblue");
     document.getElementById("dropdown-container").style.borderLeft="2px solid lightblue";
     document.getElementById("icon-text").style.color="black";
@@ -241,9 +241,9 @@ dark_mode_button.addEventListener("click", () => {
     document.querySelectorAll(".BlueGreenColor").forEach(element => element.style.color = "lightgreen");
     document.querySelectorAll(".WhiteBlackBackgroundColor").forEach(element => element.style.backgroundColor = "black");
     document.querySelectorAll(".BlueGreenBackgroundColor").forEach(element => element.style.backgroundColor = "lightgreen");    
-    //search_nearest_bike.style.backgroundColor = "lightgreen";
-    //search_nearest_stand.style.backgroundColor = "lightgreen";
-    //search_nearest_div.style.backgroundColor = "black";
+    search_nearest_bike.style.backgroundColor = "lightgreen";
+    search_nearest_stand.style.backgroundColor = "lightgreen";
+    search_nearest_div.style.backgroundColor = "black";
 
     document.getElementById("dropdown-container").style.borderLeft="2px solid lightgreen";
     document.getElementById("icon-text").style.color="white";
