@@ -1026,6 +1026,7 @@ function drawChart(number) {
         return [dayName, matchingData ? matchingData.Avg_bikes_free : null, matchingData ? matchingData.Avg_bike_stands : null];
       });
       chart_data.addRows(rows);
+      // stlying the chart
       const options = {
         title: 'Availability',
         titleTextStyle: {
@@ -1057,14 +1058,16 @@ function drawChart(number) {
       legend: { position: "bottom" },
       colors: ['#3897d3', '#9bc3ca']
       };
-      loadingDiv.style.display = "none"; // hide the loading animation  
+      // hide the loading animation
+      loadingDiv.style.display = "none";   
 
       const chart = new google.visualization.ColumnChart(document.getElementById("PredictiveChart"));
       chart.draw(chart_data, options);
 
       const form = document.querySelector('form');
       form.addEventListener('submit', (event) => {
-        event.preventDefault(); // prevent form submission
+        // prevent form submission
+        event.preventDefault(); 
         var datetime = document.getElementById('availabletime').value;
         var datetime = new Date(datetime); 
         const dayOfWeek = datetime.getDay(); // returns 0 for Sunday, 1 for Monday, and so on
@@ -1078,14 +1081,16 @@ function getPrediction(number, dayOfWeek, hour, datetime) {
   fetch(`/predictions/${number}`)
     .then(response => response.json())
     .then(data => {
+      // Make sure time and date is in future, alert user if in the past
       var now = new Date;
-      // Handle error if somebody enters a date or time in the past
       if (now > datetime) {
         alert("Please enter a date or time in the future to make a prediction.");
       }
+      // Get necessary data from json
       var weatherIcon = data[dayOfWeek][hour][3];
       var stands = data[8] - data[dayOfWeek][hour][0];
       var temp = Math.round((data[dayOfWeek][hour][1] - 273.15) * 10) / 10;
+      // Create html for prediction
       var predictionHTML = `<div class='predictionIcon'><i class="fa-solid fa-bicycle fa-3x" style="color: #3897d3;"></i><p>Bikes: ${data[dayOfWeek][hour][0]}</p></div>
                             <div class='predictionIcon'><i class="fa-solid fa-square-parking fa-3x" style="color: #3897d3;"></i><p>Stands: ${stands}</p></div>
                             <div class='predictionIcon'><img id='side-weather-icon' src=https://openweathermap.org/img/wn/${weatherIcon}.png alt='icon' style='filter: drop-shadow(0px 0px 0px black) drop-shadow(0px 0px 0px black)
@@ -1094,6 +1099,7 @@ function getPrediction(number, dayOfWeek, hour, datetime) {
                             <div class='predictionIcon'><i class="fa-solid fa-temperature-three-quarters fa-3x" style="color: #3897d3;"></i><p> ${temp}&#8451;</p></div>`;
                             
       document.getElementById('displayPrediction').innerHTML = predictionHTML;
+      // Add smooth scroll so prediction is clear to user
       const element = document.getElementById("side-weather-icon");
       element.scrollIntoView({ behavior: 'smooth'});                                     
     });
