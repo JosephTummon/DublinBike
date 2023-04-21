@@ -465,58 +465,58 @@ var sidebarOpened = false;
   ////////////END OF MAP SEARCH BOX//////////////////////////////////////
 
 
-  //////////////CODE FOR SEARCH'S NEAREST BUTTONS ////////////////////////
-// var search_nearest_bike =document.getElementById("search-nearest-bike"); //attach JS var to the corresponding html button
+  ////////////CODE FOR SEARCH'S NEAREST BUTTONS ////////////////////////
+var search_nearest_bike =document.getElementById("search-nearest-bike"); //attach JS var to the corresponding html button
     //when button clicked...
-// search_nearest_bike.addEventListener("click", async function () {
-//   if(!search_marker){
-//     alert("Search for a station before clicking target bike")//make sure user has searched for a location first
-//   }
-//   else{
-//     var target_coords = search_marker.position; 
-//     var sorted_array = sortLocationsByProximity(duplicate_markerArray, target_coords); //take the duplicate marker array and sort by nearest to search target
-//     var nearest_stations = nearby_stations_with_x(sorted_array, "bikes"); //call nearest stations with bikes argument to get shortlist using crow-flies
-//     var nearest_bike = await nearest_station(nearest_stations, target_coords, 'WALKING'); //get precise directions based data from shortlist to find nearest
-//     var nearest_bike_coords = nearest_bike.position  //convert station to lat and lng     
+search_nearest_bike.addEventListener("click", async function () {
+  if(!search_marker){
+    alert("Search for a station before clicking target bike")//make sure user has searched for a location first
+  }
+  else{
+    var target_coords = search_marker.position; 
+    var sorted_array = sortLocationsByProximity(duplicate_markerArray, target_coords); //take the duplicate marker array and sort by nearest to search target
+    var nearest_stations = nearby_stations_with_x(sorted_array, "bikes"); //call nearest stations with bikes argument to get shortlist using crow-flies
+    var nearest_bike = await nearest_station(nearest_stations, target_coords, 'WALKING'); //get precise directions based data from shortlist to find nearest
+    var nearest_bike_coords = nearest_bike.position  //convert station to lat and lng     
 //show directions between search target and nearest station with bikes
-//     var request = {
-    //   origin: target_coords,
-    //   destination: nearest_bike_coords,
-    //   travelMode: 'WALKING' //walking as assuming doesn't have bike yet
-    // };
-    // directionsService.route(request, function(result, status) {
-    //   if (status == 'OK') {
-    //     directionsRenderer.setDirections(result);
-    //   }
-//});
-//   }
-// });
+    var request = {
+      origin: target_coords,
+      destination: nearest_bike_coords,
+      travelMode: 'WALKING' //walking as assuming doesn't have bike yet
+    };
+    directionsService.route(request, function(result, status) {
+      if (status == 'OK') {
+        directionsRenderer.setDirections(result);
+      }
+});
+  }
+});
 
     //doing the same for stands
-// var search_nearest_stand = document.getElementById("search-nearest-stand");
-// search_nearest_stand.addEventListener("click", async function () {
-//   if(!search_marker){
-//     alert("Search for a station before clicking target stand")
-//   }
-//   else{  
-//     var target_coords = search_marker.position;
-//     var sorted_array = sortLocationsByProximity(duplicate_markerArray, target_coords);
-//     var nearest_stations = nearby_stations_with_x(sorted_array, "stands");
-//     var nearest_stand = await nearest_station(nearest_stations, target_coords, 'BICYCLING');
-//     var nearest_stand_coords = nearest_bike.position  //convert station to lat and lng     
+var search_nearest_stand = document.getElementById("search-nearest-stand");
+search_nearest_stand.addEventListener("click", async function () {
+  if(!search_marker){
+    alert("Search for a station before clicking target stand")
+  }
+  else{  
+    var target_coords = search_marker.position;
+    var sorted_array = sortLocationsByProximity(duplicate_markerArray, target_coords);
+    var nearest_stations = nearby_stations_with_x(sorted_array, "stands");
+    var nearest_stand = await nearest_station(nearest_stations, target_coords, 'BICYCLING');
+    var nearest_stand_coords = nearest_bike.position  //convert station to lat and lng     
 
-//     var request = {
-    //   origin: target_coords,
-    //   destination: nearest_stand_coords,
-    //   travelMode: 'BICYCLING' //bicycling as assuming they are on bike to drop back to stand
-    // };
-    // directionsService.route(request, function(result, status) {
-    //   if (status == 'OK') {
-    //     directionsRenderer.setDirections(result);
-    //   }
-//});
-//   }
-// });
+    var request = {
+      origin: target_coords,
+      destination: nearest_stand_coords,
+      travelMode: 'BICYCLING' //bicycling as assuming they are on bike to drop back to stand
+    };
+    directionsService.route(request, function(result, status) {
+      if (status == 'OK') {
+        directionsRenderer.setDirections(result);
+      }
+});
+  }
+});
 
 /////////////END OF SEARCH'S NEAREST BUTTONS ////////////////////////
 
