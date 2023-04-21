@@ -187,6 +187,7 @@ dark_mode_button.addEventListener("click", () => {
     if(sidebarOpened == true){
     // Light mode for sidebar
     document.getElementById("mySidebar").style.backgroundColor = "white";
+    document.getElementById("mySidebar").style.borderColor = "#38bdf8";
     document.getElementById("PredictiveChart").style.backgroundColor = "white";
     document.getElementById("stationTitle").style.color = "black";
     document.getElementById("station-directions").style.backgroundColor = "white";
@@ -254,6 +255,7 @@ dark_mode_button.addEventListener("click", () => {
     if (sidebarOpened == true){
     //darkmode for sidebar
     document.getElementById("mySidebar").style.backgroundColor = "black";
+    document.getElementById("mySidebar").style.borderColor = "lightgreen";
     document.getElementById("PredictiveChart").style.backgroundColor = "black";
     document.getElementById("stationTitle").style.color = "white";
     document.getElementById("station-directions").style.backgroundColor = "lightgreen";
