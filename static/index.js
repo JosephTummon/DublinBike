@@ -1001,7 +1001,7 @@ function drawChart(number) {
     .then(response => response.json())
     .then(data => {
       const chosenStationName = data[0].address;
-      document.getElementById("stationTitle").innerHTML = `<div id="title-container"><h2 id="station-title">${chosenStationName}</h2><button id ="station-directions"><i id="station-directions-button" class="fa-solid fa-map-pin fa-2x"></i></button></div>`;
+      document.getElementById("station-title").innerHTML = chosenStationName;
 
       ////////////////////////////USER-STATION DIRECTIONS////////////////////
       var station_directions = document.getElementById("station-directions");
