@@ -416,6 +416,12 @@ dark_mode_button.addEventListener("click", () => {
     if (search_marker) { //changes existing search marker to current location
         search_marker.setPosition(location);
         search_marker.setTitle(places[0].name);
+
+        search_marker = new google.maps.Marker({
+          position: location,
+          map: map,
+          title: places[0].name
+        });
       }
       // If a marker does not exist, create a new one and set it to the current location
       else {
@@ -434,34 +440,34 @@ dark_mode_button.addEventListener("click", () => {
     searchBox.setBounds(map.getBounds());
   });
 
-//THINK THIS IS REDUNDANT CODE////////////////
-  // // Listen for the event fired when the user selects a prediction and retrieve
-  // // more details for that place.
-  // searchBox.addListener("places_changed", () => {
-  //   const places = searchBox.getPlaces();
-  //   if (places.length == 0) {
-  //     return;
-  //   }
+/// THINK THIS IS REDUNDANT CODE////////////////
+  // Listen for the event fired when the user selects a prediction and retrieve
+  // more details for that place.
+  searchBox.addListener("places_changed", () => {
+    const places = searchBox.getPlaces();
+    if (places.length == 0) {
+      return;
+    }
 
-  //   // For each place, get the location.
-  //   const bounds = new google.maps.LatLngBounds();
-  //   places.forEach((place) => {
-  //     if (!place.geometry || !place.geometry.location) {
-  //       console.log("Returned place contains no geometry");
-  //       return;
-  //     }
+    // For each place, get the location.
+    const bounds = new google.maps.LatLngBounds();
+    places.forEach((place) => {
+      if (!place.geometry || !place.geometry.location) {
+        console.log("Returned place contains no geometry");
+        return;
+      }
 
-  //     // Recenter the map to the selected place and zoom in.
-  //     if (place.geometry.viewport) {
-  //       // Only geocodes have viewport.
-  //       bounds.union(place.geometry.viewport);
-  //       map.fitBounds(bounds);
-  //     } else {
-  //       map.setCenter(place.geometry.location);
-  //       map.setZoom(100);
-  //     }
-  //   });
-  // });   
+      // Recenter the map to the selected place and zoom in.
+      if (place.geometry.viewport) {
+        // Only geocodes have viewport.
+        bounds.union(place.geometry.viewport);
+        map.fitBounds(bounds);
+      } else {
+        map.setCenter(place.geometry.location);
+        map.setZoom(100);
+      }
+    });
+  });   
   /////END OF SUSPECTED REDUNDANT CODE//////////////
 
   ////////////END OF MAP SEARCH BOX//////////////////////////////////////
@@ -893,10 +899,11 @@ go_button.addEventListener("click", function() {
 //clear on-map directions service
 clear_button.addEventListener("click", function() {
   var currentRoute = directionsRenderer.getDirections(); //get var of current directions
-  if (!currentRoute) { //in case clicked before directions generated
+  if (!currentRoute && !searchBox) { //in case clicked before directions generated
     alert("No route has been set yet");
     return;
   }
+    search_marker.setMap(null);
      directionsRenderer.setDirections({routes: []}); // Remove directions line    
  }); 
 

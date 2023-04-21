@@ -849,6 +849,59 @@ button.gm-ui-hover-effect {
   margin-top: 7px;
 }
 
+@media screen and (max-width: 550px) {
+  .container {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  #pac-input {
+    display: block;
+  }
+
+  .search {
+    display: none;
+  }
+
+  #map {
+    display: flex;
+  }
+
+  #button-div {
+    display: none;
+  }
+  
+  #location-buttons {
+    display: none;
+  }
+  
+  #go {
+    margin-bottom: 10px;
+  }
+
+  #start-input, #end-input {
+    font-family: "Roboto", "sans-serif";
+    height: 50px;
+    background: transparent;
+    border: 0;
+    outline: 0;
+    font-size: 18px;
+    color: #333;
+  }
+  
+  .result-box {
+    width: 100%;
+  }
+  
+  #dropdown {
+    flex: 1;
+  }
+  
+  #option {
+    width: 100%;
+  }
+}
+
 
 /*COPY FOR CLEAR SWAP BUTTONS*/
 #location-buttons1{
@@ -860,7 +913,6 @@ button.gm-ui-hover-effect {
   width: 100px;
   margin-bottom: 20px;
 }
-
 
 
 #nearest-bike1 {
@@ -905,7 +957,6 @@ button.gm-ui-hover-effect {
 .nearest-bike-div1 a {
   margin-top: 7px;
 }
-
 
 
 #nearest-stand1{
@@ -1002,8 +1053,6 @@ button.gm-ui-hover-effect {
   font-weight: 900;
   font-size: 20px;
 }
-
-
 
 
  #weather-popdown{
