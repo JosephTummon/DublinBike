@@ -60,7 +60,7 @@ function displayWeather(data) {
 
     // Get icon of weather and display in header
     var weatherIcon = data.weather[0].icon;
-    //document.getElementById("weather").innerHTML= "<img src=https://openweathermap.org/img/wn/" + weatherIcon +".png alt='icon' width='55' height='55' style='filter: drop-shadow(0px 0px 0px black) drop-shadow(0px 0px 0px black) drop-shadow(0px 0px 0px black) drop-shadow(0px 0px 8px black);'>"
+    document.getElementById("weather").innerHTML= "<img src=https://openweathermap.org/img/wn/" + weatherIcon +".png alt='icon' width='55' height='55' style='filter: drop-shadow(0px 0px 0px black) drop-shadow(0px 0px 0px black) drop-shadow(0px 0px 0px black) drop-shadow(0px 0px 8px black);'>"
 
     // Get temperature and convert temperature to Degrees Celsius and fahrenheit
     var kelvin = data.main.temp;
@@ -156,8 +156,8 @@ b1.style.color = "black";
 b1.style.zIndex = "100";
 })
 
-//document.getElementById("translate-white").style.display = "none";
-//document.getElementById("dark-icon").style.display = "none";
+document.getElementById("translate-white").style.display = "none";
+document.getElementById("dark-icon").style.display = "none";
 
 var dark_mode_button = document.getElementById("dark-mode-button");
 dark_mode_button.addEventListener("click", () => {
