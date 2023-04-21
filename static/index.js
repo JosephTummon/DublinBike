@@ -156,8 +156,8 @@ b1.style.color = "black";
 b1.style.zIndex = "100";
 })
 
-document.getElementById("translate-white").style.display = "none";
-document.getElementById("dark-icon").style.display = "none";
+//document.getElementById("translate-white").style.display = "none";
+//document.getElementById("dark-icon").style.display = "none";
 
 var dark_mode_button = document.getElementById("dark-mode-button");
 dark_mode_button.addEventListener("click", () => {
