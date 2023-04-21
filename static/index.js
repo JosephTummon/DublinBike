@@ -183,7 +183,6 @@ dark_mode_button.addEventListener("click", () => {
     document.getElementById("weather-info").style.marginRightColor= "white";
     document.getElementById("translate-black").style.display = "";
     document.getElementById("translate-white").style.display = "none";
-    document.getElementById("loadingGif").src = "static/images/loading.gif"
     
     if(sidebarOpened == true){
     // Light mode for sidebar
@@ -423,7 +422,6 @@ var sidebarOpened = false;
   // Create the search box and link it to the UI element.
   const input = document.getElementById("pac-input"); //get JS constant for the html search input
   const searchBox = new google.maps.places.SearchBox(input); //convert the html search box to a Google maps search box
-  searchBox.setBounds(map.getBounds());
   var search_marker; //initialise the search marker
 
   //if someone searches in bar...
@@ -460,61 +458,92 @@ var sidebarOpened = false;
   map.addListener("bounds_changed", () => {
     searchBox.setBounds(map.getBounds());
   });
+
+/// THINK THIS IS REDUNDANT CODE////////////////
+  // Listen for the event fired when the user selects a prediction and retrieve
+  // more details for that place.
+  searchBox.addListener("places_changed", () => {
+    const places = searchBox.getPlaces();
+    if (places.length == 0) {
+      return;
+    }
+
+    // For each place, get the location.
+    const bounds = new google.maps.LatLngBounds();
+    places.forEach((place) => {
+      if (!place.geometry || !place.geometry.location) {
+        console.log("Returned place contains no geometry");
+        return;
+      }
+
+      // Recenter the map to the selected place and zoom in.
+      if (place.geometry.viewport) {
+        // Only geocodes have viewport.
+        bounds.union(place.geometry.viewport);
+        map.fitBounds(bounds);
+      } else {
+        map.setCenter(place.geometry.location);
+        map.setZoom(100);
+      }
+    });
+  });   
+  /////END OF SUSPECTED REDUNDANT CODE//////////////
+
   ////////////END OF MAP SEARCH BOX//////////////////////////////////////
 
 
   //////////////CODE FOR SEARCH'S NEAREST BUTTONS ////////////////////////
-var search_nearest_bike =document.getElementById("search-nearest-bike"); //attach JS var to the corresponding html button
-//when button clicked
-search_nearest_bike.addEventListener("click", async function () {
-  if(!search_marker){
-    alert("Search for a station before clicking target bike")//make sure user has searched for a location first
-  }
-  else{
-    var target_coords = search_marker.position; 
-    var sorted_array = sortLocationsByProximity(duplicate_markerArray, target_coords); //take the duplicate marker array and sort by nearest to search target
-    var nearest_stations = nearby_stations_with_x(sorted_array, "bikes"); //call nearest stations with bikes argument to get shortlist using crow-flies
-    var nearest_bike = await nearest_station(nearest_stations, target_coords, 'WALKING'); //get precise directions based data from shortlist to find nearest
-    var nearest_bike_coords = nearest_bike.position  //convert station to lat and lng     
+// var search_nearest_bike =document.getElementById("search-nearest-bike"); //attach JS var to the corresponding html button
+    //when button clicked...
+// search_nearest_bike.addEventListener("click", async function () {
+//   if(!search_marker){
+//     alert("Search for a station before clicking target bike")//make sure user has searched for a location first
+//   }
+//   else{
+//     var target_coords = search_marker.position; 
+//     var sorted_array = sortLocationsByProximity(duplicate_markerArray, target_coords); //take the duplicate marker array and sort by nearest to search target
+//     var nearest_stations = nearby_stations_with_x(sorted_array, "bikes"); //call nearest stations with bikes argument to get shortlist using crow-flies
+//     var nearest_bike = await nearest_station(nearest_stations, target_coords, 'WALKING'); //get precise directions based data from shortlist to find nearest
+//     var nearest_bike_coords = nearest_bike.position  //convert station to lat and lng     
 //show directions between search target and nearest station with bikes
-    var request = {
-      origin: target_coords,
-      destination: nearest_bike_coords,
-      travelMode: 'WALKING' //walking as assuming doesn't have bike yet
-    };
-    directionsService.route(request, function(result, status) {
-      if (status == 'OK') {
-        directionsRenderer.setDirections(result);
-      }
-});
-  }
-});
+//     var request = {
+    //   origin: target_coords,
+    //   destination: nearest_bike_coords,
+    //   travelMode: 'WALKING' //walking as assuming doesn't have bike yet
+    // };
+    // directionsService.route(request, function(result, status) {
+    //   if (status == 'OK') {
+    //     directionsRenderer.setDirections(result);
+    //   }
+//});
+//   }
+// });
 
     //doing the same for stands
-var search_nearest_stand = document.getElementById("search-nearest-stand");
-search_nearest_stand.addEventListener("click", async function () {
-  if(!search_marker){
-    alert("Search for a station before clicking target stand")
-  }
-  else{  
-    var target_coords = search_marker.position;
-    var sorted_array = sortLocationsByProximity(duplicate_markerArray, target_coords);
-    var nearest_stations = nearby_stations_with_x(sorted_array, "stands");
-    var nearest_stand = await nearest_station(nearest_stations, target_coords, 'BICYCLING');
-    var nearest_stand_coords = nearest_bike.position  //convert station to lat and lng     
+// var search_nearest_stand = document.getElementById("search-nearest-stand");
+// search_nearest_stand.addEventListener("click", async function () {
+//   if(!search_marker){
+//     alert("Search for a station before clicking target stand")
+//   }
+//   else{  
+//     var target_coords = search_marker.position;
+//     var sorted_array = sortLocationsByProximity(duplicate_markerArray, target_coords);
+//     var nearest_stations = nearby_stations_with_x(sorted_array, "stands");
+//     var nearest_stand = await nearest_station(nearest_stations, target_coords, 'BICYCLING');
+//     var nearest_stand_coords = nearest_bike.position  //convert station to lat and lng     
 
-    var request = {
-      origin: target_coords,
-      destination: nearest_stand_coords,
-      travelMode: 'BICYCLING' //bicycling as assuming they are on bike to drop back to stand
-    };
-    directionsService.route(request, function(result, status) {
-      if (status == 'OK') {
-        directionsRenderer.setDirections(result);
-      }
-});
-  }
-});
+//     var request = {
+    //   origin: target_coords,
+    //   destination: nearest_stand_coords,
+    //   travelMode: 'BICYCLING' //bicycling as assuming they are on bike to drop back to stand
+    // };
+    // directionsService.route(request, function(result, status) {
+    //   if (status == 'OK') {
+    //     directionsRenderer.setDirections(result);
+    //   }
+//});
+//   }
+// });
 
 /////////////END OF SEARCH'S NEAREST BUTTONS ////////////////////////
 
@@ -1027,37 +1056,77 @@ function drawChart(number) {
       });
       chart_data.addRows(rows);
       // stlying the chart
-      const options = {
-        title: 'Availability',
-        titleTextStyle: {
-          fontSize: 18,
-          fontName: "Montserrat"
-        },
-        hAxis: {
-          ticks: dayNames,
-          textStyle: {
-            fontName: "Montserrat"
-          }
-        },
-        chartArea: {
-          width: '80%',
-          height: '80%'
-        },
-        textStyle: {
-          color: '#000000'
-        },
-        vAxis: {
-          title: 'Number of Bikes',
-          textStyle: {
-            fontName: "Montserrat"
-          },
+      if (is_light == true) {
+        var options = {
+          title: 'Availability',
           titleTextStyle: {
-            fontName: "sans-serif",
+            fontSize: 18,
+            fontName: "Montserrat"
           },
-      },
-      legend: { position: "bottom" },
-      colors: ['#3897d3', '#9bc3ca']
-      };
+          hAxis: {
+            ticks: dayNames,
+            textStyle: {
+              fontName: "Montserrat"
+            }
+          },
+          chartArea: {
+            width: '80%',
+            height: '80%'
+          },
+          textStyle: {
+            color: '#000000'
+          },
+          vAxis: {
+            title: 'Number of Bikes',
+            textStyle: {
+              fontName: "Montserrat"
+            },
+            titleTextStyle: {
+              fontName: "sans-serif",
+            },
+        },
+        legend: { position: "bottom" },
+        colors: ['#3897d3', '#9bc3ca']
+        };
+      }
+      else {
+        var options = {
+          backgroundColor: "black",
+          title: 'Availability',
+          titleTextStyle: {
+            color: "white",
+            fontSize: 18,
+            fontName: "Montserrat"
+          },
+          hAxis: {
+            ticks: dayNames,
+            textStyle: {
+              color: "white",
+              fontName: "Montserrat"
+            }
+          },
+          chartArea: {
+            width: '80%',
+            height: '80%'
+          },
+          textStyle: {
+            color: "white"
+          },
+          vAxis: {
+            title: 'Number of Bikes',
+            textStyle: {
+              color: "white",
+              fontName: "Montserrat"
+            },
+            titleTextStyle: {
+              color: "white",
+              fontName: "sans-serif",
+            },
+        },
+        legend: { position: "bottom" },
+        colors: ['#3897d3', '#9bc3ca']
+        };
+      }
       // hide the loading animation
       loadingDiv.style.display = "none";   
 
