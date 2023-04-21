@@ -92,9 +92,38 @@ header {
 }
 
 /* SIDEBAR */
+/*Title and directions*/
+#title-container {
+  display: flex;
+  flex-direction: right;
+  align-items: center;
+}
+#station-title {
+  margin-right: 20px;
+}
+#station-directions {
+  background-color: white;
+  border: none;
+  font-size: 15px;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+}
+#station-directions i {
+  color: #3897d3;
+}
+#station-directions i:hover {
+  color: white;
+}
+#station-directions:hover {
+  background-color: #3897d3;
+}
+#station-directions {
+  flex: 1;
+}
 /* The sidebar menu */
 .sidebar {
-  height: 99%;
+  height: 68%;
   /* 100% Full-height */
   width: 0;
   /* 0 width - change this with JavaScript */
@@ -102,10 +131,13 @@ header {
   /* Stay in place */
   z-index: 1;
   /* Stay on top */
-  left: 0;
+  top: 22%;
+  bottom: 20;
+  left: 10;
   background-color: #ffffff;
   /* White*/
-  overflow-y: hidden;
+  overflow: hidden;
+  overflow-y: scroll;
   /* Disable horizontal scroll */
   padding-top: 20px;
   /* Place content 60px from the top */
@@ -114,17 +146,60 @@ header {
   display: flex;
   flex-direction: column;
   align-items: center;
-  border-right-color: #106474;
-  border-right-width: 10px;
+  border-color: #106474;
+  border-style: solid;
+  border-radius: 7px;
+  border-width: 1.5px;
+  font-family: 'Montserrat', sans-serif;
+}
+#PredictiveChart {
+  width: 100%;
+  height: 80%;
+}
+#Model {
+  margin-top: 10px;
+}
+/* button for submitting prediction */
+.myButton {
+  background-color: #38bdf8; /* Green */
+  border: none;
+  color: white;
+  border-radius: 7px;
+  padding: 10px 10px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 14px;
+  margin: 4px 2px;
+  cursor: pointer;
 }
 
-#scrollspace {
-  height: 10000px;
+/* Styling prediction */
+#displayPrediction {
+  white-space: nowrap; /* Prevent line breaks between elements */
+}
+.predictionIcon {
+  display: inline-block; /* Display elements in a row */
+  margin-right: 20px;
+  margin-left: 20px; /* Add spacing between elements */
+  font-size: 16px; /* Reset font-size */
+  text-align: center;
+}
+.predictionIcon i,
+.predictionIcon img {
+  display: inline-block;
+  vertical-align: middle; /* Center the icon vertically */
+  margin-right: 5px;
+}
+#side-weather-icon {
+  vertical-align: bottom;
+  height: 70px;
+  width: 70px;
 }
 
 #stationTitle, #modelTitle {
   text-align: center;
-  font-family: "Lucida Console", "Courier New", monospace;
+  text-decoration: solid, underline;
 }
 
 /* The sidebar links */
@@ -157,6 +232,9 @@ header {
   right: 25px;
   font-size: 36px;
   margin-left: 50px;
+}
+.closebtn {
+  z-index: 2;
 }
 
 .openbtn:hover {

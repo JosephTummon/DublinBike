@@ -65,28 +65,25 @@
     <!-- Side Bar-->
     <div id="mySidebar" class="sidebar">
       <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-      <div id="chartContainer">
-        <div id="stationTitle"></div>
-        <div id="PredictiveChart">
-        </div>
-      </div>
+      <div id="stationTitle"></div>
+      <div id="PredictiveChart"></div>
       <div id="loading">
-        <!-- <img src=="{{ url_for('static', filename='images/loading.gif') }}" alt="Loading..."> -->
+        <img src="static/images/loading.gif" alt="Loading...">
       </div>
   
       <div id="Model">
         <label id="modelTitle" for="availabletime">Check Station Availability:</label>
         <form>
           <input type="datetime-local" id="availabletime" name="availabletime">
-          <input type="submit">
+          <input type="submit" class="myButton" value="Submit">
         </form>
       </div>
       <div id="displayPrediction"></div>
     </div>
     
-    <div id="main">
     <!--Map-->
     <div id="map"></div>
+    <div id="main"> </div>
 
     <input id="pac-input"class="search WhiteBlackBackgroundColor"type="text"placeholder="Search...">
       <!--ELEMENTS IN THE MAPS-->
@@ -167,7 +164,6 @@
       </div>
     </div>
 
-    </div>
   
     
 

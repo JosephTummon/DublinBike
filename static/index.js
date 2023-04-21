@@ -300,8 +300,8 @@ dark_mode_button.addEventListener("click", () => {
       marker.addListener("click", () => {  //when marker is clicked opens sidebar infowindow
         google.charts.load('current', { 'packages': ['corechart'] });
         drawChart(station.number);
-        document.getElementById("mySidebar").style.width = "650px";
-        document.getElementById("main").style.marginLeft = "650px";
+        document.getElementById("mySidebar").style.width = "600px";
+        document.getElementById("main").style.marginLeft = "600px";
       });   
      }
   }
@@ -976,7 +976,7 @@ function drawChart(number) {
     .then(response => response.json())
     .then(data => {
       const chosenStationName = data[0].address;
-      document.getElementById("stationTitle").innerHTML = `<h2>${chosenStationName}</h2><button id ="station-directions">Directions</button>`;
+      document.getElementById("stationTitle").innerHTML = `<div id="title-container"><h2 id="station-title">${chosenStationName}</h2><button id ="station-directions"><i class="fa-solid fa-map-pin fa-2x"></i></button></div>`;
 
       ////////////////////////////USER-STATION DIRECTIONS////////////////////
       var station_directions = document.getElementById("station-directions");
@@ -1029,32 +1029,37 @@ function drawChart(number) {
       });
       chart_data.addRows(rows);
       const options = {
-        titlePosition: 'none',
+        title: 'Availability',
+        titleTextStyle: {
+          fontSize: 18,
+          fontName: "Montserrat"
+        },
         hAxis: {
-          title: 'Week Day',
+          ticks: dayNames,
           textStyle: {
-            color: '#000000'
-          },
-          titleTextStyle: {
-            color: '#000000'
+            fontName: "Montserrat"
           }
+        },
+        chartArea: {
+          width: '80%',
+          height: '80%'
+        },
+        textStyle: {
+          color: '#000000'
         },
         vAxis: {
           title: 'Number of Bikes',
           textStyle: {
-            color: '#000000'
+            fontName: "Montserrat"
           },
           titleTextStyle: {
-            color: '#000000'
-          }
-        },
-        width: "700",
-        height: "450",
-        chartArea: { 'width': '75%', bottom: 15, 'height': '80%' },
-        legend: { position: "bottom" },
-        colors: ['#3897d3', '#9bc3ca']
+            fontName: "sans-serif",
+          },
+      },
+      legend: { position: "bottom" },
+      colors: ['#3897d3', '#9bc3ca']
       };
-      loadingDiv.style.display = "none"; // hide the loading animation 
+      loadingDiv.style.display = "none"; // hide the loading animation  
 
       const chart = new google.visualization.ColumnChart(document.getElementById("PredictiveChart"));
       chart.draw(chart_data, options);
@@ -1078,10 +1083,18 @@ function getPrediction(number, dayOfWeek, hour) {
   fetch(`/predictions/${number}`)
     .then(response => response.json())
     .then(data => {
-      document.getElementById("displayPrediction").innerHTML = "<p> Number of available bikes: " + data[dayOfWeek][hour] + "</p>";
-      var stands = data[8] - data[dayOfWeek][hour];
-      document.getElementById("displayPrediction").innerHTML += "<p> Number of available stands:" + stands + "</p>";
-      console.log(data[dayOfWeek][hour]);
+      var weatherIcon = data[dayOfWeek][hour][3];
+      var stands = data[8] - data[dayOfWeek][hour][0];
+      var predictionHTML = `<div class='predictionIcon'><i class="fa-solid fa-bicycle fa-3x" style="color: #3897d3;"></i><p>Bikes:${data[dayOfWeek][hour][0]}</p></div>
+                            <div class='predictionIcon'><i class="fa-solid fa-square-parking fa-3x" style="color: #3897d3;"></i><p>Stands: ${stands}</p></div>
+                            <div class='predictionIcon'><img id='side-weather-icon' src=https://openweathermap.org/img/wn/${weatherIcon}.png alt='icon' style='filter: drop-shadow(0px 0px 0px black) drop-shadow(0px 0px 0px black)
+                            drop-shadow(0px 0px 0px black) drop-shadow(0px 0px 8px rgba(0, 0, 0, 0.1))'>
+                                                          <p> ${data[dayOfWeek][hour][2]}</p></div>
+                            <div class='predictionIcon'><i class="fa-solid fa-temperature-three-quarters fa-3x" style="color: #3897d3;"></i><p> ${data[dayOfWeek][hour][1]}</p></div>`;
+                            
+      document.getElementById('displayPrediction').innerHTML = predictionHTML;
+      const element = document.getElementById("side-weather-icon");
+      element.scrollIntoView({ behavior: 'smooth'});                                     
     });
 }
 ///////////////END OF CHART/PREDICTION///////////////////////
