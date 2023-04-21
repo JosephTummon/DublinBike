@@ -7,6 +7,7 @@ let map;
 let autocomplete;
 let infoWindow;
 var markerArray = [];
+const localStation = document.getElementById("search-nearest-btns");
  
 // Initialize and add the map
 async function initMap() {
@@ -172,9 +173,9 @@ dark_mode_button.addEventListener("click", () => {
     document.querySelectorAll(".WhiteBlackColor").forEach(element => element.style.color = "white");
     document.querySelectorAll(".BlueGreenColor").forEach(element => element.style.color = "lightblue");
     document.querySelectorAll(".WhiteBlackBackgroundColor").forEach(element => element.style.backgroundColor = "white");
-    search_nearest_bike.style.backgroundColor = "white";
-    search_nearest_stand.style.backgroundColor = "white";
-    search_nearest_div.style.backgroundColor = "white";
+    //search_nearest_bike.style.backgroundColor = "white";
+    //search_nearest_stand.style.backgroundColor = "white";
+    //search_nearest_div.style.backgroundColor = "white";
     document.querySelectorAll(".BlueGreenBackgroundColor").forEach(element => element.style.backgroundColor = "lightblue");
     document.getElementById("dropdown-container").style.borderLeft="2px solid lightblue";
     document.getElementById("icon-text").style.color="black";
@@ -183,7 +184,7 @@ dark_mode_button.addEventListener("click", () => {
     document.getElementById("weather-info").style.marginRightColor= "white";
     document.getElementById("translate-black").style.display = "";
     document.getElementById("translate-white").style.display = "none";
-    document.getElementById("loadingGif").src = "static/images/loading.gif";
+    document.getElementById("loadingGif").src = "static/images/loading.gif"
     
     if(sidebarOpened == true){
     // Light mode for sidebar
@@ -241,9 +242,9 @@ dark_mode_button.addEventListener("click", () => {
     document.querySelectorAll(".BlueGreenColor").forEach(element => element.style.color = "lightgreen");
     document.querySelectorAll(".WhiteBlackBackgroundColor").forEach(element => element.style.backgroundColor = "black");
     document.querySelectorAll(".BlueGreenBackgroundColor").forEach(element => element.style.backgroundColor = "lightgreen");    
-    search_nearest_bike.style.backgroundColor = "lightgreen";
-    search_nearest_stand.style.backgroundColor = "lightgreen";
-    search_nearest_div.style.backgroundColor = "black";
+    //search_nearest_bike.style.backgroundColor = "lightgreen";
+    //search_nearest_stand.style.backgroundColor = "lightgreen";
+    //search_nearest_div.style.backgroundColor = "black";
 
     document.getElementById("dropdown-container").style.borderLeft="2px solid lightgreen";
     document.getElementById("icon-text").style.color="white";
@@ -252,7 +253,7 @@ dark_mode_button.addEventListener("click", () => {
     document.getElementById("weather-info").style.marginRightColor= "black";
     document.getElementById("translate-black").style.display = "none";
     document.getElementById("translate-white").style.display = "";
-    document.getElementById("loadingGif").src = "static/images/darkloading.gif";
+    document.getElementById("loadingGif").src = "static/images/darkloading.gif"
 
 
     if (sidebarOpened == true){
@@ -424,7 +425,6 @@ var sidebarOpened = false;
   const input = document.getElementById("pac-input"); //get JS constant for the html search input
   const searchBox = new google.maps.places.SearchBox(input); //convert the html search box to a Google maps search box
   searchBox.setBounds(map.getBounds());
-
   var search_marker; //initialise the search marker
 
   //if someone searches in bar...
@@ -455,20 +455,33 @@ var sidebarOpened = false;
       }
       map.panTo(search_marker.position);
       map.setZoom(map.getZoom() + 2);
+
+      localStation.style.display = "flex";
+
+      // const newEl = document.createElement("div");
+      // newEl.setAttribute("id", "search-nearest-btns");
+      // newEl.innerHTML = 
+      // `
+      // <div id="search-nearest-bike">
+      //   <p>Nearest Bike in Portobello Area</p>
+      // </div>
+      // <div id="search-nearest-stand">
+      //   <p>Nearest Stand in Portobello Area</p>
+      // </div>
+      // `
+      // localStation.appendChild(newEl);
   });
 
   //Limit the search box's results to areas visible on the map
   map.addListener("bounds_changed", () => {
     searchBox.setBounds(map.getBounds());
   });
-
-
   ////////////END OF MAP SEARCH BOX//////////////////////////////////////
 
 
-  ////////////CODE FOR SEARCH'S NEAREST BUTTONS ////////////////////////
+  //////////////CODE FOR SEARCH'S NEAREST BUTTONS ////////////////////////
 var search_nearest_bike =document.getElementById("search-nearest-bike"); //attach JS var to the corresponding html button
-    //when button clicked...
+//when button clicked
 search_nearest_bike.addEventListener("click", async function () {
   if(!search_marker){
     alert("Search for a station before clicking target bike")//make sure user has searched for a location first
@@ -504,7 +517,7 @@ search_nearest_stand.addEventListener("click", async function () {
     var sorted_array = sortLocationsByProximity(duplicate_markerArray, target_coords);
     var nearest_stations = nearby_stations_with_x(sorted_array, "stands");
     var nearest_stand = await nearest_station(nearest_stations, target_coords, 'BICYCLING');
-    var nearest_stand_coords = nearest_bike.position  //convert station to lat and lng     
+    var nearest_stand_coords = nearest_stand.position  //convert station to lat and lng     
 
     var request = {
       origin: target_coords,
@@ -892,15 +905,12 @@ go_button.addEventListener("click", function() {
 //clear on-map directions service
 clear_button.addEventListener("click", function() {
   var currentRoute = directionsRenderer.getDirections(); //get var of current directions
-  if (!currentRoute && !searchBox &&!search_marker) { //in case clicked before directions generated
+  if (!currentRoute && !searchBox) { //in case clicked before directions generated
     alert("No route has been set yet");
     return;
   }
-  if (search_marker){search_marker.setMap(null);}
-  markers.forEach(marker => {
-    marker.setMap(null);
-  });
-  directionsRenderer.setDirections({routes: []}); // Remove directions line    
+    search_marker.setMap(null);
+     directionsRenderer.setDirections({routes: []}); // Remove directions line    
  }); 
 
 function calculateAndDisplayRoute(directionsRenderer,directionsService, map) {
@@ -1033,77 +1043,37 @@ function drawChart(number) {
       });
       chart_data.addRows(rows);
       // stlying the chart
-      if (is_light == true) {
-        var options = {
-          title: 'Availability',
-          titleTextStyle: {
-            fontSize: 18,
+      const options = {
+        title: 'Availability',
+        titleTextStyle: {
+          fontSize: 18,
+          fontName: "Montserrat"
+        },
+        hAxis: {
+          ticks: dayNames,
+          textStyle: {
+            fontName: "Montserrat"
+          }
+        },
+        chartArea: {
+          width: '80%',
+          height: '80%'
+        },
+        textStyle: {
+          color: '#000000'
+        },
+        vAxis: {
+          title: 'Number of Bikes',
+          textStyle: {
             fontName: "Montserrat"
           },
-          hAxis: {
-            ticks: dayNames,
-            textStyle: {
-              fontName: "Montserrat"
-            }
-          },
-          chartArea: {
-            width: '80%',
-            height: '80%'
-          },
-          textStyle: {
-            color: '#000000'
-          },
-          vAxis: {
-            title: 'Number of Bikes',
-            textStyle: {
-              fontName: "Montserrat"
-            },
-            titleTextStyle: {
-              fontName: "sans-serif",
-            },
-        },
-        legend: { position: "bottom" },
-        colors: ['#3897d3', '#9bc3ca']
-        };
-      }
-      else {
-        var options = {
-          backgroundColor: "black",
-          title: 'Availability',
           titleTextStyle: {
-            color: "white",
-            fontSize: 18,
-            fontName: "Montserrat"
+            fontName: "sans-serif",
           },
-          hAxis: {
-            ticks: dayNames,
-            textStyle: {
-              color: "white",
-              fontName: "Montserrat"
-            }
-          },
-          chartArea: {
-            width: '80%',
-            height: '80%'
-          },
-          textStyle: {
-            color: "white"
-          },
-          vAxis: {
-            title: 'Number of Bikes',
-            textStyle: {
-              color: "white",
-              fontName: "Montserrat"
-            },
-            titleTextStyle: {
-              color: "white",
-              fontName: "sans-serif",
-            },
-        },
-        legend: { position: "bottom" },
-        colors: ['#3897d3', '#9bc3ca']
-        };
-      }
+      },
+      legend: { position: "bottom" },
+      colors: ['#3897d3', '#9bc3ca']
+      };
       // hide the loading animation
       loadingDiv.style.display = "none";   
 
