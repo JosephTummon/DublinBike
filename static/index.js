@@ -252,6 +252,8 @@ dark_mode_button.addEventListener("click", () => {
     document.getElementById("weather-info").style.marginRightColor= "black";
     document.getElementById("translate-black").style.display = "none";
     document.getElementById("translate-white").style.display = "";
+    document.getElementById("loadingGif").src = "static/images/darkloading.gif"
+
 
     if (sidebarOpened == true){
     //darkmode for sidebar
