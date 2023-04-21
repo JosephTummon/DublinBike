@@ -176,7 +176,6 @@ dark_mode_button.addEventListener("click", () => {
     //search_nearest_stand.style.backgroundColor = "white";
     //search_nearest_div.style.backgroundColor = "white";
     document.querySelectorAll(".BlueGreenBackgroundColor").forEach(element => element.style.backgroundColor = "lightblue");
-
     document.getElementById("dropdown-container").style.borderLeft="2px solid lightblue";
     document.getElementById("icon-text").style.color="black";
     document.getElementById("dark-icon").style.display="none";
@@ -185,6 +184,7 @@ dark_mode_button.addEventListener("click", () => {
     document.getElementById("translate-black").style.display = "";
     document.getElementById("translate-white").style.display = "none";
     
+    if(sidebarOpened == true){
     // Light mode for sidebar
     document.getElementById("mySidebar").style.backgroundColor = "white";
     document.getElementById("PredictiveChart").style.backgroundColor = "white";
@@ -195,7 +195,7 @@ dark_mode_button.addEventListener("click", () => {
     document.getElementById("availabletime").style.color = "black";
     document.getElementById("datetime-submit-button").style.backgroundColor = "#38bdf8";
     document.getElementById("datetime-submit-button").style.color = "white";
-
+    }
     //availability toggle buttons
       if (is_bikes == true){
           b1.style.backgroundColor = "#3897d3";
@@ -251,6 +251,7 @@ dark_mode_button.addEventListener("click", () => {
     document.getElementById("translate-black").style.display = "none";
     document.getElementById("translate-white").style.display = "";
 
+    if (sidebarOpened == true){
     //darkmode for sidebar
     document.getElementById("mySidebar").style.backgroundColor = "black";
     document.getElementById("PredictiveChart").style.backgroundColor = "black";
@@ -261,7 +262,7 @@ dark_mode_button.addEventListener("click", () => {
     document.getElementById("availabletime").style.color = "lightgreen";
     document.getElementById("datetime-submit-button").style.backgroundColor = "lightgreen";
     document.getElementById("datetime-submit-button").style.color = "black";
- 
+    }
         //availability toggle buttons
     if (is_bikes == true){
       b1.style.backgroundColor = "lightgreen";
@@ -303,6 +304,7 @@ dark_mode_button.addEventListener("click", () => {
 /////////////////////////END OF DARK MODE/////////////////////////////
 
 //////////////////////ADD MARKERS AND INFO WINDOWS TO MAP////////////////////////////////
+var sidebarOpened = false;
   // Displays the station data on the map as markers and info windows
   function addMarkers(stations) {
     // Create arrays to store the markers and info windows
@@ -316,10 +318,11 @@ dark_mode_button.addEventListener("click", () => {
       // Create a new info window for the marker
       var infoWindow = createInfoWindow(station);
       infoWindowArray.push(infoWindow);
-
+      
       // Attach listeners to show and hide the info window when the marker is hovered over
       attachInfoWindowListeners(marker, infoWindow);
       marker.addListener("click", () => {  //when marker is clicked opens sidebar infowindow
+        sidebarOpened = true;
         google.charts.load('current', { 'packages': ['corechart'] });
         drawChart(station.number);
         document.getElementById("mySidebar").style.width = "600px";
