@@ -4,11 +4,11 @@ import requests
 
 
 ##Parameters for creating sql engine
-URI = "dbbikes2.cytgvbje9wgu.us-east-1.rds.amazonaws.com"
-PORT = "3306"
-DB = "dbbikes2"
-USER = "admin"
-PASSWORD = "DublinBikes1"
+URI = ""
+PORT = ""
+DB = ""
+USER = ""
+PASSWORD = ""
 engine = create_engine("mysql+mysqldb://{}:{}@{}:{}/{}".format(USER, PASSWORD, URI, PORT, DB), echo=True)
 
 
@@ -56,7 +56,7 @@ def stations_to_db(text):
     return
 
 ##API request to get stations data from JCDeceaux
-URI =  "https://api.jcdecaux.com/vls/v1/stations?contract=dublin&apiKey=8ad0fc88de299d032d91bc99f1e01c34a44d39a0"
+URI =  "https://api.jcdecaux.com/vls/v1/stations?contract=dublin&apiKey=API_KEY"
 r = requests.get(URI)
 json.loads(r.text)
 stations_to_db(r.text) ##calling filler function

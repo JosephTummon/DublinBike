@@ -6,11 +6,11 @@ from datetime import datetime
 import time
 
 ##Parameters for creating sql engine
-URI = "dbbikes2.cytgvbje9wgu.us-east-1.rds.amazonaws.com"
-PORT = "3306"
-DB = "dbbikes2"
-USER = "admin"
-PASSWORD = "DublinBikes1"
+URI = ""
+PORT = ""
+DB = ""
+USER = ""
+PASSWORD = ""
 engine = create_engine("mysql+mysqldb://{}:{}@{}:{}/{}".format(USER, PASSWORD, URI, PORT, DB), echo=True)
 
 ##Read availability json data and insert dynamic values to db
@@ -29,8 +29,8 @@ def weather_to_db(text):
     return
 
 ##URL's with parameters already included
-URI1 =  "https://api.jcdecaux.com/vls/v1/stations?contract=dublin&apiKey=8ad0fc88de299d032d91bc99f1e01c34a44d39a0"
-URI2 = "http://api.openweathermap.org/data/2.5/weather?appid=d5de0b0a9c3cc6473da7d0005b3798ac&q=Dublin, IE"
+URI1 =  "https://api.jcdecaux.com/vls/v1/stations?contract=dublin&apiKey=API_KEY"
+URI2 = "http://api.openweathermap.org/data/2.5/weather?appid=API_KEYc&q=Dublin, IE"
 
 ##loop every 5 mins to call both api requests, and call update table funcs
 def main():

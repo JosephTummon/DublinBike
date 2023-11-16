@@ -10,11 +10,11 @@ import pickle
 import pandas as pd
 
 # Database configuration
-URI = "dbbikes2.cytgvbje9wgu.us-east-1.rds.amazonaws.com"
-PORT = "3306"
-DB = "dbbikes2"
-USER = "admin"
-PASSWORD = "DublinBikes1"   
+URI = ""
+PORT = ""
+DB = ""
+USER = ""
+PASSWORD = ""   
 engine = create_engine("mysql+mysqldb://{}:{}@{}:{}/{}".format(USER, PASSWORD, URI, PORT, DB), echo=True)
 
 # opening pickle file with pretrained model
@@ -29,7 +29,7 @@ def home():
     return render_template('index.html')
 
 ##JCDeaux API Key
-JCDEAUXAPI =  "https://api.jcdecaux.com/vls/v1/stations?contract=dublin&apiKey=8ad0fc88de299d032d91bc99f1e01c34a44d39a0"
+JCDEAUXAPI =  "#Replace with API"
 
 # Define the function to get availability data
 @app.route("/stations")
@@ -47,7 +47,7 @@ def get_stations():
 
 
 ##Weather API Key
-WEATHERAPI = "http://api.openweathermap.org/data/2.5/weather?appid=d5de0b0a9c3cc6473da7d0005b3798ac&q=Dublin, IE"
+WEATHERAPI = "http://api.openweathermap.org/data/2.5/weather?appid=APIKEY&q=Dublin, IE"
 
 # Define the function to get weather data
 @app.route("/weather")
